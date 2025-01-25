@@ -1,0 +1,15 @@
+1 port onu/ 2 and 4 antenna onu router
+Username: admin
+Password: stdONUi0i
+
+Or,
+
+Username: admin
+Password: stdONU101
+
+Video tuitorial: https://youtu.be/ST-LTojvfCA
+
+
+
+Username : admin
+New Password : admin@123

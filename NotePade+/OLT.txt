@@ -1,0 +1,663 @@
+Speed = 115200 , 9600 , 19200 , 38400 , 57600 , 2400 ,38000
+ping 172.30.151.242 -n 1000
+
+rying rate 115200
+timeout trying rate 
+
+
+
+no epon bind-onu sequence 1
+no epon bind-onu sequence 2
+no epon bind-onu sequence 3
+no epon bind-onu sequence 4
+no epon bind-onu sequence 5
+no epon bind-onu sequence 6
+no epon bind-onu sequence 7
+no epon bind-onu sequence 8
+no epon bind-onu sequence 9
+no epon bind-onu sequence 10
+no epon bind-onu sequence 11
+no epon bind-onu sequence 12
+no epon bind-onu sequence 13
+no epon bind-onu sequence 14
+no epon bind-onu sequence 15
+no epon bind-onu sequence 16
+no epon bind-onu sequence 17
+no epon bind-onu sequence 18
+no epon bind-onu sequence 19
+no epon bind-onu sequence 20
+no epon bind-onu sequence 21
+no epon bind-onu sequence 22
+no epon bind-onu sequence 23
+no epon bind-onu sequence 24
+no epon bind-onu sequence 25
+no epon bind-onu sequence 26
+no epon bind-onu sequence 27
+no epon bind-onu sequence 28
+no epon bind-onu sequence 29
+no epon bind-onu sequence 30
+no epon bind-onu sequence 31
+no epon bind-onu sequence 32
+no epon bind-onu sequence 33
+no epon bind-onu sequence 34
+no epon bind-onu sequence 35
+no epon bind-onu sequence 36
+no epon bind-onu sequence 37
+no epon bind-onu sequence 38
+no epon bind-onu sequence 39
+no epon bind-onu sequence 40
+no epon bind-onu sequence 41
+no epon bind-onu sequence 42
+no epon bind-onu sequence 43
+no epon bind-onu sequence 44
+no epon bind-onu sequence 45
+no epon bind-onu sequence 46
+no epon bind-onu sequence 47
+no epon bind-onu sequence 48
+no epon bind-onu sequence 49
+no epon bind-onu sequence 50
+no epon bind-onu sequence 51
+no epon bind-onu sequence 52
+no epon bind-onu sequence 53
+no epon bind-onu sequence 54
+no epon bind-onu sequence 55
+no epon bind-onu sequence 56
+no epon bind-onu sequence 57
+no epon bind-onu sequence 58
+no epon bind-onu sequence 59
+no epon bind-onu sequence 60
+no epon bind-onu sequence 61
+no epon bind-onu sequence 62
+no epon bind-onu sequence 63
+no epon bind-onu sequence 64
+
+
+
+===========================
+To configure the loopback on all ONU-
+
+Switch#config
+
+Switch_config#interface range gpON 0/1:1-10
+
+Switch_config_if_range#gpon onu loopback-detect protocol private
+
+Switch_config_if_range#gpon onu uni 1 loopback-detect enable.
+
+
+
+============================== Vsol_OLT ======================
+
+10G port enable
+epon-olt(config)# debug mode
+epon-olt(debug-mode)# set giu mode sfp+
+
+
+PON and SFP uplink Optical Leaser
+==================================
+rasatechnologies(config)# sh pon optical transceiver all
+rasatechnologies(config)# sh gigabitethernet optical transceiver all
+
+Specific one ONU optical info
+gpon-olt(config-pon-0/1)# sh onu 1 optical_info
+
+
+
+	23.246.0.0/18
+
+show interface aux = 192.168.8.100
+AUX Port 192.168.8.200
+speed 115200
+
+web verification-code disable
+
+
+Password Change
+rasatechnologies(config)# user login-password pritom
+Input new login password for user pritom please.
+New Password:
+Confirm Password:
+Successfully changed password!.
+rasatechnologies(config)# user enable-password pritom
+Input new enable password for user pritom please.
+New Password:
+Confirm Password:
+Successfully changed password!
+
+Username: admin
+Password: Xpon@Olt9417#  
+epon-olt(config)# show interface breif
+epon-olt(config-pon-0/2)# show onu status all
+epon-olt(config-pon-0/2)# show onu auth-info all
+epon-olt(config-pon-0/2)# show onu opm-diag
+epon-olt(config-pon-0/2)# no onu auth all
+
+show spanning-tree interface all
+terminal no monitor
+erase startup-config
+show channel-group interface all
+epon-olt# show vlan all
+epon-olt(config)# show mac address-table vlan 46
+show running-config interface range gigabitEthernet <slot>/<port>
+
+interface vlan 1
+ip address 172.30.151.50/30
+ip gateway 172.30.151.49
+
+
+show channel-group summary
+show spanning-tree interface all
+
+JS-Online-3rd(config-pon-0/1)# show onu receive power polarity high
+
+
+
+UPLINK CONFigaration
+		vlan 200 - 208
+		interface g0/16
+		switchport mode trunk
+		switchport trunk vlan 200 - 208
+		
+Assign ip address to vlan 200
+
+gpon-olt(config)# interface vlan 200
+
+gpon-olt(interface-vlan-200)# ip address 192.168.3.200 255.255.255.0
+
+gpon-olt(interface-vlan-200)# exit
+
+gpon-olt(config)# ip route 0.0.0.0 0.0.0.0 192.168.3.1
+
+
+Telnet permission
+gpon-olt(config)# no login-access-list deny telnet 0.0.0.0 0.0.0.0
+
+
+Step 3: Creating ONU Profile
+gpon-olt(config)#profile onu id 10 name gpononu
+
+gpon-olt(profile-onu:10)# port-num eth 1
+
+gpon-olt(profile-onu:10)# commit
+
+gpon-olt(profile-onu:10)# exit
+
+gpon-olt(config)# onu auto-learn default-onu-profile xpon
+
+Step 4: Creating DBA Profile
+
+gpon-olt(config)# show profile dba
+gpon-olt(config)# profile dba id 10 name dbagpon
+gpon-olt(profile-dba:10)# type 4 maximum 1024000
+gpon-olt(profile-dba:10)# commit
+gpon-olt(profile-dba:10)# exit
+
+Delete DBA Profile
+gpon-olt(config)# no profile dba id 10
+
+Step 5: Creating Service Profile
+
+gpon-olt(config)# show profile srv
+
+gpon-olt(config)# profile srv id 10 name srv_pon1_vlan_201
+gpon-olt(profile-srv:10)# portvlan eth 1 mode tag vlan 201
+gpon-olt(profile-srv:10)# commit
+gpon-olt(profile-srv:10)# exit
+
+Delete Service Profile
+gpon-olt(config)# no profile srv id 10
+
+Step 6: Creating Line Profile
+gpon-olt(config)# show profile line
+gpon-olt(config)# profile line id 10 name line_pon1_vlan_201
+gpon-olt(profile-line:10)# tcont 1 name 1 dba dbagpon
+gpon-olt(profile-line:10)# gemport 1 tcont 1 gemport_name 1
+gpon-olt(profile-line:10)# service internet gemport 1 vlan 201
+gpon-olt(profile-line:10)# service-port 1 gemport 1 uservlan 201 vlan 201
+gpon-olt(profile-line:10)# commit
+gpon-olt(profile-line:10)# exit
+
+Step 6: Bind Profile to PON Port
+PON port 1
+
+gpon-olt(config)# interface gpon 0/1
+gpon-olt(config-pon-0/1)#onu auto-learn
+gpon-olt(config-pon-0/1)# onu auto-learn srv-profile name srv_pon1_vlan_201
+gpon-olt(config-pon-0/1)# onu auto-learn line-profile name line_pon1_vlan_201
+
+Troubleshooting:
+gpon-olt(config-pon-0/1)# show onu info
+gpon-olt(config-pon-0/1)# show onu 2 optical_info
+gpon-olt(config-pon-0/1)# show onu 2 distance
+gpon-olt(config-pon-0/1)# show onu 2 profile
+gpon-olt(config-pon-0/1)# show onu 2 eth
+
+gpon-olt(config)# interface gpon 0/1:2
+gpon-olt(config-pon-0/1)# description office
+gpon-olt(config-pon-0/1)# loopback enable
+
+
+172.30.155.62
+e865.d426.dea0
+================================BDCom OLt=================
+BDCOM OLT
+
+----------------------------ONU Authentication Method -------------------------------------------------------------
+#conf
+(configure)#interface epon0/1
+(configure)#epon onu-authen-method manual
+(configure)#epon bind-onu mac 544b.4086.8f90 1
+or
+Switch# epon conform-onu interface epon0/1:x
+
+---------------------------- Assigned Vlan in ONU --------------------------------------------------------------------
+Switch#conf
+config# interface epon0/1:1
+epon onu all-port ctc vlan mode tag 443
+epon onu all-port ctc notify loopback  
+epon onu all-port ctc loopback detect 
+
+
+
+
+
+
+SSH enable 
+			Switch_config# ip sshd enable
+                            ip sshd version 2
+								no ip sshd disable-aes
+
+============================= LACP in BDCom OLT ============
+ ip address 192.168.0.1 255.255.0.0
+
+
+epon onu-blacklist mac 9c7d.a380.0121
+
+
+#interface Port-aggregator 2
+#switchport mode trunk
+#switchport trunk vlan-allowed 1,5-550,552-1468
+#description EPZ-BABUL-20g
+#exit
+#interface Port-aggregator 2
+#interface tg 1/7
+#interface tg 1/8
+#switchport mode trunk
+#aggregator-group 2 mode static/lacp(lacp die na pele static korte hobe)
+#exit
+#write
+
+
+
+
+
+ ip address 192.168.0.1 255.255.0.0
+Monito mode = Ctrl+R
+
+aaa authentication login default local
+aaa authentication enable default none
+aaa authorization exec default local
+username admin password 0 TEXT
+enable password 0 TEXT
+service password-encryption
+
+	
+ip sshd enable
+
+interface epON 0/3:55
+epon onu all-port ctc vlan mode tag 40
+epon onu all-port ctc loopback detect
+epon onu all-port ctc notify loopback
+epon reboot onu interface epON 0/3:58
+
+Switch#show mac address-table interface g0/1
+
+
+default interface gigaEthernet 0/1
+sh mac address-table | include 40
+ping 172.150.150.81 -n 500
+
+
+interface g0/1
+description UPLINK
+switchport mode trunk
+switchport trunk vlan-allowed add 1,40,1818
+no shutdown
+
+
+
+
+
+http port 
+			Switch_config#ip http port 8080
+			
+			
+SkyNet-Ofiice_OLT-1#  show epon interface EPON0/1:62 onu ctc basic-info
+
+Control_ROOM_SW#  show spanning-tree
+
+Control_ROOM_SW_config#date
+Enter the new date(yyyy-mm-dd):2023-06-5
+Enter the new time(hh:mm:ss):12:58:30
+
+Control_ROOM_SW_config#show cpu-util
+
+
+103.114.98.236:2222
+
+
+======================
+!
+interface GigaEthernet0/28
+ description PKT-Younus-OLT+iTel
+ spanning-tree bpdufilter enable
+ switchport trunk vlan-allowed 40,1804
+ switchport trunk vlan-untagged 1
+ switchport mode trunk
+ loopback-detection enable
+ loopback-detection control shutdown
+ storm-control broadcast threshold 100
+ storm-control multicast threshold 200
+55_33_75_Bangodda_Dist_SW#
+
+
+
+
+
+
+===============================================Avise OLT ==========================================
+interface vlanif 1
+ifconfig 172.30.154.106 netmask 255.255.255.252
+
+route default gw 172.30.154.105
+
+OLT(config)# show port state all
+
+OLT(config)# show time
+OLT(config)# show mac-address dynamic
+OLT(config)# show mac-address port ge 1
+
+
+
+
+ manage ip address 192.168.100.100/24
+ 
+ 
+ 
+  192.168.230.6
+ 
+ ====================================== CDATA ========================
+ 
+ Mac delete 
+			OLT(config-interface-epon-0/0)# ont delete 1 all
+			OLT(config-interface-epon-0/0)# show ont info 4 all
+			
+			No login monitor
+			
+ no  ont load select 1-8
+
+ epon-olt# list 
+ web verification-code disabl
+ Internet Address is 192.168.1.100, netmask 255.255.255.0
+ Milon-OLT#    system default all  ( for reset OLT ) 
+ 
+ Task
+	1. Start
+	2. Config pvid and vlan for ge port
+	3. Config vlan for PON port
+	4. Config vlan for ONU
+	5. Save the configuration
+	7. End
+	
+For Power 
+		# interface g0/0
+		# show ddm-info 5
+		
+View Port 
+		# show port stat all
+Pon Power Check 
+		# show ont optical_info 1 all 
+VLAN
+		# interface g0/0
+		# vlan access 1-4 40
+		# shoutdown 1-4
+
+
+For GPON OLT extra CMD
+service-port autoconfig vlan 31 gpon 0/0 port 1 gemport 1 multi-service user-vlan 1 tag-action translate
+
+
+ONU Check & Delete
+
+					OLT(config)# interface epon 0/0
+					OLT(config-interface-epon-0/0)# show ont info 1
+					OLT(config-interface-epon-0/0)# ont delete offline-list 3 al
+
+
+
+
+OLT(config)# vlan 100,109-112
+
+		
+OLT(config)# interface ge 0/0		
+OLT(config-interface-ge-0/0)# show port state all
+OLT(config-interface-ge-0/0)# vlan mode 1-4 trunk
+OLT(config-interface-ge-0/0)#  vlan trunk 1-4 1-200		
+
+test
+
+OLT(config)# interface epon 0/0
+OLT(config-interface-epon-0/0)# vlan mode 1-4 access
+OLT(config-interface-epon-0/0)# vlan access 1 105
+OLT(config-interface-epon-0/0)# vlan access 2 106
+OLT(config-interface-epon-0/0)# vlan access 3 107
+OLT(config-interface-epon-0/0)# vlan access 4 108
+
+
+Dual link
+============
+			interface epon 0/0
+				vlan mode 1-8 trunk
+				vlan trunk 1-8 443,2444
+				vlan native-vlan 1-8 2444
+
+
+==================== CDATA OLT Version ==============================
+Milon-OLT(olt-1)# show startup-config all
+system ipconfig inband 172.30.152.50 255.255.255.252
+system ipconfig gateway 172.30.152.49
+
+
+epon# swport ge2
+epon#vlan add 1,501-520 tag
+
+epon(GE-5)# vlan add 505
+epon(GE-5)#pvid 505
+
+epon# system save
+
+
+============ HSGQ OLT ==========
+
+
+interface epon 1
+  no bind-onu all
+  show onu-info all
+  exit
+  
+  
+
+interface manage
+ifconfig 192.168.100.1 netmask 255.255.255.0
+exit
+interface vlanif 1
+ifconfig 172.30.154.182 netmask 255.255.255.252
+exit
+
+route default gw 172.30.154.181
+JAHID-OLT(config)# erase config-file
+
+
+
+VLAN Create 
+		vlan standard 406
+
+IP assign 
+			interface vlanif 406
+			ifconfig 172.30.152.178 netmask 255.255.255.252
+Route 
+		route default gw 172.30.152.177
+DNS Assign
+		dns primary 8.8.8.8 secondary 8.8.4.4
+		
+Access VLAN
+		interface ge 2
+		port default-vlan 406
+
+Trunk VLAN
+		interface ge 6
+		vlan mode trunk
+		port default-vlan 406
+		
+Port Status
+		show port status all
+
+interface ge 3
+	show state
+	port enable
+show optical-diag 1
+show ip address
+
+
+
+
+
+
+
+
+=====================================
+
+
+EPON(config)# show switchport status all
+EPON# show mac epon 0/1
+
+================================ Core Link OLT ====================
+defult IP = 192.168.1.88/24
+defult IP = 192.168.0.88/24
+mgmt inbound 1 172.30.156.180.2 255.255.255.252 172.30.156.180.1
+ mgmt inband 1 172.25.200.18 255.255.255.252 172.25.200.17
+172.150.150.66
+
+EPON# show vlan detail
+EPON# show switchport status all
+EPON# show mac vlan-id 1
+EPON# show mac giga-ethernet 0/3
+
+EPON# configure terminal
+EPON(config)# vlan 91
+EPON(config)# interface giga-ethernet 0/4
+EPON(giga-ethernet_0/4)# switchport vlan mode trunk
+EPON(giga-ethernet_0/4)# switchport vlan allow 1,91 tagged
+
+ interface epon 0/3
+   switchport vlan mode access
+   switchport vlan pvid 1
+   
+   
+   
+   
+   ==============================================XGTEC OLT ==============================
+   outband ip-address 192.168.0.10 255.255.255.0
+   
+   
+   
+   
+   ================================================== AIR MEDIA =================================================
+   mng out-band ip address 192.168.77.254
+   
+   
+   
+   ============================================= ATOP OLT ====================================
+   interface manage
+ifconfig 192.168.100.1 netmask 255.255.255.0
+exit
+interface vlanif 1
+ifconfig 192.168.99.1 netmask 255.255.255.0
+OLT(config)# show vlan all
+
+OLT(config-vlanif-1)# ifconfig 172.30.155.150 netmask 255.255.255.252
+
+OLT(config)# route default gw 172.30.155.149
+
+
+================================================Zelcom_OLT===============================
+Username:admin
+Pass:123456
+#show onu-status
+#config terminal
+#no onu-binding onu 0/1/20
+#y
+#show opm-rx-power
+EPON(config-if-pon-0/1)#show onu-status
+
+===========================================Solitent OLT ================================
+SOL3004-OLT-DS#show mac-address port epon pon4 with-ont-location 
+Vlaln create
+			vlan database
+				vlan 201-23
+				
+	interface vlan1.1
+ ip address 172.30.157.254/30
+
+uplink configaration
+			interface xge1
+			switchport mode trunk
+			switchport trunk allowed vlan all		
+ Down link configaration
+				interface pon8
+				Switchport mode access
+				switchport access vlan 208
+					
+ 
+ 
+
+
+
+===========================================PHYHOME_OLT===================================
+device-mode switch
+outband ip address 192.168.0.18/24
+
+
+
+
+===============================DBC Switch ====================
+
+Switch(config)# interface LAG1
+Switch(config-if-LAG1)# description 
+Switch(config-if-LAG1)# switchport mode trunk 
+Switch(config-if-LAG1)# exit                  
+Switch(config)# interface TenGigabitEthernet 1
+Switch(config-if-TenGigabitEthernet1)# lag 1 mode  
+  active   Enable LACP unconditionally
+  passive  Enable LACP only if a LACP device is detected
+  static   Enable Static Only
+Switch(config-if-TenGigabitEthernet1)# lag 1 mode static
+
+
+============================= Tvs_Proton ======================
+
+Switch(config)#vlan database
+
+Switch(config-vlan)#vlan 10
+
+Switch(config)#ip interface vlan 10
+Switch(config)#interface vlan10
+Switch(config-vlan10)#ip address 202.37.166.22/28
+Switch(config-vlan10)#q
+
+
+
+
+
+
+

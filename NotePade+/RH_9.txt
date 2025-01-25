@@ -1,0 +1,357 @@
+				
+Auto connect by DHCP
+				[root@localhost ~]# nmcli connection add con-name "default" type ethernet ifname eth0
+
+For Static IP Do not Autoconnect
+				[root@localhost ~]# nmcli connection add con-name "static" ifname eth0 autoconnect no type ethernet ip4 192.168.1.4/24 gw4 192.168.1.1
+
+Connect Stetic IP 
+				[root@localhost ~]# nmcli connection up "static"
+connect DHCP
+				[root@localhost ~]# nmcli connection up "default"
+				
+view Stetic Connection 
+				[mehedi@localhost ~]$ nmcli connection show static
+				
+Turn off autoconnect
+				[mehedi@localhost ~]$ nmcli connection mod static connection.autoconnect no
+				
+Specify a DNS server
+				 nmcli connection mod static ipv4.dns 103.109.56.100 ( Primary )
+				 [mehedi@localhost ~]$ nmcli connection mod static +ipv4.dns 8.8.8.8 ( secondary )
+
+
+                                        process
+						=============================================
+[mehedi@localhost ~]$ ps -aux
+					USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+[mehedi@localhost ~]$ ps aux
+					USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+[mehedi@localhost ~]$ ps lax
+					F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+[mehedi@localhost ~]$ ps -ef
+					UID          PID    PPID  C STIME TTY          TIME CMD
+						*********************************************
+[mehedi@localhost ~]$  sleep 1000 &
+[1] 2953
+[mehedi@localhost ~]$ ps
+    PID TTY          TIME CMD
+   2854 pts/1    00:00:00 bash
+   2953 pts/1    00:00:00 sleep
+   2954 pts/1    00:00:00 ps
+[mehedi@localhost ~]$ jobs
+[1]+  Running                 sleep 1000 &
+[mehedi@localhost ~]$ fg %1  ==  EX :  (fg= forgoroun process ) [1]+ = %1
+sleep 1000
+
+[mehedi@localhost ~]$ ps j = ( display all Jobs )
+					 PPID     PID    PGID     SID TTY        TPGID STAT   UID   TIME COMMAND
+					 
+*******************************************************************************
+[mehedi@localhost ~]$ jobs
+[1]+  Stopped                 sleep 1000
+[mehedi@localhost ~]$ bg %1  == ( for restart background process )
+[1]+ sleep 1000 &
+[mehedi@localhost ~]$ jobs
+[1]+  Running                 sleep 1000 &
+[mehedi@localhost ~]$
+
+************************************************ killing Process ****************************************
+
+[mehedi@localhost ~]$ sleep 1000 &
+[1] 3129
+[mehedi@localhost ~]$ ps
+    PID TTY          TIME CMD
+   3066 pts/1    00:00:00 bash
+   3129 pts/1    00:00:00 sleep
+   3131 pts/1    00:00:00 ps
+
+[mehedi@localhost ~]$ kill 3129
+[mehedi@localhost ~]$ ps
+    PID TTY          TIME CMD
+   3066 pts/1    00:00:00 bash
+   3134 pts/1    00:00:00 ps
+[1]+  Terminated              sleep 1000
+[mehedi@localhost ~]$
+
+[mehedi@localhost ~]$ w -h -u mehedi ( mehedi kokhon kokhon login korse )
+mehedi   tty2      11:59    4:34m  0.11s  0.10s /usr/libexec/gnome-sess
+mehedi   pts/1     15:02    6.00s  0.05s  0.00s w -h -u mehedi
+[mehedi@localhost ~]$
+
+************************************************************ View system genaretion **************************
+[mehedi@localhost ~]$ grep "model name" /proc/cpuinfo
+model name      : Intel(R) Core(TM) i5-8365U CPU @ 1.60GHz
+model name      : Intel(R) Core(TM) i5-8365U CPU @ 1.60GHz
+model name      : Intel(R) Core(TM) i5-8365U CPU @ 1.60GHz
+model name      : Intel(R) Core(TM) i5-8365U CPU @ 1.60GHz
+[mehedi@localhost ~]$
+
+
+
+
+===========================================SystemCtl=========================
+
+[mehedi@localhost ~]$ systemctl
+[mehedi@localhost ~]$ systemctl --type=service
+[root@localhost ~]# systemctl status sshd.service -l
+[root@localhost ~]# systemctl is-active sshd
+active
+[root@localhost ~]# systemctl is-enabled sshd
+enabled
+[root@localhost ~]#
+
+[root@localhost ~]# systemctl list-units --type=service
+[root@localhost ~]# systemctl list-units --type=service --all
+[root@localhost ~]# systemctl list-unit-files --type=service
+[root@localhost ~]# systemctl --failed --type=service
+
+[root@localhost ~]# systemctl stop sshd.service
+[root@localhost ~]# systemctl start sshd.sock
+[root@localhost ~]# systemctl restart sshd.service
+[root@localhost ~]# systemctl reload sshd.service
+[mehedi@localhost ~]$ systemctl status sshd.service
+[mehedi@localhost ~]$ systemctl list-dependencies sshd
+
+==================================== (SSH) ===================================
+a list of users cu rrently logged 
+								[mehedi@localhost ~]$ w -f
+SSH from windows CMD
+									C:\Users\mehed>ssh mehedi@192.168.1.2
+									
+[mehedi@localhost ~]$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/mehedi/.ssh/id_rsa):
+Enter
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in Enter
+Your public key has been saved in Enter.pub
+The key fingerprint is:
+SHA256:7dUBSPn3Jhkx+Gj+C/sf/Q+nyENez4P24q2fXJ+XwGk mehedi@localhost.localdomain
+The key's randomart image is:
++---[RSA 3072]----+
+|         ..o..   |
+|          o ..o  |
+|           . o.o |
+|         .  +.+. |
+|        S .oo.o+ |
+|         . .oE+ +|
+|          .ooo+*=|
+|           .oB+*@|
+|            *=OXO|
++----[SHA256]-----+
+[mehedi@localhost ~
+
+====================================
+System logging 
+logs are  stored 
+				/var /log
+syslog messages are handled by two services
+									1. systemd -journald and 
+									2. rsyslog
+Overview of system log files
+									1. /var/log/messages = Most sys log messages a re logged here.
+									2. /var/log/secure 
+									3. /var/log/maillog
+									4. /var/log/cron
+									5. /var/log/boot.log 
+Overview of syslog priorities
+							Code 	Priority 	Severity 
+							0 		emerg 		System is unusable. 
+							1 		alert 		Action must be taken immed iate ly. 
+							2 		crit 		Critica l condition. 
+							3 		err 		Non-critica l error condition. 
+							4 		wa 			rning Wa rning condition. 
+							5 		notice 		Normal but significa nt eve nt. 
+							6 		info 		Informational event. 
+							7 		debug 		Debugg ing-level message. 
+							
+Set local clocks and time zone
+						 [mehedi@localhost ~]$ timedatectl
+												   Local time: Tue 2023-05-02 14:30:27 +06
+											   Universal time: Tue 2023-05-02 08:30:27 UTC
+													 RTC time: Tue 2023-05-02 08:30:24
+													Time zone: Asia/Dhaka (+06, +0600)
+									System clock synchronized: no
+												  NTP service: active
+											  RTC in local TZ: no
+						[mehedi@localhost ~]$ timedatectl list-timezones
+						Africa/Abidjan
+						Africa/Accra
+						Africa/Addis_Ababa
+						Africa/Algiers
+Set Time Zone
+								[mehedi@localhost ~]$ timedatectl set-timezone Asia/Dhaka
+								[mehedi@localhost ~]$ timedatectl set-time 5:09:00
+NTP SERver auto sync.			
+							[root@localhost mehedi]# timedatectl set-ntp true
+							
+NTP SERVER ( Cornoyed service ) = 	[root@localhost mehedi]# systemctl restart chronyd.service
+		
+						========================== IP ASSIGN ==================================
+						 
+192 .0.2.0/24 						wlol 
+1 92.1 68.5.0/24 					enp3s0 
+0.0.0.0/0 (default) enp3s0 192.1 68.5.254
+
+
+
+================================= Configuring Host Names and Name Resolution =====================
+
+
+[root@mehedi ~]# vim /etc/hosts
+
+				192.168.10.26 mehedi.example.com class
+				
+[root@mehedi ~]# host class
+Host class not found: 3(NXDOMAIN)
+
+[root@mehedi ~]# getent hosts class
+192.168.10.26   mehedi.example.com class
+[root@mehedi ~]# ping class
+
+========== Chapter -2 ======
+[mehedi@localhost ~]$ wc /etc/passwd
+  43   87 2265 /etc/passwd
+[mehedi@localhost ~]$ wc -l /etc/passwd
+43 /etc/passwd
+[mehedi@localhost ~]$ wc -w /etc/passwd
+87 /etc/passwd
+[mehedi@localhost ~]$ wc -c /etc/passwd
+2265 /etc/passwd
+View file type : [mehedi@localhost ~]$ file /etc/passwd
+
+head or tail 
+===============
+[mehedi@localhost ~]$ file /etc/passwd
+/etc/passwd: ASCII text
+[mehedi@localhost ~]$ head /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+
+[mehedi@localhost ~]$ tail /etc/passwd
+gdm:x:42:42::/var/lib/gdm:/sbin/nologin
+rpcuser:x:29:29:RPC Service User:/var/lib/nfs:/sbin/nologin
+nfsnobody:x:65534:65534:Anonymous NFS User:/var/lib/nfs:/sbin/nologin
+gnome-initial-setup:x:989:983::/run/gnome-initial-setup/:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+avahi:x:70:70:Avahi mDNS/DNS-SD Stack:/var/run/avahi-daemon:/sbin/nologin
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+ntp:x:38:38::/etc/ntp:/sbin/nologin
+tcpdump:x:72:72::/:/sbin/nologin
+mehedi:x:1000:1000:mehedi:/home/mehedi:/bin/bash
+[mehedi@localhost ~]$
+
+
+===================================
+creae gzip compress file
+			[user_1@localhost ~]$ cd Desktop/
+			[user_1@localhost Desktop]$ ls
+			[user_1@localhost Desktop]$ touch file{1..4}.txt
+			[user_1@localhost Desktop]$ ls
+									file1.txt  file2.txt  file3.txt  file4.txt
+			[user_1@localhost Desktop]$
+			
+		[user_1@localhost Desktop]$ tar cvzf my_gzip_file.gz file{1..3}.txt
+		
+		file ta ki file ta check korar cmd 
+		==================================
+		[user_1@localhost Desktop]$ file my_gzip_file.gz
+		
+		remove file 
+		============
+		[user_1@localhost Desktop]$ rm -r file{1..3}.txt
+		user_1@localhost Desktop]$ ls
+									file4.txt  my_gzip_file.gz
+		extract file 
+		=============
+		[user_1@localhost Desktop]$ tar xvzf my_gzip_file.gz
+			file1.txt
+			file2.txt
+			file3.txt
+		   [user_1@localhost Desktop]$ ls
+           file1.txt  file2.txt  file3.txt  file4.txt  my_gzip_file.gz
+            [user_1@localhost Desktop]$ file my_gzip_file.gz
+		
+file send by scp cmd
+======================
+			[bangla@bangla ~]$ cd Desktop/
+			[bangla@bangla Desktop]$ touch scp_file_send.txt
+			[bangla@bangla Desktop]$ ls
+									scp_file_send.txt
+			[bangla@bangla Desktop]$ scp scp_file_send.txt english@172.16.1.106:/home/english/Desktop
+			english@172.16.1.106's password:
+			scp_file_send.txt                                100%    0     0.0KB/s   00:00
+			[bangla@bangla Desktop]$
+			
+file received by scp cmd
+==========================
+			[bangla@bangla Desktop]$ scp english@172.16.1.106:/home/english/Desktop/file_received_by_scp_cmd_from_english_PC.txt /home/bangla/Desktop/
+			english@172.16.1.106's password:
+			file_received_by_scp_cmd_from_english_PC.txt     100%    0     0.0KB/s   00:00
+			[bangla@bangla Desktop]$ ls
+			file_received_by_scp_cmd_from_english_PC.txt  scp_file_send.txt
+			[bangla@bangla Desktop]$
+			
+			
+by using sftp file upload or download
+=====================================
+		get = download
+		put = upload
+						[bangla@bangla Desktop]$ sftp english@172.16.1.106
+						english@172.16.1.106's password:
+						Connected to 172.16.1.106.
+						sftp> ls
+						
+						sftp> pwd
+						Remote working directory: /home/english
+						sftp> cd /home/english/Desktop/
+						sftp> ls
+						file_received_by_scp_cmd_from_english_PC.txt
+						scp_file_send.txt
+						sftp_send.txt
+						sftp> get sftp_send.txt
+						Fetching /home/english/Desktop/sftp_send.txt to sftp_send.txt
+						sftp> bye
+						[bangla@bangla Desktop]$ ls
+						file_received_by_scp_cmd_from_english_PC.txt  scp_file_send.txt  sftp_send.txt
+		upload
+		=========
+		
+						[bangla@bangla Desktop]$ ls
+						file_received_by_scp_cmd_from_english_PC.txt  scp_file_send.txt  sftp_send.txt
+						[bangla@bangla Desktop]$ touch sftp_send_2.txt
+						[bangla@bangla Desktop]$ sftp english@172.16.1.106
+						english@172.16.1.106's password:
+						Connected to 172.16.1.106.
+						sftp> put sf
+						sftp_send.txt       sftp_send_2.txt
+						sftp> put sftp_send_2.txt
+						Uploading sftp_send_2.txt to /home/english/sftp_send_2.txt
+						sftp_send_2.txt                                  100%    0     0.0KB/s   00:00
+						sftp> bye
+						[bangla@bangla Desktop]$
+						
+file send by rsync cmd
+=======================
+						[bangla@bangla Desktop]$ touch rsync_file_send.txt
+						[bangla@bangla Desktop]$ ls
+						file_received_by_scp_cmd_from_english_PC.txt  scp_file_send.txt  sftp_send.txt
+						rsync_file_send.txt                           sftp_send_2.txt
+						[bangla@bangla Desktop]$ rsync -av rsync_file_send.txt english@172.16.1.106:/home/english/Desktop
+						english@172.16.1.106's password:
+						sending incremental file list
+						rsync_file_send.txt
+						
+						sent 116 bytes  received 35 bytes  14.38 bytes/sec
+						total size is 0  speedup is 0.00
+						[bangla@bangla Desktop]$

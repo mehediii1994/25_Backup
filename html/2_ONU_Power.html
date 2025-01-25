@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLT Configaration</title>
+</head>
+<style>
+   body {background-color: rgb(3, 3, 3);}
+    h1{
+text-align: center;
+color: wheat
+    }
+    .x{
+        color: hsl(294, 44%, 75%);
+        text-align: left;
+        font-size: 30px;
+    }
+    .y{
+        color: rgba(248, 8, 8, 0.822);
+        font-size: 20px;
+    }
+    table, th, td {
+  border: 1px solid rgb(233, 233, 226);
+  border-collapse: collapse;
+
+    }
+    .row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+  padding: 5px;
+}
+    * {
+  box-sizing: border-box;
+  color: aqua;
+  
+}
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  tr:hover {background-color:rgb(133, 89, 89)}
+  border: 5px solid hsl(0, 9%, 48%);
+
+
+}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+  
+}
+
+
+
+</style>
+
+<div class="row">
+   <div class="column">
+      <p class="x">Error Massage</p>
+      <table>
+         <tr>
+            <th>MASSAGE CODE</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td>651</td>
+            <td>VLAN not Match</td>
+          </tr>
+          <tr>
+            <td>691</td>
+            <td>Wrong PPPoE Aggign</td>
+          </tr>
+          <tr>
+            <td>629</td>
+            <td>PPPoE already Connect</td>
+          </tr>
+          <tr>
+            <td>628</td>
+            <td>---</td>
+          </tr>
+          <tr>
+            <td>718</td>
+            <td>---</td>
+          </tr>
+          <tr>
+            <td>720</td>
+            <td>---</td>
+          </tr>
+      </table>
+
+   </div>
+   <div class="column">
+      <p class="x">SFP WaveLengths</p>
+
+      <table>
+         <tr>
+            <th>Port Capacity</th>
+            <th>WebeLengths</th>
+         </tr>
+         <tr>
+            <td>1G</td>
+            <td>1310 / 1550</td>
+         </tr>
+         <tr>
+            <td>LACP_MTU</td>
+            <td>1496</td>
+         </tr>
+         <tr>
+            <td>10G</td>
+            <td>1270 / 1330</td>
+         </tr>
+         <tr>
+            <td>Duel Core</td>
+            <td>Bouth side 1310</td>
+         </tr>
+      </table>
+   </div>
+   <div class="column">
+      <p class="x">Importhant Note</p>
+      <table>
+         <tr>
+            <th>Subject</th>
+            <th>Description</th>
+         </tr>
+         <tr>
+            <td>BGP</td>
+            <td>TCP port 179</td>
+         </tr>
+         <tr>
+            <td>DNS</td>
+            <td>port 53</td>
+         </tr>
+         <tr>
+            <td>SSH</td>
+            <td> 22</td>
+         </tr>
+         <tr>
+            <td>EBGP</td>
+            <td>AD- 20</td>
+         </tr>
+         <tr>
+            <td>IBGP</td>
+            <td>AD- 200</td>
+         </tr>
+         <td> Junos OS  EBGP and IBGP  .</td>
+         <td>(170) for both  </td>
+         <tr>
+         <td>Telnet</td>
+         <td>23</td>
+         </tr>
+         <tr>
+            <td>VLAN</td>
+            <td>12-bit</td>
+         </tr>
+         <tr>
+            <td>Native VLANs</td>
+            <td>802.1Q standard</td>
+         </tr>
+         <tr>
+            <td> IEEE 802.3ad</td>
+            <td>standard version of 
+               EtherChannel. </td>
+         </tr>
+         <tr>
+            <td>Bridge ID</td>
+            <td>Piority ( 32768 ) + MAC Address</td>
+         </tr>
+         <tr>
+            <td>speed</td>
+            <td>115200 , 9600 , 19200 , 38400 , 57600 , 2400 ,38000</td>
+         </tr>
+         <tr>
+            <td>Bridge ID</td>
+            <td>Piroity ke 4096 kore barate hoy</td>
+         </tr>
+      </table>
+
+   </div>
+   <div class="column">
+      <p class="x">OLT Defult IP</p>
+      <table>
+         <tr>
+            <th>Bandor Name</th>
+            <th>IP Adderss</th>
+         </tr>
+         <tr>
+            <td>DBC OLT</td>
+            <td>192.168.2.100</td>
+         </tr>
+         <tr>
+            <td>Airmedia OLT</td>
+            <td>192.168.77.254</td>
+         </tr>
+         <tr>
+            <td>VSOL</td>
+            <td>192.168.8.100</td>
+            <td>192.168.8.200</td>
+         </tr>
+         <tr>
+            <td>Avise OLT</td>
+            <td>192.168.100.100/24</td>
+         </tr>
+         <tr>
+            <td>HSGQ</td>
+            <td>192.168.100.1</td>
+         </tr>
+         <tr>
+            <td>CoreLink OLT</td>
+            <td>192.168.1.88/24</td>
+            <td>192.168.0.88/24</td>
+         </tr>
+         <tr>
+            <td>XGTEC OLT</td>
+            <td>192.168.0.10</td>
+         </tr>
+         <tr>
+            <td>AIR MEDIA </td>
+            <td>192.168.77.254</td>
+         </tr>
+         <tr>
+            <td>ATOP OLT</td>
+            <td>192.168.100.1</td>
+         </tr>
+         <tr>
+            <td>PHYHOME_OLT</td>
+            <td>192.168.0.18/24</td>
+         </tr>
+      </table>
+      </div>
+
+</div>
+<h1>CisCos Nexus Switch</h1>
+<p class="x">MGMT Vlan IP assign</p>
+<ul class="y">
+   <li>HINGULA-CORE-Nexus-SW#configure terminal</li>
+   <li>HINGULA-CORE-Nexus-SW(config)# feature interface-vlan</li>
+   <li>HINGULA-CORE-Nexus-SW(config)# interface vlan 100</li>
+   <li>HINGULA-CORE-Nexus-SW(config-if)# ip address 172.30.164.90 255.255.255.252</li>
+   <li>HINGULA-CORE-Nexus-SW(config-if)# exit</li>
+</ul>
+<p class="x">NTP Server</p>
+<ul class="y">
+   <li>feature ntp </li>
+   <li>ntp server 192.168.1.1</li><br>
+   <li>==== For Manually time set====</li>
+   <li>clock protocol none vdc 1</li>
+   <li>clock set 20:18:00 19 January 2025</li>
+</ul>
+<p class="x">LACP</p>
+<ul class="y">
+   <li>interface Port-aggregator1</li>
+   <li>description NTTN-LACP</li>
+   <li>switchport trunk vlan-allowed 1,3258-3262,3385-3388</li>
+   <li>switchport mode trunk</li>
+   <li>no shutdown</li>
+   <li>exit</li><br>
+   <li>configure terminal.</li>
+   <li> interface ethernet 1/1</li>
+   <li>description NTTN-LINK</li>
+   <li>switchport trunk allowed vlan 1,3258-3262,3385-3388</li>
+   <li>channel-group 1 mode active</li>
+   <li> no shutdown</li>
+   <li>exit</li>
+</ul>
+
+    <h1>Vsol_OLT</h1>
+    <p class="x">OLT login info</p>
+    <ol class="y">
+        <li>show interface aux = 192.168.8.100</li>
+        <li>AUX Port 192.168.8.200</li>
+        <li>speed 115200</li>
+        <li>web verification-code disable</li>
+        <li>terminal no monitor</li>
+        <li>erase startup-config</li>
+
+    </ol>
+    <p class="x">Vsol 10G port Enable</p>
+    <ul class="y">
+        <li>epon-olt(config)# debug mode</li>
+        <li>epon-olt(debug-mode)# set giu mode sfp+</li>
+
+    </ul>
+    <p class="x">Password Change</p>
+    <ul class="y">
+        <li>epon-olt(config)# user add Abd1234 login-password Ab@12345</li>
+        <li>epon-olt(config)# user role Abd1234 admin enable-password Ab@12345</li>
+    </ul> 
+    <p class="x">PON and SFP uplink Optical Leaser</p><br>
+    <ol class="y">
+        <li>rasatechnologies(config)# sh pon optical transceiver all</li>
+        <li>rasatechnologies(config)# sh gigabitethernet optical transceiver all</li>
+    </ol>
+    <p class="x">Specific one ONU optical info</p>
+    <ol class="y">
+        <li>gpon-olt(config-pon-0/1)# sh onu 1 optical_info</li>
+    </ol>
+    <p class="x">Basic Configaration of Vsol_OLT</p>
+    <ul class="y">
+                <li>Username:admin</li>                               
+                <li>Password: Xpon@Olt9417# </li>
+                <li>epon-olt(config)# show interface breif</li> 
+                <li>epon-olt(config-pon-0/2)# show onu status all</li> 
+                <li>epon-olt(config-pon-0/2)# show onu auth-info all </li>        
+                <li>epon-olt(config-pon-0/2)# show onu opm-diag </li>
+                <li>epon-olt(config-pon-0/2)# no onu auth all  </li>
+    </ul>
+    <p class="x">Basic Configaration</p>
+    <ul class="y">
+        <li>vlan 200 - 208</li>
+        <li>interface g0/16</li>
+        <li>switchport mode trunk</li>
+        <li>switchport trunk vlan 200 - 208</li>
+        <li>gpon-olt(config)# interface vlan 200</li>
+        <li>gpon-olt(interface-vlan-200)# ip address 192.168.3.200 255.255.255.0</li>
+        <li>gpon-olt(interface-vlan-200)# exit</li>
+        <li>gpon-olt(config)# ip route 0.0.0.0 0.0.0.0 192.168.3.1</li>
+
+
+    </ul>  
+    <p class="x"> Vsol Onu + Router </p>
+    <ul class="y">
+        <li>1 port onu/ 2 and 4 antenna onu router</li>
+        <li>Username: admin</li>
+        <li>Password: stdONUi0i</li><br>
+        <li>Username: admin</li>
+        <li>Password: stdONU101</li>
+        <li><a href="https://youtu.be/ST-LTojvfCA"target="_blank">Video tuitorial</a></li><br>
+        <li>Username : admin</li>
+        <li>New Password : admin@123</li>
+        
+
+    </ul>
+      <h1>BDCom OLt</h1>   
+      <p class="x">BDCOM OLT or SW OS installation Process</p>
+      <ul class="y">
+         <li>monitor#ip address 192.168.8.2 255.255.255.0</li>
+         <li>monitor#copy tftp: 192.168.8.10</li>
+         <li>Source file name[]?Switch.bin</li>
+         <li>Remote-server ip address[]?192.168.8.10</li>
+         <li>Destination file name[Switch.bin]?</li>
+      </ul>
+         <p class="x">SSH enable</p>
+         <ul class="y">
+           
+            <li>Switch_config# ip sshd enable</li>
+            <li>Switch_config# ip sshd version 2</li>
+            <li>Switch_config# no ip sshd disable-aes </li>
+            <li>Switch_config#ip http port 8080</li>
+         </ul>
+         <p class="x"> Disable Fiber auto Config</p>
+         <ul class="y">
+            <li>SONAIMURI_8PORT_OLT_config_tg0/2#no fiber-auto-config</li>
+            <li>SONAIMURI_8PORT_OLT_config_tg0/2#speed 1000</li>
+         </ul>
+         <p class="x"> NTP Server Enable </p>
+         <ul class="y">
+            <li>ntp client enable</li>
+            <li>time-zone tz 6 0</li>
+            <li>ntp server 182.16.156.5</li>
+         </ul>
+         <p class="x">To configure the loopback on all ONU-</p>
+         <li class="y">
+            <ul>Switch#config</ul>
+            <ul>Switch_config#interface range gpON 0/1:1-10</ul>
+            <ul>Switch_config_if_range#gpon onu loopback-detect protocol private</ul>
+            <ul>Switch_config_if_range#gpon onu uni 1 loopback-detect enable.</ul>
+
+         </li>
+         <p class="x">LACP in BDCom OLT</p>
+         <ul class="y">
+            <li>int port-aggregator 1</li>
+            <li>switchport mode trunk</li>
+            <li>aggregator-group 1 mode lacp</li><br>
+            <li>int range tg 1/1,4</li>
+            <li>aggregator-group 1</li>
+         </ul>
+         <p class="x">LACP load-balance From SW to MK RW</p>
+         <ul class="y">
+            <li>aggregator-group load-balance src-ip</li>
+            <li>aggregator-group load-balance src-mac</li>
+            <li>aggregator-group load-balanc dst-ip</li>
+            <li>aggregator-group load-balance dst-mac</li>
+            <li>aggregator-group load-balance both-ip</li>
+            <li>aggregator-group load-balance both-mac</li>
+            <li>aggregator-group load-balance both-l4port</li>
+         </ul>
+         <p class="x"> BDCOM Failover Configaration</p>
+         <ul class="y">
+            <li>KASHIPUR_POP_config#backup-link-group  1 preemption-mode forced delay 5</li>
+
+         </ul><br>
+         <ul class="y">
+            <li>KASHIPUR_POP#config </li>
+            <li>KASHIPUR_POP_config#interface gigaEthernet 0/15</li>
+            <li>KASHIPUR_POP_config_g0/15#backup-link-group 1 active</li>
+            <li>KASHIPUR_POP_config_g0/15#exit</li>
+         </ul><br>
+         <ul class="y">
+            <li>KASHIPUR_POP#config</li>
+            <li>KASHIPUR_POP_config#interface gigaEthernet 0/16</li>
+            <li>KASHIPUR_POP_config_g0/16#backup-link-group 1 backup </li>
+            <li>KASHIPUR_POP_config_g0/16#exit</li>
+         </ul>
+         <p class="x">SNMP</p>
+         <ul class="y">
+            <li>snmp-server community 0 SkyNET30 RO </li>
+            <li>snmp-server host 10.15.0.58 SkyNET30</li>
+         </ul>
+         <p class="x">BDCOM OLT onu mac Delete</p>
+         <ul class="y">
+            <li>no epon bind-onu sequence 1</li>
+<li>no epon bind-onu sequence 2</li>
+<li>no epon bind-onu sequence 3</li>
+<li>no epon bind-onu sequence 4</li>
+<li>no epon bind-onu sequence 5</li>
+<li>no epon bind-onu sequence 6</li>
+<li>no epon bind-onu sequence 7</li>
+<li>no epon bind-onu sequence 8</li>
+<li>no epon bind-onu sequence 9</li>
+<li>no epon bind-onu sequence 10</li>
+<li>no epon bind-onu sequence 11</li>
+<li>no epon bind-onu sequence 12</li>
+<li>no epon bind-onu sequence 13</li>
+<li>no epon bind-onu sequence 14</li>
+<li>no epon bind-onu sequence 15</li>
+<li>no epon bind-onu sequence 16</li>
+<li>no epon bind-onu sequence 17</li>
+<li>no epon bind-onu sequence 18</li>
+<li>no epon bind-onu sequence 19</li>
+<li>no epon bind-onu sequence 20</li>
+<li>no epon bind-onu sequence 21</li>
+<li>no epon bind-onu sequence 22</li>
+<li>no epon bind-onu sequence 23</li>
+<li>no epon bind-onu sequence 24</li>
+<li>no epon bind-onu sequence 25</li>
+<li>no epon bind-onu sequence 26</li>
+<li>no epon bind-onu sequence 27</li>
+<li>no epon bind-onu sequence 28</li>
+<li>no epon bind-onu sequence 29</li>
+<li>no epon bind-onu sequence 30</li>
+<li>no epon bind-onu sequence 31</li>
+<li>no epon bind-onu sequence 32</li>
+<li>no epon bind-onu sequence 33</li>
+<li>no epon bind-onu sequence 34</li>
+<li>no epon bind-onu sequence 35</li>
+<li>no epon bind-onu sequence 36</li>
+<li>no epon bind-onu sequence 37</li>
+<li>no epon bind-onu sequence 38</li>
+<li>no epon bind-onu sequence 39</li>
+<li>no epon bind-onu sequence 40</li>
+<li>no epon bind-onu sequence 41</li>
+<li>no epon bind-onu sequence 42</li>
+<li>no epon bind-onu sequence 43</li>
+<li>no epon bind-onu sequence 44</li>
+<li>no epon bind-onu sequence 45</li>
+<li>no epon bind-onu sequence 46</li>
+<li>no epon bind-onu sequence 47</li>
+<li>no epon bind-onu sequence 48</li>
+<li>no epon bind-onu sequence 49</li>
+<li>no epon bind-onu sequence 50</li>
+<li>no epon bind-onu sequence 51</li>
+<li>no epon bind-onu sequence 52</li>
+<li>no epon bind-onu sequence 53</li>
+<li>no epon bind-onu sequence 54</li>
+<li>no epon bind-onu sequence 55</li>
+<li>no epon bind-onu sequence 56</li>
+<li>no epon bind-onu sequence 57</li>
+<li>no epon bind-onu sequence 58</li>
+<li>no epon bind-onu sequence 59</li>
+<li>no epon bind-onu sequence 60</li>
+<li>no epon bind-onu sequence 61</li>
+<li>no epon bind-onu sequence 62</li>
+<li>no epon bind-onu sequence 63</li>
+<li>no epon bind-onu sequence 64</li>
+
+         </ul>
+         <h1>Avise OLT</h1>
+         <ul class="y">
+            <li>manage ip address 192.168.100.100/24</li>
+            <li>OLT(config)# show port state all</li>
+            <li>OLT(config)# show time</li>
+            <li>OLT(config)# show mac-address dynamic</li>
+            <li>OLT(config)# show mac-address port ge 1</li><br>
+            <li>interface vlanif 1</li>
+            <li>ifconfig 172.30.154.106 netmask 255.255.255.252</li>
+         </ul>
+         <h1>CDATA OLT</h1>
+         <p class="x">Mac delete</p>
+         <ul class="y">
+            <li>web verification-code disabl</li>
+            <li>Internet Address is 192.168.1.100, netmask 255.255.255.0</li>
+            <li>OLT(config-interface-epon-0/0)# ont delete offline-list 1 all</li>
+            <li>OLT(config-interface-epon-0/0)# ont delete 1 all</li>
+            <li>OLT(config-interface-epon-0/0)# show ont info 4 all</li><br>
+            <li>OLT(config-interface-epon-0/0)# no  ont load select 1-8</li><br>
+         </ul>
+         <p class="x">reset OLT</p>
+         <ul class="y">
+            <li>system default all</li>
+            <li>OLT# erase saved-config</li>
+         </ul>
+         <p class="x">Port wais STP Disable or Enable</p>
+         <ul class="y">
+            <li>interface xge 0/0</li>
+            <li>spanning-tree admin 1 disable</li>
+         </ul>
+       <p class="x">For Power</p>
+       <ul class="y">
+        <li>interface g0/0</li>
+        <li>show ddm-info 5</li>
+       </ul>
+       <p class="x">View Port</p>
+       <ul class="y">
+        <li>show port stat all</li>
+       </ul>
+       <p class="x">Pon Power Check</p>
+       <ul class="y">
+        <li>show ont optical_info 1 all </li>
+       </ul>
+       <p class="x">VLAN</p>
+       <ul class="y">
+        <li>interface g0/0</li>
+        <li>vlan access 1-4 40</li>
+        <li>shoutdown 1-4</li>
+       </ul>
+       <p class="x">ONU Check & Delete</p>
+       <ul class="y">
+        <li>OLT(config)# interface epon 0/0</li>
+        <li>OLT(config-interface-epon-0/0)# show ont info 1</li>
+        <li>OLT(config-interface-epon-0/0)# ont delete offline-list 3 al</li><br>
+        <li>OLT(config)# vlan 100,109-112</li>
+       </ul>
+       <p class="x">Link Configaration</p>
+       <ul class="y">
+        <li>OLT(config)# interface ge 0/0</li>
+        <li>OLT(config-interface-ge-0/0)# show port state all</li>
+        <li>OLT(config-interface-ge-0/0)# vlan mode 1-4 trunk</li>
+        <li>OLT(config-interface-ge-0/0)#  vlan trunk 1-4 1-200</li><br>
+        <li>OLT(config)# interface epon 0/0</li>
+        <li>OLT(config-interface-epon-0/0)# vlan mode 1-4 access</li>
+        <li>OLT(config-interface-epon-0/0)# vlan access 1 105</li>
+        <li>OLT(config-interface-epon-0/0)# vlan access 2 106</li>
+       </ul>
+       <p class="x">CDATA OLD Version</p>
+       <ul class="y">
+        <li>Milon-OLT(olt-1)# show startup-config all</li>
+        <li>system ipconfig inband 172.30.152.50 255.255.255.252</li>
+        <li>system ipconfig gateway 172.30.152.49</li>
+        <li>epon# swport ge2</li>
+        <li>epon#vlan add 1,501-520 tag</li>
+        <li>epon(GE-5)# vlan add 505</li>
+        <li>epon(GE-5)#pvid 505</li>
+        <li>epon# system save</li>
+       </ul>
+       <h1>HSGQ OLT</h1>
+       <ul class="y">
+        <li>show onu-info all</li>
+        <li>interface epon 1</li>
+        <li>no bind-onu all</li>
+        <li>exit</li><br>
+        <li>ifconfig 192.168.100.1 netmask 255.255.255.0</li><br>
+        <li>interface vlanif 1</li>
+        <li>ifconfig 172.30.154.182 netmask 255.255.255.252</li>
+        <li>exit</li>
+        <li>route default gw 172.30.154.181</li>
+        <li>JAHID-OLT(config)# erase config-file</li>
+       </ul>
+       <p class="x">VLAN Create</p>
+       <ul class="y"> 
+        <li>vlan standard 406</li>
+        <li>interface vlanif 406</li>
+        <li>ifconfig 172.30.152.178 netmask 255.255.255.252</li>
+        <li>route default gw 172.30.152.177</li>
+        <li>dns primary 8.8.8.8 secondary 8.8.4.4</li><br>
+        <li>interface ge 2</li>
+        <li>port default-vlan 406</li><br>
+        <li>interface ge 6</li>
+        <li>vlan mode trunk</li>
+        <li>port default-vlan 406</li><br>
+        <li>show port status all</li><br>
+        <li>interface ge 3</li>
+        <li>show state</li>
+        <li>port enable</li>
+        <li>show optical-diag 1</li>
+        <li>show ip address</li>
+       </ul>
+       <h1>Tvs_Proton</h1>
+       <p class="x">Vlan Create and IP assign</p>
+       <ul class="y">
+        <li>Switch(config)#vlan database</li>
+        <li>Switch(config-vlan)#vlan 10</li><br>
+        <li>Switch(config)#ip interface vlan 10</li>
+        <li>Switch(config)#interface vlan10</li>
+        <li>Switch(config-vlan10)#ip address 202.37.166.22/28</li>
+        <li>Switch(config-vlan10)#q</li>
+
+       </ul>
+       <h1>HUAWEI OLT-MA5683T</h1>
+       <p class="x">User Create</p>
+       <ul class="y">
+        <li>MA5683T>enable</li>
+        <li>MA5683T#config</li>
+        <li>MA5683T(config)#terminal user name</li>
+        <li>MA5683T(config)#terminal user password</li>       
+       </ul>
+       <p class="x">For  board confermation</p>
+       <ul class="y">
+        <li>display board 0</li>
+        <li>MA5683T(config)#board confirm 0</li>
+       </ul>
+       <p class="x">PON port auto find enable</p>
+       <ul class="y">
+        <li>MA5683T(config)#interface gpon 0/0 ( Pon Bord/Card )</li>
+        <li>MA5683T(config-if-gpon-0/0)#port 0 ont-auto-find enable ( jotota port totota enabal kara lagbe )</li>
+        <li>MA5683T(config-if-gpon-0/0)#port 1 ont-auto-find enable</li>
+       </ul>
+       <p class="x">VLAN Create and IP Assign</p>
+       <ul class="y">
+        <li>MA5683T>enable</li>
+        <li>MA5683T#config</li>
+        <li>MA5683T#display board 0</li>
+        <li>MA5683T(config)#vlan 455 smart</li>
+        <li>MA5683T(config)#display board 0/8</li>
+        <li>MA5683T(config)#port vlan 455 0/8 0-1 ( 0-1 , port range ) or ( 0/8 bord number )</li><br>
+        <li>MA5683T(config)#interface vlanif 455</li>
+        <li>MA5683T(config-if-vlanif455)#ip address 172.30.160.226 255.255.255.252</li>
+        <li>MA5683T(config)#ip route-static 0.0.0.0 0.0.0.0 172.30.160.225</li>
+       </ul>
+       <p class="x">DBA Profile</p>
+       <ul class="y">
+        <li>MA5683T(config)#dba-profile add profile-id 10 type4 max 1024000</li>
+       </ul>
+       <p class="x">Line Profile</p>
+       <ul class="y">
+        <li>MA5683T(config)#ont-lineprofile gpon profile-id 455 profile-name LINE_VLAN_455 ( 455 , eita kono vlan na , nijer moto kore modify kora jabe )</li>
+        <li>MA5683T(config-gpon-lineprofile-455)#tcont 1 dba-profile-id 10</li>
+        <li>MA5683T(config-gpon-lineprofile-455)#gem add 0 eth tcont 1 ( eth ta holo onu ethar port ) </li>
+        <li>MA5683T(config-gpon-lineprofile-455)#gem mapping 0 0 vlan 455 ( ekhane prothom 0 ta holo index number ar 2nd 0 gem add 0 ta hobe )</li>
+        <li>MA5683T(config-gpon-lineprofile-455)#commit</li>
+       </ul>
+       <p class="x">Service Profile</p>
+       <ul class="y">
+        <li>MA5683T(config)#ont-srvprofile gpon profile-id 455 profile-name SRV_VLAN_455  ( 455 nijer moto kore )</li>
+        <li>MA5683T(config-gpon-srvprofile-455)#ont-port eth 1</li>
+        <li>MA5683T(config-gpon-srvprofile-455)#port vlan eth 1 455 ( ei 455 tolo vlan 455 )</li>
+        <li>MA5683T(config-gpon-srvprofile-455)#ring check enable</li>
+        <li>MA5683T(config-gpon-srvprofile-455)#ring check resume-interval 120</li>
+        <li>MA5683T(config-gpon-srvprofile-455)#commit</li>
+       </ul>
+
+       <p class="x">HUAWEI OLT ONU add Process</p>
+       <ul class="y">
+         <li>MA5683T>enable</li>
+         <li>MA5683T#display ont autofind all </li><br>
+         <li>MA5683T#display interface vlanif </li>
+         <li>MA5683T#display ip interface brief</li>
+         <li>MA5683T#display vlan all</li><br>
+         <li>MA5683T#display board 0 </li>
+         <li>MA5683T# display board 0/0</li>
+         <li>MA5683T#display board 0/1</li><br>
+         <li>MA5683T(config)#display current-configuration ont 0/1/0 0</li><br>
+         <li>MA5683T(config)#interface epon 0/1</li>
+         <li>MA5683T(config-if-epon-0/1)#ont add 0 mac-auth 8007-1BE1-6118 oam ont-lineprofile-id 455</li>
+         <li>{ ont-srvprofile-id<K>|ont-srvprofile-name<K> }:ont-srvprofile-id 455</li>
+            <li>{ <cr>|desc<K>|ont-type<K> }:desc city@chw27</li>
+         <li>MA5683T(config-if-epon-0/1)#ont port native-vlan 0 5 eth 1 vlan 455</li>
+         <li>MA5683T(config-if-epon-0/1)#quit</li><br>
+         <li>MA5683T(config)#service-port vlan 455 epon 0/1/0 ont 5 multi-service user-vlan 455</li><br>
+         <li>MA5683T(config)#display mac-address ont 0/1/0 5</li>
+         <li>MA5683T(config)#display ont info summary 0/1/0 </li>
+         <li>MA5683T(config)#save </li>
+         </ul>
+         <h1>ALL About MK</h1>
+         <p class="x"> Reset Mikrotik Router</p>
+         <ul class="y">
+            <li>/system reset-configuration no-defaults=yes skip-backup=yes</li>
+         </ul>
+         <p class="x">DHCP Configaration</p>
+         <ul class="y">
+         
+            <ul>DHCP interface IP assign</ul>
+            <ul class="y">/interface bridge add name=bridge1</ul>
+            <ul class="y">/interface bridge port add interface=ether2 bridge=bridge1</ul>
+            <ul class="y">/ip address add address=192.168.88.1/24 interface=bridge1</ul>
+            <li>DHCP Setup</li>
+            <ul class="y">[admin@MikroTik] > ip dhcp-server/ setup [enter]</ul>
+            <ul class="y">Select interface to run DHCP server on </ul>
+               
+            <ul class="y">dhcp server interface: bridge1 [enter]</ul>
+            <ul class="y">Select network for DHCP addresses </ul>
+               
+            <ul class="y">dhcp address space: 192.168.88.0/24 [enter]</ul>
+            <ul class="y">Select gateway for given network </ul>
+               
+            <ul class="y">gateway for dhcp network: 192.168.88.1 [enter]</ul>
+            <ul class="y">Select pool of ip addresses given out by DHCP server </ul>
+               
+            <ul class="y">addresses to give out: 192.168.88.2-192.168.88.254 [enter]</ul>
+            <ul class="y">Select DNS servers </ul>
+               
+            <ul class="y">dns servers: 192.168.88.1 [enter] </ul>
+            <ul class="y">Select lease time </ul>
+               
+            <ul class="y">lease time: 1800 [enter]</ul>
+         </ul>
+         <p class="x">DHCP Client ba DHCP through te RW Internet ana</p>
+         <ul class="y">
+            <li> DHCP client</li>
+            <ul class="y">/ip dhcp-client add disabled=no interface=ether1</ul>
+            <li>Check dhcp Client</li>
+            <ul class="y">[admin@MikroTik] > ip dhcp-client print</ul>
+         </ul>
+         <p class="x">PPPoE Assign in MikroTik RW</p>
+         <ul class="y">
+            <li>PPPoE Client</li>
+           <ul class="y">/interface pppoe-client</ul>
+            <ul class="y">add disabled=no interface=ether1 user=me password=123 \</ul>
+               <ul class="y">add-default-route=yes use-peer-dns=yes</ul>
+            <li>NAT Configuration</li>
+            <ul class="y"></ul>/ip firewall nat</ul>
+            <ul class="y">add chain=srcnat out-interface=ether1 action=masquerade</ul>
+         </ul>
+         <p class="x">Port Forwarding</p>
+         <ul class="y">
+            <li>Port Forwarding</li>
+            <ul class="y">/ip firewall nat</ul>
+               <ul class="y">add chain=dstnat protocol=tcp port=3389 in-interface=ether1 \</ul>
+               <ul class="y">action=dst-nat to-address=192.168.88.254</ul>
+         </ul>
+         <p class="x">Setting up Wireless</p>
+         <ul class="y">
+            <li>Step-1_ security profile Create</li>
+            <ul class="y">/interface wireless security-profiles</ul>
+            <ul class="y">add name=myProfile authentication-types=wpa2-psk mode=dynamic-keys \</ul>
+            <ul class="y"> wpa2-pre-shared-key=1234567890</ul>
+            <li>Step-2_ enable the wireless interface Create</li>
+            <ul class="y">/interface wireless</ul>
+            <ul class="y">enable wlan1;</ul>
+            <ul class="y">set wlan1 band=2ghz-b/g/n channel-width=20/40mhz-Ce distance=indoors \</ul>
+            <ul class="y">mode=ap-bridge ssid=MikroTik-006360 wireless-protocol=802.11 \</ul>
+            <ul class="y">security-profile=myProfile frequency-mode=regulatory-domain \</ul>
+            <ul class="y">set country=latvia antenna-gain=3</ul>
+            <li>Step-3_ In Bridge interface add Wireless Interface</li>
+            <ul class="y"> /interface bridge port</ul>
+            <ul class="y">add interface=wlan1 bridge=bridge1</ul>
+            <li>Step-4_Bridge interface dhcp Setup</li>
+
+         </ul>
+         <p class="x">Blocking Unwanted Websites</p>
+         <ul class="y">
+            <li>Step_1 First, we need to add a NAT rule to redirect HTTP to our proxy</li>
+            <ul class="y">/ip firewall nat</ul>
+            <ul class="y">add chain=dst-nat protocol=tcp dst-port=80 src-address=192.168.88.0/24 \</ul>
+            <ul class="y">action=redirect to-ports=8080</ul>
+            <li>Step_2 Enable web proxy and drop some websites:</li>
+            <ul class="y">/ip proxy set enabled=yes</ul>
+            <ul class="y">/ip proxy access add dst-host=www.facebook.com action=deny</ul>
+            <ul class="y">/ip proxy access add dst-host=*.youtube.* action=deny</ul>
+            <ul class="y">/ip proxy access add dst-host=:vimeo action=deny</ul>
+         </ul>
+         <p class="x">MK RW full Reset</p>
+         <ul class="y">
+            <li>/system reset-configuration no-defaults=yes skip-backup=yes</li>
+         </ul>
+         <p class="x">MK RW full Backup</p>
+         <ul class="y">
+            <li>[Sky@Net@2@SONAGAZI_POP_RUMON] > export file=config.txt</li>
+         </ul>
+         <p class="x">Graph add</p>
+         <ul class="y">
+            <li>[mehedi@Mehedi] > tool/graphing/interface/add interface=ether4-LAN </li>
+         </ul>
+         <p class="x">Running interface disable on Server-MK</p>
+         <ul class="y">
+            <li>[Sky@Net@RAJGONJ_POP_CORE] > interface ethernet print</li>
+            <li>[Sky@Net@RAJGONJ_POP_CORE] > interface ethernet set disable-running-check=no</li>
+         </ul>
+    <p class="x">Vlan</p>
+    <ul class="y">
+        <li>/interface vlan</li>
+        <li>add interface=sfp+ether2_WAN name=314_SKYNET-INT vlan-id=314</li>
+        <li>add interface=sfp+ether2_WAN name=315_SKYNET-GGC vlan-id=315</li>
+        <li>add interface=sfp+ether2_WAN name=316_SKYNET-FNA vlan-id=316</li>
+        <li>add interface=sfp+ether2_WAN name=521_SKYNET-BDIX vlan-id=521</li>
+        <li>add interface=sfp+ether2_WAN name=589_SKYNET-FTP vlan-id=589</li>
+    </ul>
+    <p class="x"> Vlan interface IP assign </p>
+    <ul class="y">
+        <li>/ip address</li>
+        <li>add address=10.199.199.2/30 interface=314_SKYNET-INT</li>
+        <li>add address=172.16.18.150/30 interface=315_SKYNET-GGC</li>
+        <li>add address=172.16.22.82/30 interface=316_SKYNET-FNA</li>
+        <li>add address=172.16.21.98/30 interface=521_SKYNET-BDIX</li>
+        <li>add address=172.16.131.131/25 interface=589_SKYNET-FTP</li>
+
+    </ul>
+    <p class="x">DNS</p>
+    <ul class="y">
+        <li>/ip dns</li>
+        <li>set servers=103.109.56.100,8.8.4.4,8.8.8.8,1.1.1.1</li><br>
+        <li>Cisco = 208.67.222.222</li>
+        <li>Cisco = 208.67.222.123</li>
+        <li>Cisco = 208.67.220.223</li>
+
+    </ul>
+    <p class="x">NAT</p>
+    <ul class="y">
+        <li>/ip firewall nat</li>
+        <li>add action=masquerade chain=srcnat out-interface=3289_BDIX</li>
+        <li>add action=src-nat chain=srcnat out-interface=3288_FNA to-addresses=103.138.27.154/31</li>
+        <li>add action=src-nat chain=srcnat out-interface=3287_GGC to-addresses=103.138.27.154/31</li>
+        <li>add action=src-nat chain=srcnat out-interface=3286_IIG to-addresses=103.138.27.154/31</li>
+
+    </ul>
+    <p class="x">Queue Script</p>
+    <ul class="y">
+        <li>/queue type set [find name="5MB_INT_DW"] pcq-rate=50M</li>
+    </ul>
+    <p class="x">Port forwording</p>
+    <ul class="y">
+        <li>/ip firewall nat</li>
+        <li>add action=dst-nat chain=dstnat dst-address=103.138.24.107/31 dst-port=100 protocol=tcp to-addresses=172.30.157.226 to-ports=80</li>
+
+    </ul>
+
+
+    <p class="x">Server Running ( R ) disable</p>
+    <ul class="y">
+        <li>[Sky@Net@RAJGONJ_POP_CORE] > interface ethernet print</li>
+        <li>[Sky@Net@RAJGONJ_POP_CORE] > interface ethernet set disable-running-check=no</li>
+    </ul>
+    <p class="x">Fast Dotcom </p>
+    <ul class="y">
+        <li>/ip firewall address-list                                         </li>  
+<li>add address=23.246.54.0/23 list=SpeedTestIP                       </li>
+<li>add address=49.44.61.0/24 list=SpeedTestIP                        </li>
+<li>add address=54.154.202.0/23 list=SpeedTestIP                      </li>
+<li>add address=45.57.50.0/23 list=SpeedTestIP                        </li>
+<li>add address=198.38.114.0/23 list=SpeedTestIP                      </li>
+<li>add address=103.15.246.3 comment=summit list=SpeedTestIP          </li>
+<li>add address=151.101.10.219 list=SpeedTestIP                       </li>
+<li>add address=23.74.247.112 list=SpeedTestIP                        </li>
+<li>add address=103.15.40.4 comment=Level3 list=SpeedTestIP           </li>
+<li>add address=203.76.99.30 comment=Link3 list=SpeedTestIP           </li>
+<li>add address=103.58.73.2 list=SpeedTestIP                          </li>
+<li>add address=119.18.150.8 list=SpeedTestIP                         </li>
+<li>add address=103.15.164.23 list=SpeedTestIP                        </li>
+<li>add address=103.43.148.67 list=SpeedTestIP                        </li>
+<li>add address=192.168.10.2 list=SpeedTestIP                         </li>
+<li>add address=118.179.75.213 list=SpeedTestIP                       </li>
+<li>add address=123.253.37.2 list=SpeedTestIP                         </li>
+<li>add address=182.160.96.0/24 list=SpeedTestIP                      </li>
+<li>add address=103.15.40.0/24 list=SpeedTestIP                       </li>
+<li>add address=103.213.237.62 list=SpeedTestIP                       </li>
+<li>add address=210.176.156.49 list=SpeedTestIP                       </li>
+<li>add address=210.176.156.48 list=SpeedTestIP                       </li>
+<li>add address=151.101.54.114 list=SpeedTestIP                       </li>
+<li>add address=151.101.42.114 list=SpeedTestIP                       </li>
+<li>add address=151.101.10.214 list=SpeedTestIP                       </li>
+<li>add address=151.101.26.114 list=SpeedTestIP                       </li>
+<li>add address=151.101.0.143 list=SpeedTestIP                        </li>
+<li>add address=151.101.0.84 list=SpeedTestIP                         </li>
+<li>add address=125.56.237.3 list=SpeedTestIP                         </li>
+<li>add address=104.84.156.138 list=SpeedTestIP                       </li>
+<li>add address=59.151.128.157 list=SpeedTestIP                       </li>
+<li>add address=23.219.132.176 list=SpeedTestIP                       </li>
+<li>add address=23.198.124.11 list=SpeedTestIP                        </li>
+<li>add address=23.77.26.81 list=SpeedTestIP                          </li>
+<li>add address=182.79.223.0/24 list=SpeedTestIP                      </li>
+<li>add address=23.9.187.175 list=SpeedTestIP                         </li>
+<li>add address=52.33.112.234 list=SpeedTestIP                        </li>
+<li>add address=52.41.203.109 list=SpeedTestIP                        </li>
+<li>add address=69.173.159.0/24 list=SpeedTestIP                      </li>
+<li>add address=104.79.117.49 list=SpeedTestIP                        </li>
+<li>add address=104.118.129.134 list=SpeedTestIP                      </li>
+<li>add address=104.122.15.153 list=SpeedTestIP                       </li>
+<li>add address=104.122.11.167 list=SpeedTestIP                       </li>
+<li>add address=104.122.8.110 list=SpeedTestIP                        </li>
+<li>add address=104.121.255.145 list=SpeedTestIP                      </li>
+<li>add address=speedtest.net list=SpeedTestIP                        </li>
+<li>add address=fast.com list=SpeedTestIP                             </li>
+<li>add address=151.101.1.130 list=SpeedTestIP                        </li>
+<li>add address=184.26.196.191 list=SpeedTestIP                       </li>
+<li>add address=173.239.53.18 list=SpeedTestIP                        </li>
+<li>add address=151.101.196.64 list=SpeedTestIP                       </li>
+<li>add address=151.101.193.21 list=SpeedTestIP                       </li>
+<li>add address=151.101.10.208 list=SpeedTestIP                       </li>
+<li>add address=151.101.10.109 list=SpeedTestIP                       </li>
+<li>add address=151.101.9.108 list=SpeedTestIP                        </li>
+<li>add address=151.101.2.133 list=SpeedTestIP                        </li>
+<li>add address=151.101.2.110 list=SpeedTestIP                        </li>
+<li>add address=151.101.2.109 list=SpeedTestIP                        </li>
+<li>add address=151.101.1.186 list=SpeedTestIP                        </li>
+<li>add address=23.74.243.73 list=SpeedTestIP                         </li>
+<li>add address=34.208.20.104 list=SpeedTestIP                        </li>
+<li>add address=35.172.96.212 list=SpeedTestIP                        </li>
+<li>add address=192.229.237.182 list=SpeedTestIP                      </li>
+<li>add address=151.101.65.21 list=SpeedTestIP                        </li>
+<li>add address=151.101.129.21 list=SpeedTestIP                       </li>
+<li>add address=151.101.10.2 list=SpeedTestIP                         </li>
+<li>add address=151.101.8.81 list=SpeedTestIP                         </li>
+<li>add address=151.101.2.114 list=SpeedTestIP                        </li>
+<li>add address=128.1.97.163 list=SpeedTestIP                         </li>
+<li>add address=104.118.121.11 list=SpeedTestIP                       </li>
+<li>add address=199.232.237.51 list=SpeedTestIP                       </li>
+<li>add address=151.101.126.91 list=SpeedTestIP                       </li>
+<li>add address=151.101.114.91 list=SpeedTestIP                       </li>
+<li>add address=151.101.130.91 list=SpeedTestIP                       </li>
+<li>add address=151.101.2.91 list=SpeedTestIP                         </li>
+<li>add address=151.101.1.42 list=SpeedTestIP                         </li>
+<li>add address=182.79.164.0/24 list=SpeedTestIP                      </li>
+<li>add address=23.47.232.222 comment=fast.com list=SpeedTestIP       </li>
+<li>add address=52.42.104.145 comment=fast.com list=SpeedTestIP       </li>
+<li>add address=52.41.214.164 comment=fast.com list=SpeedTestIP       </li>
+<li>add address=118.215.155.65 comment=fast.com list=SpeedTestIP      </li>
+<li>add address=44.233.205.57 comment=fast.com list=SpeedTestIP       </li>
+<li>add address=35.155.65.240 comment=fast.com list=SpeedTestIP       </li>
+<li>add address=100.20.17.138 comment=fast.com list=SpeedTestIP       </li>
+<li>add address=202.150.221.0/24 comment=fast.com list=SpeedTestIP    </li>
+<li>add address=182.79.161.0/24 list=SpeedTestIP                      </li>
+<li>add address=182.79.245.0/24 list=SpeedTestIP                      </li>
+<li>add address=182.79.160.0/22 list=SpeedTestIP                      </li>
+<li>add address=182.79.164.0/22 list=SpeedTestIP                      </li>
+<li>add address=45.57.50.0/24 list=SpeedTestIP                        </li>
+<li>add address=45.57.51.0/24 list=SpeedTestIP                        </li>
+<li>add address=108.159.58.0/24 list=SpeedTestIP                      </li>
+<li>add address=69.173.158.0/24 list=SpeedTestIP                      </li>
+<li>add address=182.79.164.2 list=SpeedTestIP                         </li>
+<li>add address=182.79.164.165 list=SpeedTestIP                       </li>
+<li>add address=182.79.164.55 list=SpeedTestIP                        </li>
+<li>add address=182.79.164.6 list=SpeedTestIP                         </li>
+<li>add address=182.79.161.233 list=SpeedTestIP                       </li>
+<li>add address=45.57.51.140 list=SpeedTestIP                         </li>
+<li>add address=182.79.223.234 list=SpeedTestIP                       </li>
+<li>add address=45.57.50.142 list=SpeedTestIP                         </li>
+<li>add address=182.79.223.230 list=SpeedTestIP                       </li>
+<li>add address=45.57.51.146 list=SpeedTestIP                         </li>
+<li>add address=45.57.50.150 list=SpeedTestIP                         </li>
+<li>add address=45.57.51.153 list=SpeedTestIP                         </li>
+<li>add address=23.246.55.163 list=SpeedTestIP                        </li>
+<li>add address=45.57.51.142 comment=Link3 list=SpeedTestIP           </li>
+    </ul>
+    <ul class="y">
+        <li>/ip firewall mangle                                                                                           </li>  
+<li>add action=mark-packet chain=prerouting new-packet-mark=speed passthrough=yes src-address-list=SpeedTestIP    </li>
+<li>add action=mark-packet chain=prerouting dst-address-list=SpeedTestIP new-packet-mark=speed passthrough=yes    </li>
+<li>add action=mark-packet chain=prerouting protocol=icmp new-packet-mark=ping passthrough=yes                    </li><br>
+<li>/queue type                                                            </li>
+<li>add kind=pcq name=100M-up pcq-classifier=src-address pcq-rate=100M     </li>
+<li>add kind=pcq name=100M-down pcq-classifier=dst-address pcq-rate=100M   </li><br>
+<li>/queue simple                                                                                                            </li>      
+<li>add max-limit=1G/1G name=SpeedTestHighSpeed queue=100M-up/100M-down target="0.0.0.0/0" packet-marks=speed place-before=0 </li>
+<li>add max-limit=1G/1G name=Ping queue=100M-up/100M-down target="0.0.0.0/0" packet-marks=ping place-before                  </li>
+ </ul>
+<p class="x">Multi Router</p>
+<ul class="y">
+    <li>/ip firewall filter</li>
+    <li>add action=drop chain=forward src-address=10.0.0.0/8 src-address-list= MULTI-ROUTER ttl=less-than:62</li><br>
+    <li>/ip firewall mangle</li>
+    <li>add action=add-src-to-address-list address-list=MULTI-ROUTER address-list-timeout=15m chain=forward connection-state=established in-interface=all-ppp src-address=10.0.0.0/8 src-address-list=!ALLOW-MULTI-ROUTER ttl=less-than:62</li><br>
+    <li>/ip firewall mangle</li>
+    <li>add action=add-src-to-address-list address-list=DHCP address-list-timeout=15m chain=forward connection-state=established in-interface=all-ppp src-address=10.10.0.0/16 ttl=less-than:62</li>
+</ul>
+<p class="x">CDN</p>
+<ul class="y">
+    <li>/ip firewall mangle</li>
+    <li> add action=mark-packet chain=prerouting dst-address-list=CDN new-packet-mark=CDN passthrough=yes</li>
+    <li>add action=mark-packet chain=prerouting new-packet-mark=CDN passthrough=yes src-address-list=CDN</li><br>
+    <li>/ip firewall address-list</li>
+    <li>add address=154.85.74.0/24 list=CDN</li>
+    <li>add address=43.246.203.64/27 list=CDN</li><br>
+    <li>/queue type</li>
+    <li>add kind=pcq name=CDN_DW pcq-classifier=dst-address pcq-rate=20M</li>
+</ul>
+<p class="x">MK BGP Community Setup RWv6</p>
+<ul class="y">
+   <li>/routing filter</li>
+   <li>add action=accept chain=INT-IN set-bgp-communities=100:100</li>
+   <li>add action=accept bgp-communities=100:100 chain=INT-OUT set-bgp-communities=""</li>
+   <li>add action=discard bgp-communities="" chain=INT-OUT set-bgp-communities=""</li>
+</ul>
+<p class="x">MK BGP Community Setup RWv7</p>
+<ul class="y">
+   <li>/routing filter rule</li>
+   <li>add chain=GGC-IN disabled=no rule="set bgp-communities 200:200; accept;"</li>
+   <li>add chain=GGC-OUT disabled=no rule="if (bgp-communities includes 200:200) {accept} else {reject}"</li>
+</ul>
+<p class="x">Bkash Aps</p>
+<ul class="y">
+    <li>/ip firewall nat</li>
+    <li>add action=src-nat chain=srcnat comment=BKASH dst-address-list=BKASH to-addresses=103.109.57.225</li><br>
+    <li>/ip firewall address-list</li>
+    <li>add address=13.224.96.0/21 list=BKASH</li>
+    <li>add address=18.165.180.0/22 list=BKASH</li>
+    <li>add address=122.248.192.0/18 list=BKASH</li>
+    <li>add address=52.76.0.0/17 list=BKASH</li>
+</ul>
+<p class="x">Firewall BW Management / Que</p>
+<ul class="y">
+    <li>/ip firewall filter</li>
+    <li>add action=drop chain=forward limit=!180M,10M:bit out-interface=1256_HAZIRPARA_INT</li>
+    <li>add action=drop chain=forward limit=!300M,15M:bit out-interface=1456_HAZIRPARA_GGC</li>
+    <li>add action=drop chain=forward limit=!300M,15M:bit out-interface=1395_HAZIRPARA_FNA</li>
+</ul>
+<p class="x">log</p>
+<ul class="y">
+    <li>Logging</li>
+    <li>/system logging action</li>
+    <li>add bsd-syslog=yes name=SoftifyBD remote=103.109.56.236 syslog-facility=syslog target=remote</li><br>
+    <li>/system logging</li>
+    <li>set 0 topics=info,!firewall</li>
+    <li>add action=SoftifyBD topics=firewall</li>
+    <li>add action=SoftifyBD topics=script</li>
+</ul>
+<p class="x">GGC Cashe IP Route</p>
+<ul class="y">
+    <li>/ip route                                                                       </li>
+<li>add comment=GGC distance=1 dst-address=45.115.12.0/27 gateway=172.30.157.37     </li>
+<li>add comment=GGC distance=1 dst-address=45.115.12.32/27 gateway=172.30.157.37    </li>
+<li>add comment=GGC distance=1 dst-address=45.115.12.64/27 gateway=172.30.157.37    </li>
+<li>add comment=GGC distance=1 dst-address=103.109.58.160/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.109.58.192/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.109.58.224/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.253.162.0/27 gateway=172.30.157.37   </li>
+<li>add comment=GGC distance=1 dst-address=106.0.60.0/27 gateway=172.30.157.37      </li>
+<li>add comment=GGC distance=1 dst-address=106.0.60.64/27 gateway=172.30.157.37     </li>
+<li>add comment=GGC distance=1 dst-address=43.245.142.192/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=43.245.142.224/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.15.244.96/27 gateway=172.30.157.37   </li>
+<li>add comment=GGC distance=1 dst-address=103.15.244.128/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.15.244.160/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.15.246.96/27 gateway=172.30.157.37   </li>
+<li>add comment=GGC distance=1 dst-address=144.48.148.192/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=144.48.148.224/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=157.119.187.0/27 gateway=172.30.157.37   </li>
+<li>add comment=GGC distance=1 dst-address=157.119.187.32/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.242.216.64/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.242.216.96/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.242.216.128/27 gateway=172.30.157.37 </li>
+<li>add comment=GGC distance=1 dst-address=103.161.168.0/27 gateway=172.30.157.37   </li>
+<li>add comment=GGC distance=1 dst-address=103.161.168.32/28 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.161.168.48/28 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.161.168.64/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.161.168.96/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.161.168.128/27 gateway=172.30.157.37 </li>
+<li>add comment=GGC distance=1 dst-address=103.161.168.160/27 gateway=172.30.157.37 </li>
+<li>add comment=GGC distance=1 dst-address=103.161.168.192/28 gateway=172.30.157.37 </li>
+<li>add comment=GGC distance=1 dst-address=103.161.168.224/28 gateway=172.30.157.37 </li>
+<li>add comment=GGC distance=1 dst-address=202.173.120.0/28 gateway=172.30.157.37   </li>
+<li>add comment=GGC distance=1 dst-address=202.173.120.16/28 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=202.173.120.32/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=202.173.120.64/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=202.173.120.96/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=202.173.120.128/28 gateway=172.30.157.37 </li>
+<li>add comment=GGC distance=1 dst-address=103.43.149.160/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.62.142.0/26 gateway=172.30.157.37    </li>
+<li>add comment=GGC distance=1 dst-address=103.62.142.64/26 gateway=172.30.157.37   </li>
+<li>add comment=GGC distance=1 dst-address=103.62.143.64/27 gateway=172.30.157.37   </li>
+<li>add comment=GGC distance=1 dst-address=103.62.143.224/27 gateway=172.30.157.37  </li>
+<li>add comment=GGC distance=1 dst-address=103.141.65.64/26 gateway=172.30.157.37   </li>
+<li>add comment=GGC distance=1 dst-address=103.141.65.192/27 gateway=172.30.157.37  </li>
+</ul>
+<p class="x"> FNA Cashe IP Route</p>
+<ul class="y">
+    <li>/ip route                                                                       </li>     
+<li>add comment=FNA distance=1 dst-address=43.245.142.128/26 gateway=192.168.41.25  </li>
+<li>add comment=FNA distance=1 dst-address=103.242.216.0/26 gateway=192.168.41.25   </li>
+<li>add comment=FNA distance=1 dst-address=103.242.216.192/26 gateway=192.168.41.25 </li>
+<li>add comment=FNA distance=1 dst-address=103.242.218.128/26 gateway=192.168.41.25 </li>
+<li>add comment=FNA distance=1 dst-address=123.253.67.0/26 gateway=192.168.41.25    </li>
+<li>add comment=FNA distance=1 dst-address=123.253.66.0/26 gateway=192.168.41.25    </li>
+<li>add comment=FNA distance=1 dst-address=106.0.60.128/26 gateway=192.168.41.25    </li>
+<li>add comment=FNA distance=1 dst-address=123.253.66.0/26/26 gateway=192.168.41.25 </li>
+<li>add comment=FNA distance=1 dst-address=103.242.218.0/26 gateway=192.168.41.25   </li>
+</ul>
+<p class="x">Normal MK Router Configaration </p>
+<ol class="z">
+    <li>LAN এন্ড WAN  পোর্ট ডিক্লিয়ার করতে হবে।   </li>
+    <li>WAN port IP assign</li>
+    <li>GW ip ke Defult route </li>
+    <li>Bridge > bridg interface Create</li>
+    <li>Bridge interface lan port assign ( Lan + Wlan )</li>
+    <li>Bridge interface IP assign</li>
+    <li> Nat  </li>
+    <li>IP > DHCP server > DHCP setup > interface হবে  Bridge interface</li>
+    <li>Wireless > wireliss mode হবে  ap bridge and security setup as my wish</li>
+</ol>
+<p class="x">By PPPoE Normal Router Configaration</p>
+<ol class="z">
+    <li>LAN এন্ড WAN  পোর্ট ডিক্লিয়ার করতে হবে। </li>
+    <li>PPP > + > PPPoE Client > INSTANCE > General , Instance : WAN port / Dial Out : user name or password > apply >OK</li>
+    <li>Bridge > bridg interface Create  </li>
+    <li>Bridge interface lan port assign ( Lan + Wlan )</li>
+    <li>Bridge interface IP assign</li>
+    <li>Nat</li>
+    <li>IP > DHCP server > DHCP setup > interface হবে  Bridge interface </li>
+    <li> Wireless > wireliss mode হবে  ap bridge and security setup as my wish</li>
+   
+</ol>
+<p class="x">IKEv2 Setup process</p>
+<ol class="z">
+    <li>Pool</li>
+    <li>Mode Config</li>
+    <ul class="z">
+        <li>/ip ipsec mode-config</li>
+        <li>add address-pool=VPN address-prefix-length=32 name=IKEv2_MODE split-dns=103.109.56.100,8.8.8.8</li>
+    </ul>
+    <li>Proposals</li>
+    <ul class="z">
+        <li>/ip ipsec proposal</li>
+        <li>add auth-algorithms=sha256,sha1 name=IKEV2_Proposal</li>
+    </ul>
+    <li>Group</li>
+    <li>Profiles</li>
+    <ul class="z">
+        <li>/ip ipsec profile</li>
+        <li>add enc-algorithm=aes-256,3des hash-algorithm=sha256 name=IKEV2_Profile</li>
+    </ul>
+    <li>Policies > General</li>
+    <li>Policies > Action</li>
+    <ul class="z">
+        <li>/ip ipsec policy group</li>
+        <li>add name=IKEV2_Group</li><br>
+        <li>/ip ipsec policy</li>
+        <li>add group=IKEV2_Group proposal=IKEV2_Proposal template=yes</li>
+    </ul>
+    <li>Peers</li>
+    <ul class="z">
+        <li>/ip ipsec peer</li>
+        <li>add exchange-mode=ike2 name=IKEV2_Peer passive=yes profile=IKEV2_Profile</li>
+    </ul>
+
+    <li>Identites</li>
+    <ul class="z">
+        <li>/ip ipsec identity</li>
+        <li>add generate-policy=port-strict mode-config=IKEv2_MODE peer=IKEV2_Peer policy-template-group=IKEV2_Group secret=mehedi1230</li>
+    </ul>
+    
+</ol>
+<p class="x">BGP Filter</p>
+<ul class="y">
+   <li>BDIX_IN = if (dst in 172.16.0.0/16 && dst-len in 0-32) { reject; }</li>
+   <li>BDIX_IN = accept</li>
+
+</ul>
+
+<h1>CCNP-CMD</h1>
+<p class="x">VLAN</p>
+<ul>
+   <li>SW1# show vlan brief</li>
+   <li>SW1# show vlan summary</li>
+   <li>SW1# show vlan id 99</li>
+   <li>SW1# show running-config | begin interface GigabitEthernet1/0/15</li>
+   <li>SW1# show interfaces trunk</li>
+
+</ul>
+<p class="x">Truck -1</p>
+<ul class="y">
+   <li>Sw1(config)#Interface GigabitEthernet0/1 </li>
+   <li>Sw1(config-if)# switchport trunk encapsulation dot1q </li>
+   <li>Sw1(config-if)# switchport mode trunk </li>
+   <li>Sw1(config-if)# switchport trunk allowed vlan 10,20 </li>
+</ul>
+<p class="x"> Secondary IP Assaign</p>
+<ul class="y">
+   <li>R1(config)# interface gi0/0/0 </li>
+	<li>R1(config-if)# ip address 10.10.10.254 255.255 </li>
+	<li>R1(config-if)# ip address 172.16.10.254 255.255.255.0 secondary </li>
+	<li>R1(config-if)# ipv6 address 2001:db8:10::254/64 </li>
+	<li>R1(config-if)# ipv6 address 2001:DB8:10:172::254/64 </li>
+	<li>R1(config-if)# interface gi0/0/1 </li>
+	<li>R1(config-if)# ip address 10.20.20.254 255.255.255.0 </li>
+	<li>R1(config-if)# ip address 172.16.20.254 255.255.255.0 secondary </li>
+	<li>R1(config-if)# ipv6 address 2001:db8:20::254/64 </li>
+	<li>R1(config-if)# ipv6 address 2001:db8:20:172::254/64 </li>
+</ul>
+
+<p class="x">Configuring Routed Subinterfaces</p>
+<ul class="y">
+   <li>R2# configure terminal </li>
+		<li>R2(config-if)# int g0/0/1.10 </li>
+		<li>R2(config-subif)# encapsulation dot1Q 10 </li>
+		<li>R2(config-subif)# ip address 10.10.10.2 255.255.255.0 </li>
+		<li>R2(config-subif)# ipv6 address 2001:db8:10::2/64 </li>
+</ul>
+<p class="x">Multilayer switch port can be converted from a Layer 2 switch port by Using ( no switchport )</p>
+<ul class="y">
+   <li>SW1# configure terminal </li>
+		<li>SW1(config)# int gi1/0/14 </li>
+		<li>SW1(config-if)# no switchport </li>
+		<li>SW1(config-if)# ip address 10.20.20.1 255.255.255.0 </li>
+		<li>SW1(config-if)# ipv6 address 2001:db8:20::1/64 </li>
+		<li>SW1(config-if)# no shutdown </li>
+</ul>
+<p class="x">Viewing Device IPv4 Addresses</p>
+<ul class="y">
+   <li>SW1# show ip interface brief</li>
+   <li>SW1# show ip interface brief | exclude unassigned</li>
+   <li>SW1# show ipv6 interface brief</li>
+   <li>SW1# show ipv6 interface brief | exclude unassigned|GigabitEthernet</li>
+</ul>
+<p class="x"> Switching Database Manager (SDM)Templates</p>
+<ul class="y">
+   <li>SW1# show sdm prefer</li>
+   <li></li>
+</ul>
+<p class="x">802.1D, which is the original specification</p>
+<ul class="y">
+   <li>Blocking:   </li>  
+   <li>Listening:  </li>
+   <li>Learning:   </li>
+   <li>Forwarding: </li>
+   <li>Broken:     </li>
+</ul>
+	<p class="x">Per-VLAN Spanning Tree (PVST)              </p>
+   
+	<p class="x">Per-VLAN Spanning Tree Plus (PVST+)        </p>
+	<p class="x">802.1W Rapid Spanning Tree Protocol (RSTP) </p>
+	<p class="x">802.1S Multiple Spanning Tree Protocol (MST</p>
+   
+     <p class="x">STP</p> 
+     <ul class="y">
+         <li>Designated port (DP) = Root SW er sathe sora-sori connected port holo "Designated port (DP)"</li>
+         <li>Root port (RP) =Designated port (DP) er thik oposit port tai holo Root port (RP)  </li>
+         <li>ALTERNET port = kono sw jodi ekta RP thake tahole baki port golo ALT ba DP port hobe</li>
+         <li>SW4# show spanning-tree root</li>
+         <li>SW1# show spanning-tree vlan 1</li>
+         <li>SW3# show spanning-tree interface gi1/0/1</li>
+         <li>SW3# show spanning-tree interface gi1/0/1 detail</li>
+         <li>SW1# show spanning-tree vlan 10 detail</li>
+      </ul>  
+       <p class="x">STP Port Cost</p> 
+       <ul class="y">
+         <li>SW3# conf t</li>
+         <li>SW3(config)# interface gi1/0/1</li>
+         <li>SW3(config-if)# spanning-tree cost 1</li>
+       </ul> 
+      <p class="x">STP priority Setup </p>
+      <ul class="y">
+         <li>Switch#configure terminal </li>
+         <li>Switch(config)#spanning-tree vlan 1 priority 0</li>
+         <li>Switch(config)#exit</li>
+      </ul>
+      <p class="x">Primary and Secondary Wise STP setup root setup</p>
+      <ul class="y">
+         <li>SW-2(config)#spanning-tree vlan 1 root primary</li>
+         <li>SW-3(config)#spanning-tree vlan 1 root secondary</li>
+      </ul>
+      <p class="x">Modifying STP Port Priority</p>
+      <ul class="y"> 
+         <li>SW4# configure terminal</li>
+         <li>SW4(config)# interface gi1/0/6</li>
+         <li>SW4(config-if)# spanning-tree port-priority 64</li>
+         <li>Port Priority 32 kore barate hoy </li>
+      </ul>
+     <p class="x">Root Guard</p>
+     <ul class="y">
+      <li>eita korte hoy amar je SW ta Root bridge sekhane , karon root SW er shathe connected kono SW jar root priority hothat kome gelo thokhon oi SW ta to Root SW hoye jabe , she karone amar Root SW jate oi SW theke Superio BPDU na received kore she jonno RW sw shathe connected SW golur link e " Root Gurd " enanle korte hobe</li>
+      <li>spanning-tree guard root</li>
+     </ul>
+<h1>DBMS</h1>
+<ul class="y">
+   <li>View Database = </li>
+   <ul>SHOW DATABASES ;</ul>
+   <li>Create database = </li>
+   <ul>CREATE DATABASE College ;</ul>
+   <li>Delete database = </li>
+   <ul>DROP DATABASE college ;</ul>
+   <li>Create a table inside the database = </li> 
+   <ul> CREATE TABLE Student</ul>
+   <ul>(</ul>
+   <ul>Roll int(5),</ul>
+   <ul>Name varchar(20),</ul>
+   <ul>Gender varchar(10),</ul>
+   <ul>Age int(5),</ul>
+   <ul>GPA double(3,2),</ul>
+   <ul>City varchar(15),</ul>
+   <ul>PRIMARY KEY (Roll)</ul>
+   <ul>);</ul>
+   <li>Rename Table = </li>
+   <ul>RENAME TABLE student TO NSTU</ul>
+   <li>Delete a Table </li>
+   <ul>DROP TABLE nstu ;</ul>
+
+</ul>
+<h1>Red Hat Linux</h1>
+<ol class="y">
+   <li> Default Prompt</li>
+   <ul>the default prompt ends with a $ character.</ul>
+   <ul>The $ is replaced by a # i f t h e shell is running as the superuser, root.</ul>
+   <li>Virtual Console Change</li>
+   <ul>Ctrl+Alt+(F2...F6)</ul>
+   <li>Physical Virtual Console </li>
+   <ul>Ctrl+Alt+F1</ul>
+   <li>Commands entered at the shell prompt have three basic pa rts:</li>
+   <ul>Command</ul>
+   <ul>Option</ul>
+   <ul>Argument</ul>
+   <li>Command</li>
+   <ul>The command is the name of the program to run.</ul>
+   <li>Argument</li>
+   <ul> O ptions normally sta rt with one or 
+      two das hes (-a or - - all, for example)</ul>
+      <li>usermod - L   morgan</li>
+      <ul>(usermod) a a command</ul>
+      <ul>an option  ( - L)</ul>
+      <ul>an a rgument (morgan).</ul>
+      <li> Exit command</li>
+      <ul>Ctrl+D.</ul>
+
+      
+</ol>
+
+    
+
+    
+</body>
+</html>

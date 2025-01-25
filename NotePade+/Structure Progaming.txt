@@ -1,0 +1,17 @@
+8,12,3,6,1,2,10,9.14
+
+
+
+inorder = left + Root + Right
+Preorder = Root + Left + Right
+Post order = Left + Right + Root
+
+
+inorder = 1,2,3,6,8,9,10,12,14
+Preorder = 8,3,1,2,6,12,10,9,14
+Post order = 2,1,6,3,9,10,14,12,8
+
+
+
+2024-10-24
+2024-10-30

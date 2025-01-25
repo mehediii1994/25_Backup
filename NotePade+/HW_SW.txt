@@ -1,0 +1,84 @@
+==Show Configuration==
+<HUAWEI>display current-configuration
+<HUAWEI>display mac- address dynamic vlan 773
+<HUAWEI>display stp breif
+[*HUAWEI]stp cost 3000
+POWER Show CMD
+<Huawei-100G>display interface 10GE1/0/47 transceiver brief
+
+<HUAWEI>system-view
+[~HUAWEI]sysname HUAWEI-SW-1
+[*HUAWEI]vlan batch 4049
+[*HUAWEI]vlan batch 4049 to 4094
+[*HUAWEI]interface Vlanif 4049
+[*HUAWEI-Vlanif4049]ip address 172.16.111.181 255.255.255.0
+[*HUAWEI-Vlanif4049]quit
+[*HUAWEI]aaa
+[*HUAWEI]ssh server enable
+[*HUAWEI]telnet server enable
+
+[*HUAWEI] interface 10GE1/0/1
+[*HUAWEI-10GE1/0/1]port link-type trunk
+[*HUAWEI-10GE1/0/1]display this
+[*HUAWEI-10GE1/0/1]port trunk allow-pass vlan 250
+User Create:
+[~SONAIMURI_HW-100G]user-interface vty 0 4
+
+[~SONAIMURI_HW-100G-ui-vty0-4] authentication-mode aaa
+[*SONAIMURI_HW-100G-ui-vty0-4] user privilege level 3
+[*SONAIMURI_HW-100G-ui-vty0-4] history-command max-size 20
+[*SONAIMURI_HW-100G-ui-vty0-4] idle-timeout 20 0
+[*SONAIMURI_HW-100G-ui-vty0-4] protocol inbound ssh
+
+[~SONAIMURI_HW-100G-ui-vty0-4]stelnet server enable
+[*SONAIMURI_HW-100G]ssh server-source all-interface
+[*SONAIMURI_HW-100G]ssh server-source all-interface
+[*SONAIMURI_HW-100G]ssh authorization-type default aaa
+
+aaa
+Undo local-user policy security-enhance
+local-user tarek password irreversible-cipher tarek
+local-user tarek service-type telnet ssh
+local-user tarek level 3
+
+Snmp Create:
+[~SONAIMURI_HW-100G]snmp-agent
+[*SONAIMURI_HW-100G]snmp-agent local-engineid 20211206ABC20211206
+[*SONAIMURI_HW-100G]snmp-agent community read cipher SkyNET30
+[*SONAIMURI_HW-100G]snmp-agent sys-info location Chowmuhani
+[*SONAIMURI_HW-100G]snmp-agent sys-info version all
+#
+[*SONAIMURI_HW-100G]snmp-agent trap source Vlanif 4049
+#
+[*SONAIMURI_HW-100G]snmp-agent protocol source-status all-interface
+undo snmp-agent protocol source-status ipv6 all-interface
+#
+undo snmp-agent proxy protocol source-status all-interface
+undo snmp-agent proxy protocol source-status ipv6 all-interface
+
+Lacp:
+
+[~SONAIMURI_HW-100G]interface Eth-Trunk 1
+[*SONAIMURI_HW-100G-Eth-Trunk1] description NEXUS-20G
+[*SONAIMURI_HW-100G-Eth-Trunk1]port link-type trunk
+[~SONAIMURI_HW-100G-Eth-Trunk1]port trunk pvid vlan 4049
+[*SONAIMURI_HW-100G-Eth-Trunk1]port trunk allow-pass vlan 2 to 4094
+[*SONAIMURI_HW-100G-Eth-Trunk1]mode lacp-static
+
+Stp configuration:
+[~SONAIMURI_HW-100G]stp mode mstp
+[~SONAIMURI_HW-100G]stp vlan 1 to 4094 priority 53248
+[*SONAIMURI_HW-100G]stp instance 0 priority 53248
+POWER Show CMD
+<Huawei-100G>display interface 10GE1/0/47 transceiver brief
+
+UPLINK
+[~SONAIMURI_HW-100G]interface 10GE 1/0/1
+[~SONAIMURI_HW-100G-10GE1/0/1]description TEST-PORT
+[*SONAIMURI_HW-100G-10GE1/0/1]port link-type trunk
+[*SONAIMURI_HW-100G-10GE1/0/1]port trunk allow-pass vlan 2 to 4094
+[*SONAIMURI_HW-100G-10GE1/0/1]commit
+LACP Hole
+[~SONAIMURI_HW-100G]interface range 10GE 1/0/10 to 10GE 1/0/13
+eth-trunk 1
+device transceiver 10GBASE-FIBER

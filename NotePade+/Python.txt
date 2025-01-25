@@ -1,0 +1,627 @@
+
+## problem : Even or odd
+=============================  
+
+num_1 =int( input(" Enter your number : "))
+if num_1 % 2 == 0:
+    print(num_1,"The number is Even")
+else:
+    print(num_1,"The number is Odd")
+	
+##problem 4 : male or female
+===============================
+
+status = input(" Enter your Gender : ")
+
+if status == "boy" or status == "man" :
+    print ( " You Gendfer is male")
+
+elif status == "Girl" or status == "Women" :
+    print ( " You Gendfer is Femail")
+else :
+    print ( " Others")
+	
+	===========
+## problem 5: marige Status
+Old = int( input( " Enter your OLT : "))
+Gender = str( input(" Enter your Gender : "))
+
+if Old >=21 or Gender==" Male" :
+    print( " You are eligibal for Marige")
+elif Old < 21 or Gender==" Male" :
+    print( " You are not eligibal for Marige")
+
+elif Old >=18 or Gender==" Female" :
+    print( " You are eligibal for Marige")
+elif Old < 18 or Gender==" Female" :
+    print( " You are not eligibal for Marige")
+    
+	
+## problem 6 : marige Status
+================================
+
+Old = int( input( " Enter your OLD : "))
+Gender = str( input(" Enter your Gender : "))
+
+if Old >= 21 and Gender== "Male":
+    print(f" you are a {Gender} , and {Old} years Old , Congratulation you can marey")
+elif Old >= 18 and Gender== "Femal":
+    print(f" you are a {Gender} , and {Old} years Old , Congratulation you can marey")
+else :
+    print (" Please Wate")
+	
+	
+## problem 7 : Check a character is alphabet or digit
+
+Character = input(" Enter any Character : ")
+
+if (Character >='a' and Character <= 'z' ) or (Character >='A' and Character <= 'Z' ) :
+    print (f"{Character} the Character is Alphabet ")
+elif (Character >='0' and Character <= '9' ):
+     print (f"{Character} the Character is Digit ")
+
+else :
+     print (f"{Character} the Character is Special ")
+	 
+	 
+## problem 7 : Check a This year Leep year or Not
+=========================================
+# shorto 
+# 1 . eta 400 and 100  diye vag korle vagsesh 0 hobe
+# 2 . 4 diye vag korle vagshes 0 hobe , 100 diye vag korle vagshesh 0 hobe na .
+
+Year = int(input(" Enter this Year : "))
+
+if (Year % 400==0) and ( Year % 100 ==0):
+    print( f"{Year} is Leap year")
+elif( Year % 4 ==0) and ( Year % 100 !=0):
+    print( f"{Year} is Leap year")
+else :
+    print( f"{Year} is not Leap year")
+	
+	
+	# and diye range buzay
+	
+## problem 8 : nested if : input number ,  ekti songkha jake 2 o 3  diye bag korle vagses 0 hobe. ans : true or false dekhabe
+
+Number = int(input(" Enter your Number : "))
+
+if ( Number % 2 ) == 0:
+    if ( Number % 3 ) == 0:
+        print ( f"{Number} this number deviseable by 2 and 3 numbr")
+    else:
+        print(f"{Number} This number devise able by 2")
+else:
+    if ( Number % 3 ) == 0:
+        print (f"{Number} this number is deviseable by 3")
+    else:
+        print (f"{Number} this number is not  deviseable by 3 and 2 ")
+
+
+## problem 8 : Exam grading system
+
+print ("******************* Exam Grading System******************")
+
+Bangla = float(input("Enter your Bangla Mask : "))
+Enaglish = float(input("Enter your Enaglish Mask : "))
+Math  = float(input("Enter your Math Mask : "))
+
+Total = Bangla + Enaglish + Math
+print (" Total Mask : " ,Total)
+Avarage_Mark = Total / 3
+print (" Total Avarage mark  : " ,Avarage_Mark)
+"""
+Based on Avarage mark
+80 - 100 = A+
+70 -79 = A
+60 - 69 = A-
+50 - 59 = B
+40 - 49 = C
+33 - 39 = D
+0 - 32 = F
+"""
+if Avarage_Mark>=80 and Avarage_Mark<=100:
+    print ( "You got A+")
+elif Avarage_Mark>=70 and Avarage_Mark<=79:
+    print ( "You got A")
+elif Avarage_Mark>=60 and Avarage_Mark<=69:
+    print ( "You got A-")
+elif Avarage_Mark>=50 and Avarage_Mark<=59:
+    print ( "You got B")
+elif Avarage_Mark>=40 and Avarage_Mark<=49:
+    print ( "You got C")
+elif Avarage_Mark>=33 and Avarage_Mark<=39:
+    print ( "You got D")
+else:
+    print ( "You got F")
+
+
+
+
+	## problem 8.2 : Exam grading system
+
+print ("******************* Exam Grading System******************")
+
+Bangla = float(input("Enter your Bangla Mask : "))
+Enaglish = float(input("Enter your Enaglish Mask : "))
+Math  = float(input("Enter your Math Mask : "))
+
+Total = Bangla + Enaglish + Math
+print (" Total Mask : " ,Total)
+Avarage_Mark = Total / 3
+print (" Total Avarage mark  : " ,Avarage_Mark)
+"""
+Based on Avarage mark
+80 - 100 = A+
+70 -79 = A
+60 - 69 = A-
+50 - 59 = B
+40 - 49 = C
+33 - 39 = D
+0 - 32 = F
+"""
+if Bangla>=33 and Enaglish>=33 and Math>=33:
+    
+    if Avarage_Mark>=80 and Avarage_Mark<=100:
+        print ( "You got A+")
+    elif Avarage_Mark>=70 and Avarage_Mark<=79:
+        print ( "You got A")
+    elif Avarage_Mark>=60 and Avarage_Mark<=69:
+        print ( "You got A-")
+    elif Avarage_Mark>=50 and Avarage_Mark<=59:
+        print ( "You got B")
+    elif Avarage_Mark>=40 and Avarage_Mark<=49:
+        print ( "You got C")
+    elif Avarage_Mark>=33 and Avarage_Mark<=39:
+        print ( "You got D")
+    else:
+        print ("You got Fail")
+else:
+    print ("You are got F")
+
+  
+## problem 9 : Salary Create
+
+print ("******************* Salary Create******************")
+
+basic_Salary = float(input(" Enter your Basic Salary : "))
+
+#House rent 40% of Basic Salary
+
+House_rent = basic_Salary* (40/100)
+Medical = 1500
+
+# Provident fund 15% of Basic Salary
+
+Provident_fund = basic_Salary* (15/100)
+
+Net_Selary = (basic_Salary + House_rent + Medical )-Provident_fund
+print("Your Net Salary:",Net_Selary,"tk")
+
+if Net_Selary >= 22000 and Net_Selary <= 54000:
+    print(" Your Grade : 9")
+elif Net_Selary >= 16000 and Net_Selary <= 21000:
+    print(" Your Grade : 12")
+else:
+    print("Your Grade : 16 ")
+	
+	
+## problem 9 : Calculator Create
+print ("******************* Calculate Basic  calculation ******************")
+
+Num_1 = float(input("Enter First Number : "))
+Num_2 = float(input("Enter Second Number : "))
+
+print(" Press + for Addition")
+print(" Press - for Substruction")
+print(" Press * for Multipacaton")
+print(" Press / for Divition")
+
+Sign =input("Enter any symbol +,-,*,/ :")
+
+if Sign == "+":
+    result = Num_1 + Num_2
+    print(result)
+elif Sign=="-":
+    result = Num_1 - Num_2
+    print(result)
+elif Sign=="*":
+    result = Num_1 * Num_2
+    print(result)
+elif Sign=="/":
+    result = Num_1 / Num_2
+    print(result)
+else:
+    print("Enter valid symbol +,-,*, / ")
+	
+## problem 10 : Date and Time view
+print ("******************* View Date and Time  ******************")
+
+import datetime
+
+val = datetime.datetime.now()
+print(val.year)
+print(val.month)
+print(val.day)
+print(val.hour)
+print(val.minute)
+print(val.second)
+
+print(val.day,"",val.month,"",val.year)
+print(val.hour,"",val.minute,"",val.second)
+
+print(val.strftime("%A"))
+print(val.strftime("%a"))
+	
+	
+
+# problem 11 : for loop amd whill loop use kore 1-20 porjonto amra print kore dekhabo
+print ("******************* Using For Loop   ******************")
+
+for i in range(0,5,1):
+    print("I Love you",i)
+#even numbers
+for i in range(0,5,2):
+    print("indes number:",i)
+
+#odd numbers
+for i in range(1,5,2):
+    print("indes number:",i)
+
+# problem 11.2 : for loop amd whill loop use kore 1-20 porjonto amra print kore dekhabo
+print ("******************* Using While Loop   ******************")
+
+i = 1
+
+while i <= 20:
+    print("Index :",i)
+    i = i + 1
+
+print("This text out of Loop",i)
+
+# problem 11.3 : for loop amd whill loop use kore 1-20 porjonto amra print kore dekhabo
+print ("******************* Using While Loop   ******************")
+
+#even numbers
+i = 0
+
+while i <= 20:
+    print("Index :",i)
+    i = i + 2
+
+print("This text out of Loop",i)
+
+# problem 11.4 : for loop amd whill loop use kore 1-20 porjonto amra print kore dekhabo
+print ("******************* Using While Loop   ******************")
+
+#odd numbers
+i = 1
+
+while i <= 20:
+    print("Index :",i)
+    i = i + 2
+
+print("This text out of Loop",i)
+
+# problem 14 : Loop use kore Namta
+print ("******************* Using While Loop   ******************")
+
+Number = int(input("Enter Your Number :"))
+
+i = 1
+
+while i<=10:
+    result = Number * i
+    #print(result)
+    print(Number,"*",i,"=",result)
+    i = i + 1
+	
+# problem 15 : Loop break and continue
+print ("******************* Using While Loop   ******************")
+
+# Break Loop
+i =1
+
+while i <=5:
+    if i==4:
+        break
+    print(i)
+    i = i + 1
+
+# problem 16.1 : Loop break and continue
+print ("******************* Using While Loop   ******************")
+
+ # Continue Loop
+i =0
+
+while i <=5:
+    i = i + 1
+    if i==4:
+        continue
+    print(i)
+# problem 16.2 : Loop break and continue
+print ("******************* Using For Loop   ******************")
+
+ # Continue Loop
+
+for i in range(0,6,1):
+    if i==4:
+        continue
+    print(i)
+	
+# problem 17 : Funtion
+print ("******************* Basic Funtion without peramitar  ******************")
+
+def  companyname ():
+    print("Skynet Chowmuhani")
+    print(" Its a nation waide ISP in bangladesh")
+
+companyname ()
+
+# problem 17 : Funtion
+print ("******************* Basic Funtion with peramitar  ******************")
+
+def student(name,Roll,Sreni,age):
+    print("Student Information")
+    print("Your Name :",name)
+    print("Your Roll :",Roll)
+    print("Your Class :",Sreni)
+    print("your age :",age)
+student("MehedI",20,9,20)
+student("Saddam",22,9,20)
+student("Shakil",23,9,23)
+student("Shamrat",24,9,25)
+
+#problem 18 : make calculator using function
+def summation(number1, number2):
+    result = number1 + number2
+    print(number1, "+", number2, " = ", result)
+def subtruction(number1, number2):
+    result = number1 - number2
+    print(number1, "-", number2, " = ", result)
+def multiplication(number1, number2):
+    result = number1 * number2
+    print(number1, "*", number2, " = ", result)
+def division(number1, number2):
+    result = number1 / number2
+    print(number1, "/", number2, " = ", result)
+number1 = int(input("enter first number : "))
+number2 = int(input("enter second number : "))
+summation(number1, number2)
+subtruction(number1, number2)
+multiplication(number1, number2)
+division(number1, number2)
+
+#problem 18.1 : make calculator using function
+def summation(number1, sign,  number2):
+    result = number1 + number2
+    print(number1, sign, number2, " = ", result)
+def subtruction(number1, sign,  number2):
+    result = number1 - number2
+    print(number1, sign, number2, " = ", result)
+def multiplication(number1, sign,  number2):
+    result = number1 * number2
+    print(number1, sign, number2, " = ", result)
+def division(number1, sign, number2):
+    result = number1 / number2
+    print(number1, sign, number2, " = ", result)
+number1 = int(input("enter first number : "))
+sign = input("enter any symbol [+,-,*,/ ] :")
+number2 = int(input("enter second number : "))
+if sign=="+":
+    summation(number1, sign, number2)
+elif sign == "-":
+    subtruction(number1, sign, number2)
+elif sign == "*":
+    multiplication(number1, sign, number2)
+elif sign == "/":
+    division(number1, sign, number2)
+else:
+    print("you should enter any symbol [+,-,*,/ ]")
+	
+	
+# problem 17 : File Hendeling 
+
+# File  w = write ; r = read operation ; a = append operation
+print ("******************* File Hendeling   ******************")
+
+# Write Operation
+
+file = open("Mehedi.txt","w")
+txt = "My name is mehedi"
+file.write(txt)
+file.close
+
+# problem 17.1 : File Hendeling 
+
+# File  w = write ; r = read operation ; a = append operation
+print ("******************* File Hendeling   ******************")
+
+# Read  Operation
+file = open("Mehedi.txt","r")
+txt = "My name is mehedi"
+print(file.read())
+file.close
+
+# problem 17.2 : File Hendeling 
+
+# File  w = write ; r = read operation ; a = append operation
+print ("******************* File Hendeling   ******************")
+
+# Append Operation
+
+file = open("Mehedi.txt","a")
+txt = "\n I Works in Skynet Chowmuhani"
+file.write(txt)
+file.close
+
+# problem 17.2 : File Hendeling 
+
+# File  w = write ; r = read operation ; a = append operation
+print ("******************* File Hendeling   ******************")
+
+# New file add and List wise text add 
+
+file = open("Habib.txt","w")
+txt = [ "Mehedi","Sujon","Tarek"]
+file.write(str(txt))
+file.close
+
+# problem 17.3 : File Hendeling 
+
+# File  w = write ; r = read operation ; a = append operation
+print ("******************* File Hendeling   ******************")
+
+# Jodi amra List goloke Input akare nite chai
+
+file = open("Habib.txt","a")
+txt = [ ]
+for item in range (0,5,1):
+    value = input(" Enter your Item :")#item goloke input hisebe nebar jonno ekta veriable nibo , tar por segoloke text veriable bitore inject korbo
+    txt.append(value)
+file.write(str(txt))
+file.close
+
+## for pip update = python.exe -m pip install --upgrade pip
+
+# problem 18 : Text file into PDF convertion 
+
+# File  w = write ; r = read operation ; a = append operation
+print ("******************* Text to PDF convertetion   ******************")
+
+# pip install fpdf = eta install korte hobe
+from fpdf import FPDF
+pdf = FPDF()
+pdf.add_page()
+pdf.set_font("Arial",size=15)
+file=open("mehedi.txt","r")
+for x in file:
+   pdf.cell(200, 10, txt=x, ln=1, align='L')
+pdf.output("saddam.pdf")
+
+
+# problem 19 : OOP
+# Incaptiolation 
+x=30
+y=20
+class Nactar :
+    x = 5
+    y = 10
+variable_1 = Nactar()
+
+print(variable_1.x)
+
+# problem 19 : OOP
+# Inheritance Method
+x=30
+y=20
+class Nactar :
+    x = 5
+    y = 10
+
+    def mehedi(self):
+        print('My name is mehedi')
+Object_Clase_Name =Nactar()
+sh = Object_Clase_Name.mehedi()
+
+
+# problem 19.1 : OOP
+# Inheritance defult Method
+x=30
+y=20
+class Nactar :
+    x = 5
+    y = 10
+
+    def __init__(self): #Inheritance defult Method
+        self.vriable_Model = 'Oppo'
+        self.vriable_Price = 1000
+        print(self.vriable_Model)# ei Mothode Object dicliar kora lahena
+        print(self.vriable_Price)
+
+    def mehedi(self):
+        print('My name is mehedi')
+Object_Clase_Name =Nactar()
+sh = Object_Clase_Name.mehedi()
+
+
+# problem 19.2 : OOP
+# Inheritance defult Method e argument call
+x=30
+y=20
+class Nactar :
+    x = 5
+    y = 10
+
+    def __init__(self,model_1,Price_1): #Inheritance defult Method argument assign , ekhane argument holo (model_1,Price_1)
+        self.vriable_Model = model_1 # eita argumet jar value Objecte "Oppo" , deya hoise
+        self.vriable_Price = Price_1 # eita argumet jar value Objecte "1000" , deya hoise
+        print(self.vriable_Model)# ei Mothode Object dicliar kora lahena
+        print(self.vriable_Price)
+
+    def mehedi(self):
+        print('My name is mehedi')
+Object_Clase_Name =Nactar('Oppo',1000) # Defult mathod er argument  value Object diye dite hoy
+Object_Clase_Name =Nactar('Nokiya',2000)
+sh = Object_Clase_Name.mehedi()
+
+# problem 19.3 : OOP
+# Inheritance Custom Method e argument call
+x=30
+y=20
+class Nactar :
+    x = 5
+    y = 10
+
+    def __init__(self,model_1,Price_1): #Inheritance defult Method argument assign , ekhane argument holo (model_1,Price_1)
+        self.vriable_Model = model_1 # eita argumet jar value Objecte "Oppo" , deya hoise
+        self.vriable_Price = Price_1 # eita argumet jar value Objecte "1000" , deya hoise
+        print(self.vriable_Model)# ei Mothode Object dicliar kora lahena
+        print(self.vriable_Price)
+
+    def mehedi(self):
+        print('My name is mehedi')
+    def demo(self,Fast_argument,Last_argument):  # EITA holo custom method
+        print('Fast name :',Fast_argument,'Last name :',Last_argument)
+
+
+Object_Clase_Name =Nactar('Oppo',1000) # argument er value Object diye dite hoy
+Object_Clase_Name =Nactar('Nokiya',2000)
+sh = Object_Clase_Name.mehedi() # Funtion name
+Object_Clase_Name.demo('Khairul','Islam') #Funtion name holo demo r  argument value holo ()' Khairul , islam, )
+Object_Clase_Name.demo('SHAKIL','AHAMMED') # Custom mathod hole 
+
+
+
+
+
+
+
+
+
+
+=====================
+
+
+PS D:\Normal folder\Django> python --version
+PS D:\Normal folder\Django> pip --version
+PS D:\Normal folder\NACTAR\abc> py -m venv myworld
+PS D:\Normal folder\NACTAR\abc> myworld\Scripts\activate.bat
+(student) D:\Normal folder\Django>django-admin --version
+py -m pip install Django
+django-admin --version
+
+(student) D:\Normal folder\Django>django-admin startproject myProject_1
+
+D:\Normal folder\Django\myProject_1>python manage.py runserver
+
+
+
+
+==============================================
+
+List
+==========
+mlist = [2,1,3]
+mlist.sort()
+print(mlist)

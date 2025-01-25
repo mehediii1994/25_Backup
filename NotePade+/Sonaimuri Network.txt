@@ -1,0 +1,16 @@
+SNM_Silver    		 	15M_DW"] pcq-rate=20M           	===  2+1+1 = 4
+SNM_Gold       			20M_DW"] pcq-rate=20M            	===
+SNM_Bronze-1   			8M_DW"] pcq-rate=10M             	===  10+4+10 = 24
+SNM_Bronze_Basic-1   	5Mb_SKY-DW"] pcq-rate=7M   			===  334+131+131 = 596
+SNM_Silver_Basic  		12M_DW"] pcq-rate=15M         		=== 2
+SNM_BTRC_PACK-1  		BTRC-5M-DW"] pcq-rate=7M       		===  1326+372+194 = 1892
+						"BTRC-10M-DW"] pcq-rate=12M         ===  
+
+Dhcp = 103+30+8
+
+
+Access-2 = 510
+Access-1 = 1676
+Access-3 = 372
+==============
+          2558

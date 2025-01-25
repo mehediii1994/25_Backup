@@ -1,0 +1,279 @@
+1. Huawei OLT has a default IP address 10.11.104.0/24
+
+User name: root
+
+User password: admin or admin123
+
+MA5608T>
+
+MA5608T> enable
+
+MA5608T#config
+
+Step 2 : Service board Confirmation
+        By default the Huawei 5608T has the option to add 2 service boards, 5800 x7 model support 7 pcs service board, 5800×17 support 17 pcs service board.
+		
+MA5608T>
+
+MA5608T> enable
+
+MA5608T# config
+
+MA5608T(config)# display board 0
+
+			now we will confirm those board
+			
+MA5608T(config)# board confirm 0/0
+
+MA5608T(config)# board confirm 0/1
+
+MA5608T(config)# display board 0
+
+MA5608T(config)# save		
+
+Step 3 : Assign IP Address to vlan Huawei
+
+MA5608T>enable
+
+MA5608T#config
+
+MA5608T(config)#vlan 100 smart
+
+MA5608T(config)#vlan name 100 management
+
+MA5608T(config)#port vlan 100 0/2 2
+
+MA5608T(config)#quit
+
+MA5608T#save
+
+-----------
+
+MA5608T>enable
+
+MA5608T#config
+
+MA5608T(config)#interface VLAN 100
+
+MA5608T(config-if-vlanif100)#ip address 192.168.2.100 255.255.255.0
+
+MA5608T(config)#ip route-static 0.0.0.0 0.0.0.0 192.168.2.1
+
+Step 4 : Gpon Huawei Configuration
+	Enable PON Ports
+	DBA Profile
+	Line Profile
+	Service Profile
+	how to add ont in huawei olt
+	Creating Service Port
+
+	1. Enable PON Ports
+		In this step, we will enable pon ports for automatically found onu. When you connect onu to your network ONU will automatically be recognized by OLT. 
+		
+MA5608T>enable
+
+MA5608T#config
+
+MA5608T(config)#interface gpon 0/1
+
+MA5608T(config-if-gpon-0/1)#port 0 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 1 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 2 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 3 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 4 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 5 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 6 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 7 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 8 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 9 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 10 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 11 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 12 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 13 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 14 ont-auto-find enable
+
+MA5608T(config-if-gpon-0/1)#port 15 ont-auto-find enable
+
+Using above command we have successfully enable all pon ports
+
+	=====================
+MA5608T(config-if-gpon-0/1)#display ont autofind 0
+
+Using this command you can check if there any onu is attached to the olt
+
+=====================
+
+2. DBA Profile
+	In this step we will create a DBA (Dynamic Bandwidth Allocation) Profile. In this profile we will declare ONU maximum bandwidth 1 GB
+	
+	MA5608T>enable
+
+MA5608T#config
+
+MA5608T(config)#dba-profile add profile-id 10 profile-name maxbw type4 max 1024000
+
+3. Line Profile
+	In this step we will create a line for vlan 101 . Here profile ID will 10 and profile name line_vlan_101
+huawei olt vlan configuration
+MA5608T>enable
+
+MA5608T#config
+
+MA5608T(config)#vlan 101 smart
+
+MA5608T(config)#vlan name 101 PON
+
+MA5608T(config)#port vlan 101 0/2 2
+
+MA5608T(config)#quit
+
+MA5608T#save
+
+VLAN 101 Created successfully now we will make Line profile
+
+MA5608T>enable
+
+MA5608T#config
+
+MA5608T(config)#ont-lineprofile gpon profile-id 10 profile-name line_vlan_101
+
+MA5608T(config-gpon-lineprofile-10)#tcont 1 dba-profile-id 10
+
+MA5608T(config-gpon-lineprofile-10)#gem add 0 eth tcont 1
+
+MA5608T(config-gpon-lineprofile-10)#gem mapping 0 0 vlan 101
+
+MA5608T(config-gpon-lineprofile-10)#commit
+
+Line profile creation complete
+
+
+	4. Service Profile
+	
+MA5608T(config)#ont-srvprofile gpon profile-id 10 profile-name Srv_vlan_101
+
+MA5608T(config-gpon-srvprofile-10)#ont-port eth 1
+
+MA5608T(config-gpon-srvprofile-10)#port vlan eth 1 translation 101 user-vlan 101
+
+MA5608T(config-gpon-srvprofile-10)#ring check enable
+
+MA5608T(config-gpon-srvprofile-10)#ring check resume-interval 120
+
+MA5608T(config-gpon-srvprofile-10)#commit
+
+Here service profile is is 10 and service profile name Srv_vlan_101
+
+===================================
+
+	5. How to add ont in Huawei OLT/Huawei Ont Configuration
+
+For adding ont / onu to huawei olt first need to find out onu serial number using below command
+
+MA5608T>enable
+
+MA5608T#config
+
+MA5608T(config)#interface gpon 0/1
+
+MA5608T(config-if-gpon-0/1)#display ont info 0 all
+
+using this command we find out onu seriel number and the number is 48575443522C499D
+
+now we will authorize onu to Huawei olt
+
+MA5608T>enable
+
+MA5608T#config
+
+MA5608T(config)#interface gpon 0/1
+
+MA5608T(config-if-gpon-0/1)#display ont info 0 all
+
+MA5608T(config-if-gpon-0/1)#ont add 0 0 sn-auth 48575443522C499D omci ont-lineprofile-id 10 ont-srvprofile-id 10 desc test
+
+MA5608T(config-if-gpon-0/1)#ont port native-vlan 0 0 eth 1 vlan 101 priority 0
+
+Onu address successfully now onu PON/REG led will stop blinking.
+
+6. Creating Service Port
+Now we will create service port for ONU using below command
+
+MA5608T>enable
+
+MA5608T#config
+
+MA5608T(config)#service-port 0 vlan 101 gpon 0/1/0 ont 0 gemport 0 multi-service user-vlan 101 tag-transform translate
+
+MA5608T(config)#quit
+
+MA5608T#save
+
+Thats all onu adding complete.
+
+
+	========================================********************************++++++++++++++++++++++++++++++++++++++
+# How to add ONT in Huawei OLT
+MA5800-X2(config)# interface epon 0/1
+MA5800-X2(config-int-epon-0/1)# display ont autofind 1
+# Here "1" is PON ID
+
+MA5800-X2(config-int-epon-0/1)# ont add 1 mac-auth A4C6-4F4E-B8EC oam ont-lineprofile-id 1042 ont-srvprofile-id 1042 desc "user description"
+# Here "1" is PON ID.
+
+MA5800-X2(config-int-epon-0/1)# ont port native-vlan 1 0 eth 1 vlan 1042
+# Here first "1" is PON ID, "0" is ONT ID, second "1" is ONU ether port ID.
+# If ONU added successfully, ONU PON/REG led will stop blinking.
+
+# Add service port for each ONU.
+MA5800-X2(config-int-epon-0/1)# quit
+MA5800-X2(config)# service-port 0 vlan 1042 epon 0/1/1 ont 0 multi-service user-vlan 1042 tag-transform translate
+# Here first "0" is service-port serial, second "0" is ONT ID, 
+
+MA5800-X2(config)# save
+MA5800-X2(config)# display service-port all
+# After this three step, user will be connected successfully.
+
+
+
+	Troubleshoot:
+MA5800-X2(config)# display ont info summery 0/1/1
+# Here in 0/1/1 first "0/1" is epon slot number, last "1" is PON ID.
+
+# ONT delete
+MA5800-X2# display ont info summery 0/1/1
+
+# First Delete associated service port.
+MA5800-X2(config)# display service-port port 0/1/1 ont 0
+#display service port by ont serial
+#then delete specific service port, if service port is "0"
+MA5800-X2(config)# undo service-port 0
+
+# Then Delete ONU.
+MA5800-X2(config)# interface epon 0/1
+MA5800-X2(config-if-epon-0/1)# ont delete 1 0
+MA5800-X2(config-if-epon-0/1)# quit
+MA5800-X2(config)# save
+
+
+
+
+
+
+ reset counters interface 100GE0/0/3
+ 
+ 

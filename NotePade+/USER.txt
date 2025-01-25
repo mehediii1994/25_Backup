@@ -1,0 +1,310 @@
+FENI ASR ===  172.16.15.42
+mehedi
+mehedi1230
+
+NCS Router == 
+User name = Sky@Net
+MAC = Skynet@net@2014@
+BW = skynet8@8@
+
+Core Nexus_1
+Skynet@8080@2019
+
+MRTG
+	mehedi/mehedi@2023
+
+NCS = 172.16.26.1 = mehedi = m094326688
+m094326688
+
+netis
+	guest
+	guest@02AB
+iTel 	
+	itel8@8@
+billing refresh link:
+https://103.109.56.210:10000/
+username: skynetjohn
+pass: skynet@#johN
+
+'eve'
+
+
+Password
+DtCM$123
+
+	103.41.94.14/31
+======================== RW ======================
+GGC = N14 RW = 172.22.1.102 =DtCM$123/mehedi
+FNA = SKY FNA RW = 172.22.1.241= Dhaka@123/mehedi
+BDIX = 
+NCS = IIG = non-licence = 172.16.26.1 = m094326688/mehedi
+Junipar = IIG = Licence = 172.22.1.74 = m094326688/mehedi
+Feni ASR = 172.16.15.42 = mehedi/mehedi1230
+FNA Router 2-172.22.5.150 = Mehedi/Mehedi@2023
+
+N14 = 172.22.1.102 = mehedi1 / Support@24
+
+dude = mehedi / mehedi1230
+
+
+
+
+https://app.titan.email/mail/
+
+
+tarek
+tarek@2232
+
+
+
+
+
+SkyNet_Laxmipur_Olt-3
+User- skynet
+Pass- J@hn@8080
+
+Samia@209
+
+All Bdcom SW
+admin
+skynet8@8@(switch ip last octat)
+
+All MikroTik SW
+Sky@Net
+skynet8@8@(switch ip last octat)
+
+
+MAC MikroTik RW
+Sky@Net@2
+skynet8@8@(RW BDIX ip last octat)
+
+Cisco SW
+	cisco
+	John@8080
+	
+
+Nexus SW
+admin
+John@8080
+
+HW SW
+     noc
+	 noc@2021
+Top net hW
+===========
+mehedi
+mehedi@2021
+
+	 
+	 
+
+
+Skynet Client Support
+
+
+
+Unknown OLT Password = Skynet / skynet8@8@
+JH AMIN BAZAR Liton
+172.16.16.170:2021
+Sky@Net@2
+skynet8@8@110
+
+
+F@H portal
+https://cportal.fiberathome.net/cportal/
+Skynet_Chowmuhani_op
+abc123
+
+asiatel_network_limited_op
+abc123
+
+
+
+
+feni OLT 
+admin
+Skynet@2022@
+
+
+Anydesk
+		Dude Pc 	207398980 = skynet@8080
+		Ping Pc 	861065894 = John@8080
+		Graphs Pc 	419112933
+		
+		
+		level2
+		Level@Sky24
+		
+		Skynet@net@2014@
+
+user add  name=AsiaTel password=AT8@8@ group=full
+user add  name=Sky@Net password=skynet8@8@ group=full
+user add  name=mehedi password=mehedi1230 group=full
+user add  name=level2 password=Level@Sky24 group=write
+user add  name=level1 password=Level@Sky14 group=write
+user add  name=test password=test group=read
+user add  name=test password=test group=read
+Hello@Tech / hellotech8@8@
+user:Hello@Tech
+pass:hello8@8@
+
+
+
+ras@2023
+level1
+Level@Sky14
+
+Support Number 
+01708-581750
+01609672010
+01609672011
+01609672020
+
+
+Support Gmail
+			skynetspprt@gmail.com
+			Sky@2023
+			skyNet@2025#
+
+ 103.114.98.0/24
+ 103.114.96.0/24
+ 
+ 
+ Mail Link
+			mehedi@asiatel.com.bd = @Asdf123
+			mehedi@hellotechbd.net = @Asdf123
+			mehedi@skynetchowmuhani.com
+			mehedi@hellotechbd.net
+			mehedi@asiatel.com.bd
+			
+			
+Laxmipur client RW remote UN/PW=Skynet8080
+ 
+ SUMMIT NOC
+ noc.nttn@summitcommunications.net
+ 
+ 
+==================================
+ windows 10 pro
+ product key : 00330-53028-72567-AAOEM
+ device id : B4B02A32-B333-4E25-A4CC-CFAC4A5420F7
+ 
+ parchace kora windows key : 
+ 
+ Windows 10 pro Key✅
+
+  DH34R-NKKHV-W6RFG-7TVPP-GQ73B
+  
+  
+  
+ 
+ =======================
+ 
+ https://103.109.56.210:10000
+username: skynetjohn
+Password: sKin2tj0h!n
+ 
+ 
+ Chm_HW_OLT
+172.16.112.72
+access: root
+pass: John@8080@8080
+pass: admin@123
+
+ 
+ 
+Kalibazar_HW_OLT
+User: skynoc
+Pass: Skynet@2024#
+
+MANDARI-HW
+172.16.111.190
+noc2024
+Noc@2021
+
+RF Trust Net Hazigonj
+103.109.59.40:2021
+User Name : Sky@Net
+password : skynet8@8@
+
+
+Kalibazar Huawei
+User: noc2024
+Pass: Noc@2021
+
+AminBazar Huawei
+User: noc2024
+Pass: Noc@2021
+
+Laxmipur office New Huawei
+User: noc
+Pass: noc@2021
+
+
+Banglabazar Santo Huawei
+User: noc
+Pass: noc@2021
+
+
+
+
+
+
+
+
+
+
+
+
+
+t
+
+nitolmotors.com.bd
+
+
+
+10.15.0.188/30
+
+
+
+interface ge 0/0
+ traffic-suppress 1 broadcast enable pps 250
+ traffic-suppress 1 unknown-unicast disable
+ vlan mode 1 trunk
+ mac-address flapping detection 1 auto-recovery disable
+ traffic-suppress 2 broadcast enable pps 250
+ vlan mode 2 trunk
+ vlan trunk 2 30,32-34
+ traffic-suppress 3 broadcast enable pps 250
+ traffic-suppress 4 broadcast enable pps 250
+ vlan mode 4 trunk
+ vlan trunk 4 40-46
+ exit
+!
+interface xge 0/0
+ vlan mode 1 trunk
+ vlan trunk 1 20-25,30-34,40-46,430,431,436,462
+ vlan mode 2 trunk
+ vlan trunk 2 20,22-25,30-34,40-46
+ exit
+!
+interface epon 0/0
+ port-name 1 1
+ vlan access 1 462
+ vlan access 2 462
+ vlan access 3 462
+ vlan access 4 462
+ isolate 1,2 disable
+ exit
+
+
+
+
+
+Mrtg
+=============
+User=support
+Pass=Support@2024@
+
+user=tarek
+pass=Skynet@8080@2024

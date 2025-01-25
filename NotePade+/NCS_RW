@@ -1,0 +1,1 @@
+show ipv4 interface brief | include 172.23.1.205

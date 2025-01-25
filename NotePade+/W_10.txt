@@ -1,0 +1,83 @@
+
+			For Doul boot name Change
+C:\Windows\System32>bcdedit /v
+
+C:\Windows\System32>BCDEdit /set {37e47a8f-6808-11e5-b2f0-83e8e58e54e8} description "Windows 10 1511"
+
+			**** OPEN DISK Management ****
+
+C:\Windows\System32>diskmgmt.msc
+C:\Windows\System32>OptionalFeatures.exe
+Use driver verification tools
+					C:\Windows\System32>sigverif.exe
+					
+					
+					
+Game Bar, press Windows+G. === windows recorde = windows+Alt+R
+
+Disk error fix 
+				C:\Windows\System32>chkdsk F: /f
+				
+=========================== Potplayer =============================
+audio change = A press		
+For Record = Alt+C
+
+
+		
+				
+Google meet = chrome://settings/content/camera
+
+screen shot in hp laptop = win+fn(shift)+prt
+
+Chorome browzar cashe clear = jodi onu port state ( undifind ) enmon thakle browser er cesh clear korte hobe = Windows+Shift+Del
+
+
+	google sheet= 
+				binary to decimol in google = dec2bin
+				
+				
+				
+Goole sheet = auto date formula =
+ =TODAY()
+
+Prinsipal Payment = 
+=PMT(interest_rate/12, loan_term*12, -loan_amount)
+=PMT(0/20, 20*20, -200000)
+=PMT(0%/12, 2*12, -200000)
+
+Interest Payment
+=IPMT(interest_rate/12, payment_number, loan_term*12, -loan_amount)
+
+=IPMT(5%/12, A2, 3*12, -10000)
+
+
+==================
+Clipbord History = windows key + V
+================
+Group polic = gpedit.msc 
+			gpupdate \force
+			
+firewall permission for spacific ip
+====================================
+netsh advfirewall firewall add rule name="Allow Ping from 192.168.100.0/24" dir=in action=allow protocol=icmpv4 localport=any remoteip=192.168.100.0/24 enable=yes
+
+IP permission by firewall
+==========================
+Firewall
+	Advance settings
+		Inbound Rule
+			New rule
+				Custom rule
+					all Program
+						Protocol type : ICMPv4
+							next 
+								Which IP Local ....
+									These ip : 192.168.100.0/24
+										next
+											Allow ...
+												All rull ..
+													next
+														name of rule 
+															fenish
+															
+												

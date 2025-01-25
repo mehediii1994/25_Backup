@@ -1,0 +1,216 @@
+
+
+# Set router's host name
+/system identity set name=R1
+ 
+ # Create Loopback interface
+/interface bridge add name=BR-LOOPBACK comment="Loopback for Router ID"
+
+
+# Show address configuration of enp0s3 interface 
+ip addr show dev enp0s3
+
+# Ping 5 packets to 10.0.0.1
+ping 10.0.0.1 -c 5
+
+# Ipv6 feature enable
+/system package enable ipv6
+
+# Set router's host name (varies for each router, R1 as example here)
+/system identity set name=R1
+
+# Disable unused services
+/ip service
+    set telnet disabled=yes
+    set ftp disabled=yes
+    set www disabled=yes
+    set api disabled=yes
+    set api-ssl disabled=yes
+	
+	
+
+
+
+
+Vlan
+	/interface vlan
+	add interface=sfp+ether2_WAN name=314_SKYNET-INT vlan-id=314
+	add interface=sfp+ether2_WAN name=315_SKYNET-GGC vlan-id=315
+	add interface=sfp+ether2_WAN name=316_SKYNET-FNA vlan-id=316
+	add interface=sfp+ether2_WAN name=521_SKYNET-BDIX vlan-id=521
+	add interface=sfp+ether2_WAN name=589_SKYNET-FTP vlan-id=589
+IP assign 
+		/ip address
+		add address=10.199.199.2/30 interface=314_SKYNET-INT			
+		add address=172.16.18.150/30 interface=315_SKYNET-GGC		
+		add address=172.16.22.82/30 interface=316_SKYNET-FNA	
+		add address=172.16.21.98/30 interface=521_SKYNET-BDIX
+		add address=172.16.131.131/25 interface=589_SKYNET-FTP
+		
+		add address=103.138.27.155/31 interface=Loopback network=103.138.27.154
+		add address=172.30.154.105/30 comment=ABBIS_OLT interface=ether3 network=172.30.154.104
+
+DNS 
+	/ip dns
+	set servers=103.109.56.100,8.8.4.4,8.8.8.8,1.1.1.1
+
+route
+	/ip route
+	add disabled=no distance=1 dst-address=0.0.0.0/0 gateway=172.23.2.33
+
+bgp RouteRv7
+	
+				
+	template
+			
+			/routing bgp template
+add as=64784 disabled=no name=BDIX router-id=172.16.32.38
+add as=64655 disabled=no name=FNA router-id=172.16.29.22 routing-table=main
+add as=64655 disabled=no name=GGC router-id=172.16.26.30 routing-table=main
+
+
+    Connection
+	
+/routing bgp connection
+add as=64784 disabled=no local.role=ebgp name=BDIX output.network="BGP NETWORK" remote.address=172.16.32.37/30 .as=137449 router-id=172.16.32.38 routing-table=main templates=BDIX
+    
+add as=64655 disabled=no local.role=ebgp name=FNA output.network="BGP NETWORK" remote.address=172.16.29.21/30 .as=134806 router-id=172.16.29.22 routing-table=main templates=FNA
+    
+add as=64655 disabled=no local.role=ebgp name=GGC output.network="BGP NETWORK" remote.address=172.16.26.29/30 .as=137449 router-id=172.16.26.30 routing-table=main templates=GGC
+    
+	
+	RouterV6
+	
+	/routing bgp instance
+add as=64655 name=GGC router-id=172.16.26.194
+add as=64655 name=FNA router-id=172.16.29.194
+add as=64823 name=BDIX router-id=172.16.32.194
+
+
+/routing bgp peer
+add instance=GGC name=GGC remote-address=172.16.26.193 remote-as=137449
+add instance=FNA name=FNA remote-address=172.16.26.193 remote-as=134806
+add instance=BDIX name=BDIX remote-address=172.16.26.193 remote-as=137449
+/routing bgp network
+add network=43.246.200.92/30 synchronize=no
+add network=172.16.15.76/30 synchronize=no
+
+
+
+			
+NAT 
+			/ip firewall nat
+			add action=masquerade chain=srcnat out-interface=3289_BDIX
+			add action=src-nat chain=srcnat out-interface=3288_FNA to-addresses=103.138.27.154/31
+			add action=src-nat chain=srcnat out-interface=3287_GGC to-addresses=103.138.27.154/31
+			add action=src-nat chain=srcnat out-interface=3286_IIG to-addresses=103.138.27.154/3
+Mangle
+			
+			
+		/ip firewall mangle
+		add action=mark-packet chain=prerouting new-packet-mark=speed passthrough=yes src-address-list=SpeedTestIP
+		add action=mark-packet chain=prerouting dst-address-list=SpeedTestIP new-packet-mark=speed passthrough=yes
+		add action=mark-packet chain=prerouting new-packet-mark=ping passthrough=yes protocol=icmp
+		add action=log chain=prerouting connection-state=established protocol=tcp src-address=10.125.28.0/24 tcp-flags=fin
+		add action=log chain=prerouting connection-state=established protocol=tcp src-address=10.125.29.0/24 tcp-flags=fin
+			
+			
+
+Logging 
+		/system logging action
+		add bsd-syslog=yes name=SoftifyBD remote=103.109.56.236 syslog-facility=syslog target=remote
+
+		/system logging
+		set 0 topics=info,!firewall
+		add action=SoftifyBD topics=firewall
+		add action=SoftifyBD topics=script
+
+
+
+
+
+Create Loopback interface
+	/interface bridge add name=BR-LOOPBACK comment="Loopback for Router ID"
+Set descriptions for interfaces
+	/interface ethernet
+    set ether1 comment="*** To R2 ether1 ***"
+    set ether2 comment="*** To R3 ether1 ***"
+    set ether3 comment="*** To R4 ether1 ***"
+    set ether7 comment="*** LAN for H1 ***"
+	
+Configure IPv4 addresses
+	/ip address
+    add address=10.0.0.1/32 interface=BR-LOOPBACK
+    add address=10.1.0.1/30 interface=ether1
+    add address=10.1.0.5/30 interface=ether2
+    add address=10.1.0.9/30 interface=ether3
+    add address=10.2.1.1/24 interface=ether7
+	
+Configure IPv6 addresses
+	/ipv6 address
+    add address=2001:DB8::1/128 interface=BR-LOOPBACK advertise=no
+    add address=2001:DB8:1::1/126 interface=ether1 advertise=no
+    add address=2001:DB8:1:1::1/126 interface=ether2 advertise=no
+    add address=2001:DB8:1:2::1/126 interface=ether3 advertise=no
+    add address=2001:DB8:2:1::1/64 interface=ether7 advertise=no
+	
+
+ping 
+	/ping 10.1.0.2 count=5
+	
+Configure OSPFv2 Router ID
+	/routing ospf instance set default router-id=10.0.0.1
+Add networks to OSPFv2 Area 0
+		/routing ospf network
+		add network=10.0.0.1 area=backbone
+		add network=10.1.0.0/24 area=backbone
+		add network=10.2.1.0/24 area=backbone
+Set point-to-point links as point-to-point network type
+		/routing ospf interface
+		add interface=ether1 network-type=point-to-point
+		add interface=ether2 network-type=point-to-point
+		add interface=ether3 network-type=point-to-point
+		
+Set Loopback and LAN interface as Passive interfaces
+	/routing ospf interface
+    add interface=BR-LOOPBACK passive=yes
+    add interface=ether7 passive=yes
+	
+To verify OSPFv2 protocol, type
+	/routing ospf instance print status
+	
+To verify OSPFv2 interface configuration
+		/routing ospf interface print status
+		
+Verifying OSPFv2 neighbors
+	/routing ospf neighbor print
+	
+Verifying OSPFv2 Link-State Database
+	/routing ospf lsa print
+	
+To verify IPv4 routing table
+	/ip route print
+	
+Verifying IPv4 routing table
+	/ip route print where ospf
+
+	[apnic@R1] > /ip route print detail where dst-address=10.2.6.0/24
+	
+	
+	
+	
+	
+	/routing bgp connection
+add as=64784 disabled=no local.role=ebgp name=BDIX output.network="BGP NETWORK" remote.address=172.16.32.37/30 .as=137449 router-id=172.16.32.38 routing-table=main \
+    templates=BDIX
+add as=64655 disabled=no local.role=ebgp name=FNA output.network="BGP NETWORK" remote.address=172.16.29.21/30 .as=134806 router-id=172.16.29.22 routing-table=main \
+    templates=FNA
+add as=64655 disabled=no local.role=ebgp name=GGC output.network="BGP NETWORK" remote.address=172.16.26.29/30 .as=137449 router-id=172.16.26.30 routing-table=main \
+    templates=GGC
+
+/routing bgp template
+add as=64784 disabled=no name=BDIX router-id=172.16.32.38
+add as=64655 disabled=no name=FNA router-id=172.16.29.22 routing-table=main
+add as=64655 disabled=no name=GGC router-id=172.16.26.30 routing-table=main
+
+if (dst in 180.211.213.0/24 && dst-len in 24-32) { set bgp-local-pref 1000; accept; }
