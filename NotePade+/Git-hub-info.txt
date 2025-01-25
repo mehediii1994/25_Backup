@@ -132,3 +132,38 @@ git push -u origin main/master
 
 convert master file to main file
 	 git branch -m main
+
+git init
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/mehediii1994/25_Backup.git
+git push -u origin main
+
+====================================
+
+jokho repository change korbo tokhon ei golar kaj
+==================================================
+
+mehedi@DESKTOP-9BOMVCP MINGW64 /d/Git-file/26_Jun_2025_progaming_folder (main)
+$ git remote add origin https://github.com/mehediii1994/26_jan_New_repository.git
+error: remote origin already exists.
+
+mehedi@DESKTOP-9BOMVCP MINGW64 /d/Git-file/26_Jun_2025_progaming_folder (main)
+$ git remote -v
+\
+origin  https://github.com/mehediii1994/Notpad-.git (fetch)
+origin  https://github.com/mehediii1994/Notpad-.git (push)
+> git remote remove origin
+
+mehedi@DESKTOP-9BOMVCP MINGW64 /d/Git-file/26_Jun_2025_progaming_folder (main)
+$ git remote -v
+
+mehedi@DESKTOP-9BOMVCP MINGW64 /d/Git-file/26_Jun_2025_progaming_folder (main)
+$ git remote add origin https://github.com/mehediii1994/26_jan_New_repository.git
+
+mehedi@DESKTOP-9BOMVCP MINGW64 /d/Git-file/26_Jun_2025_progaming_folder (main)
+$ git remote -v
+origin  https://github.com/mehediii1994/26_jan_New_repository.git (fetch)
+origin  https://github.com/mehediii1994/26_jan_New_repository.git (push)
+
+mehedi@DESKTOP-9BOMVCP MINGW64 /d/Git-file/26_Jun_2025_progaming_folder (main)
