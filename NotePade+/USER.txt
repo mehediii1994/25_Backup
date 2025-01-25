@@ -308,3 +308,8 @@ Pass=Support@2024@
 
 user=tarek
 pass=Skynet@8080@2024
+
+PTIX
+--------
+IP : 172.22.5.94 ssh:37915
+UN/PW : mehedi/mehedi@2024
