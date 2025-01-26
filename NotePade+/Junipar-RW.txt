@@ -57,10 +57,13 @@ view BGP info =  show configuration | match 172.16.16.142 | display set
 
 policy:clinet er real ip dawar jonno  =  show configuration | match CIP-NETWORK-INT-IN | display set
 
-1)BW koto == show confg|dis set | match vlan 
+1)BW koto == show configuration |match 2356 | display set 
 
 BGP Up ache kin ==  show bgp summary |match 103.61.240.0/24 
 
 3)kon kon IP IIG(skynet ) er dike dawa ache = 
 			 show route receive-protocol bgp 172.16.16.142 
 			 show route receive-protocol bgp 172.16.30.238 logical-system NIX-RT
+			 
+view bandwidth = run monitor interface ae15.3291
+
