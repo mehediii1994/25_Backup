@@ -313,3 +313,11 @@ PTIX
 --------
 IP : 172.22.5.94 ssh:37915
 UN/PW : mehedi/mehedi@2024
+
+
+IPAM
+============
+http://ipam.skynetchowmuhani.com/
+
+mehedi
+mehediii1994

@@ -14,3 +14,53 @@ vlan interfaces ip assign
 	set interfaces ge-0/0/0 unit 10 vlan-id 10 family inet address 192.168.10.1/24
 
 
+========
+
+set intface	
+
+
+
+set logical-systems FNA-RT interfaces ae15 unit  2708 description  Lalpur_Manik_Matlab_FNA
+set logical-systems FNA-RT interfaces ae15 unit  2708 vlan-id  2708
+set logical-systems FNA-RT interfaces ae15 unit  2708 family inet address 172.16.38.233/30
+
+set logical-systems FNA-RT policy-options policy-statement Lalpur_Manik_Matlab_FNA_IN term 1 from route-filter 103.42.228.194/31 exact
+set logical-systems FNA-RT policy-options policy-statement Lalpur_Manik_Matlab_FNA_IN term 1 then local-preference 900 
+set logical-systems FNA-RT policy-options policy-statement Lalpur_Manik_Matlab_FNA_IN term 1 then accept
+set logical-systems FNA-RT policy-options policy-statement Lalpur_Manik_Matlab_FNA_IN term 5 then reject
+				
+set logical-systems FNA-RT protocols bgp group  Lalpur_Manik_Matlab_FNA neighbor  172.16.38.234 description  Lalpur_Manik_Matlab_FNA
+set logical-systems FNA-RT protocols bgp group  Lalpur_Manik_Matlab_FNA neighbor  172.16.38.234 local-address 172.16.38.233
+set logical-systems FNA-RT protocols bgp group  Lalpur_Manik_Matlab_FNA neighbor  172.16.38.234 import  Lalpur_Manik_Matlab_FNA_IN
+set logical-systems FNA-RT protocols bgp group  Lalpur_Manik_Matlab_FNA neighbor  172.16.38.234 export fna-clients-out 
+set logical-systems FNA-RT protocols bgp group  Lalpur_Manik_Matlab_FNA neighbor  172.16.38.234 peer-as 64655
+set logical-systems FNA-RT firewall family inet filter copp term bgp from source-address  172.16.38.234/32
+
+
+set logical-systems FNA-RT interfaces ae15 unit  2708 family inet policer input policer-2708
+set logical-systems FNA-RT interfaces ae15 unit  2708 family inet policer output policer-2708
+set logical-systems FNA-RT firewall policer policer-2708 if-exceeding bandwidth-limit 1210m
+set logical-systems FNA-RT firewall policer policer-2708 if-exceeding burst-size-limit 1m
+set logical-systems FNA-RT firewall policer policer-2708 then discard
+
+
+
+=============
+
+view Inerface ==  show interfaces descriptions
+
+View client vlan == show interfaces descriptions |match CIP
+
+view vlan configuration =  show configuration | match 1202 | display set
+
+view BGP info =  show configuration | match 172.16.16.142 | display set 
+
+policy:clinet er real ip dawar jonno  =  show configuration | match CIP-NETWORK-INT-IN | display set
+
+1)BW koto == show confg|dis set | match vlan 
+
+BGP Up ache kin ==  show bgp summary |match 103.61.240.0/24 
+
+3)kon kon IP IIG(skynet ) er dike dawa ache = 
+			 show route receive-protocol bgp 172.16.16.142 
+			 show route receive-protocol bgp 172.16.30.238 logical-system NIX-RT
