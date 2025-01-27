@@ -556,6 +556,13 @@ color: wheat
         <li>epon(GE-5)#pvid 505</li>
         <li>epon# system save</li>
        </ul>
+       <p class="x">C-DATA_OLT LACP</p>
+       <ul class="y">
+         <li>interface link-aggregation</li>
+         <li>link-aggregation group 1 unicast balance source-dest-mac</li>
+         <li>lacp set system priority default</li>
+         <li>member add ge 0/0 5-6 link-aggregation group 1</li>
+       </ul>
        <h1>HSGQ OLT</h1>
        <ul class="y">
         <li>show onu-info all</li>
