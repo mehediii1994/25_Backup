@@ -46,6 +46,7 @@ set logical-systems FNA-RT firewall policer policer-2708 then discard
 
 
 =============
+View oftical power in jonipar router =  show interfaces diagnostics optics et-0/0/1
 
 view Inerface ==  show interfaces descriptions
 

@@ -33,6 +33,14 @@ color: wheat
   flex: 50%;
   padding: 5px;
 }
+.table_group_2_row {
+  display: flex;
+}
+
+.table_group_2_column {
+  flex: 50%;
+  padding: 5px;
+}
     * {
   box-sizing: border-box;
   color: aqua;
@@ -50,11 +58,8 @@ color: wheat
 .row::after {
   content: "";
   clear: both;
-  display: table;
-  
+  display: table; 
 }
-
-
 
 </style>
 
@@ -233,6 +238,7 @@ color: wheat
       </div>
 
 </div>
+
 <h1>CisCos Nexus Switch</h1>
 <p class="x">MGMT Vlan IP assign</p>
 <ul class="y">
@@ -1321,9 +1327,391 @@ color: wheat
 
       
 </ol>
+<div class="table_group_2_row">
+   <div class="table_group_2_column">
+      <p class="x">1G (Gigabit Ethernet) SFP-এর TX ও RX Power Range</p>  
+      <table>
+         <thead>
+             <tr>
+                 <th>SFP মডিউল টাইপ</th>
+                 <th>TX Power Range (dBm)</th>
+                 <th>RX Power Range (dBm)</th>
+             </tr>
+         </thead>
+         <tbody>
+             <tr>
+                 <td>1GBASE-SX (850nm Multimode, MM)</td>
+                 <td>-9 dBm to -3 dBm</td>
+                 <td>-17 dBm to -3 dBm</td>
+             </tr>
+             <tr>
+                 <td>1GBASE-LX (1310nm Singlemode, SM)</td>
+                 <td>-9 dBm to -3 dBm</td>
+                 <td>-19 dBm to -3 dBm</td>
+             </tr>
+             <tr>
+                 <td>1GBASE-EX (1310nm, 40km SM)</td>
+                 <td>-5 dBm to 0 dBm</td>
+                 <td>-22 dBm to -3 dBm</td>
+             </tr>
+             <tr>
+                 <td>1GBASE-ZX (1550nm, 70km SM)</td>
+                 <td>0 dBm to 5 dBm</td>
+                 <td>-24 dBm to -3 dBm</td>
+             </tr>
+         </tbody>
+     </table>
+   </div>
 
-    
+   <div class="table_group_2_column">
+      <p class="x">10G SFP+ TX ও RX Power Range</p> 
+      <table>
+         <thead>
+             <tr>
+                 <th>SFP+ মডিউল টাইপ</th>
+                 <th>TX Power Range (dBm)</th>
+                 <th>RX Power Range (dBm)</th>
+             </tr>
+         </thead>
+         <tbody>
+             <tr>
+                 <td>10GBASE-SR (850nm Multimode, MM, 300m)</td>
+                 <td>-7.3 dBm to -1 dBm</td>
+                 <td>-10.3 dBm to 0 dBm</td>
+             </tr>
+             <tr>
+                 <td>10GBASE-LR (1310nm Singlemode, SM, 10km)</td>
+                 <td>-8.2 dBm to 0.5 dBm</td>
+                 <td>-14.4 dBm to 0.5 dBm</td>
+             </tr>
+             <tr>
+                 <td>10GBASE-ER (1550nm SM, 40km)</td>
+                 <td>-4.7 dBm to 4 dBm</td>
+                 <td>-17 dBm to -1 dBm</td>
+             </tr>
+             <tr>
+                 <td>10GBASE-ZR (1550nm SM, 80km)</td>
+                 <td>0 dBm to 5 dBm</td>
+                 <td>-24 dBm to -3 dBm</td>
+             </tr>
+         </tbody>
+     </table>
+   </div>
+</div>
 
+<h2>1G SFP (Gigabit Ethernet) Power Range:</h2>
+<table>
+    <thead>
+        <tr>
+            <th>প্যারামিটার</th>
+            <th>মাল্টিমোড ফাইবার</th>
+            <th>সিঙ্গেলমোড ফাইবার</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>TX Power (Transmit)</td>
+            <td>-9.5 dBm থেকে -3 dBm</td>
+            <td>-9.5 dBm থেকে 0 dBm</td>
+        </tr>
+        <tr>
+            <td>RX Power (Receive)</td>
+            <td>-17 dBm থেকে 0 dBm</td>
+            <td>-23 dBm থেকে 0 dBm</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>10G SFP+ Power Range:</h2>
+<table>
+    <thead>
+        <tr>
+            <th>প্যারামিটার</th>
+            <th>মাল্টিমোড ফাইবার</th>
+            <th>সিঙ্গেলমোড ফাইবার</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>TX Power (Transmit)</td>
+            <td>-8.2 dBm থেকে -1 dBm</td>
+            <td>-8.2 dBm থেকে 2 dBm</td>
+        </tr>
+        <tr>
+            <td>RX Power (Receive)</td>
+            <td>-12.6 dBm থেকে 0 dBm</td>
+            <td>-14.4 dBm থেকে 0 dBm</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>ব্যাখ্যা:</h2>
+<ul>
+    <li><strong>মাল্টিমোড ফাইবার:</strong> সাধারণত কম দূরত্বের জন্য ব্যবহৃত হয় (উদাহরণ: 550 মিটার পর্যন্ত)।</li>
+    <li><strong>সিঙ্গেলমোড ফাইবার:</strong> দীর্ঘ দূরত্বের জন্য ব্যবহৃত হয় (উদাহরণ: 10 কিমি, 40 কিমি, বা তার বেশি)।</li>
+</ul>
+<h2>SFP Power Range Table for 1G and 10G Ethernet SFP/SFP+ Modules</h2>
+    <table>
+        <tr>
+            <th>Module Type</th>
+            <th>TX Power Range (dBm)</th>
+            <th>RX Power Range (dBm)</th>
+            <th>Distance (Max)</th>
+            <th>Wavelength (nm)</th>
+        </tr>
+        <tr>
+            <td>1GBASE-SX (Multi-Mode)</td>
+            <td>-9.5 to -4</td>
+            <td>-17 to 0</td>
+            <td>550m (OM2)</td>
+            <td>850nm</td>
+        </tr>
+        <tr>
+            <td>1GBASE-LX (Single-Mode)</td>
+            <td>-9.5 to -3</td>
+            <td>-19 to -3</td>
+            <td>10 km</td>
+            <td>1310nm</td>
+        </tr>
+        <tr>
+            <td>1GBASE-ZX (Single-Mode)</td>
+            <td>0 to 5</td>
+            <td>-24 to -3</td>
+            <td>70 km</td>
+            <td>1550nm</td>
+        </tr>
+        <tr>
+            <td>10GBASE-SR (Multi-Mode)</td>
+            <td>-7.3 to -1</td>
+            <td>-11.1 to 0.5</td>
+            <td>300m (OM3)</td>
+            <td>850nm</td>
+        </tr>
+        <tr>
+            <td>10GBASE-LR (Single-Mode)</td>
+            <td>-8.2 to 0.5</td>
+            <td>-14.4 to 0.5</td>
+            <td>10 km</td>
+            <td>1310nm</td>
+        </tr>
+        <tr>
+            <td>10GBASE-ER (Single-Mode)</td>
+            <td>-4.7 to 4</td>
+            <td>-17 to -1</td>
+            <td>40 km</td>
+            <td>1310nm</td>
+        </tr>
+        <tr>
+            <td>10GBASE-ZR (Single-Mode)</td>
+            <td>0 to 5</td>
+            <td>-24 to -7</td>
+            <td>80 km</td>
+            <td>1550nm</td>
+        </tr>
+    </table>
     
+    <h2>সিস্টেম LED</h2>
+<table>
+    <thead>
+        <tr>
+            <th>LED অবস্থা</th>
+            <th>অর্থ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>LED বন্ধ থাকলে</td>
+            <td>সিস্টেমটি চালু নেই।</td>
+        </tr>
+        <tr>
+            <td>LED সবুজ থাকলে</td>
+            <td>সিস্টেমটি স্বাভাবিকভাবে কাজ করছে।</td>
+        </tr>
+        <tr>
+            <td>LED অ্যাম্বার (হলুদ-কমলা) থাকলে</td>
+            <td>সিস্টেমটি পাওয়ার পাচ্ছে কিন্তু সঠিকভাবে কাজ করছে না।</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>রিডান্ডেন্ট পাওয়ার সিস্টেম (RPS) LED</h2>
+<table>
+    <thead>
+        <tr>
+            <th>LED অবস্থা</th>
+            <th>অর্থ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>LED বন্ধ থাকলে</td>
+            <td>RPS বন্ধ আছে বা এটি সঠিকভাবে সংযুক্ত নেই।</td>
+        </tr>
+        <tr>
+            <td>LED সবুজ থাকলে</td>
+            <td>RPS সংযুক্ত আছে এবং ব্যাকআপ পাওয়ার দেওয়ার জন্য প্রস্তুত।</td>
+        </tr>
+        <tr>
+            <td>LED সবুজ জ্বলজ্বল করলে</td>
+            <td>RPS সংযুক্ত আছে কিন্তু এটি অন্য একটি ডিভাইসকে পাওয়ার সরবরাহ করছে, তাই এটি বর্তমানে unavailable (অপ্রাপ্য)।</td>
+        </tr>
+        <tr>
+            <td>LED অ্যাম্বার (হলুদ-কমলা) থাকলে</td>
+            <td>RPS স্ট্যান্ডবাই মোডে আছে বা কোনো ত্রুটির অবস্থায় আছে।</td>
+        </tr>
+        <tr>
+            <td>LED অ্যাম্বার জ্বলজ্বল করলে</td>
+            <td>সুইচের অভ্যন্তরীণ পাওয়ার সাপ্লাই ব্যর্থ হয়েছে, এবং RPS পাওয়ার সরবরাহ করছে।</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>পোর্ট স্ট্যাটাস LED</h2>
+<table>
+    <thead>
+        <tr>
+            <th>LED অবস্থা</th>
+            <th>অর্থ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>LED বন্ধ থাকলে</td>
+            <td>পোর্টে কোনো লিংক নেই বা পোর্টটি অ্যাডমিনিস্ট্রেটিভলি শাট ডাউন করা হয়েছে।</td>
+        </tr>
+        <tr>
+            <td>LED সবুজ থাকলে</td>
+            <td>পোর্টে একটি লিংক রয়েছে।</td>
+        </tr>
+        <tr>
+            <td>LED সবুজ জ্বলজ্বল করলে</td>
+            <td>পোর্টে কার্যকলাপ রয়েছে এবং পোর্টটি ডেটা পাঠানো বা গ্রহণ করছে।</td>
+        </tr>
+        <tr>
+            <td>LED সবুজ-অ্যাম্বার পর্যায়ক্রমে জ্বললে</td>
+            <td>লিংকে কোনো ত্রুটি রয়েছে।</td>
+        </tr>
+        <tr>
+            <td>LED অ্যাম্বার (হলুদ-কমলা) থাকলে</td>
+            <td>পোর্টটি ফরওয়ার্ডিং ডোমেইনে কোনো লুপ তৈরি না হয় তা নিশ্চিত করতে ব্লক করা হয়েছে এবং এটি ডেটা ফরওয়ার্ড করছে না (সাধারণত, পোর্টগুলি সক্রিয় হওয়ার পর প্রথম 30 সেকেন্ড এই অবস্থায় থাকে)।</td>
+        </tr>
+        <tr>
+            <td>LED অ্যাম্বার জ্বলজ্বল করলে</td>
+            <td>পোর্টটি ফরওয়ার্ডিং ডোমেইনে সম্ভাব্য লুপ প্রতিরোধ করতে ব্লক করা হয়েছে।</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>পোর্ট ডুপ্লেক্স LED</h2>
+<table>
+    <thead>
+        <tr>
+            <th>LED অবস্থা</th>
+            <th>অর্থ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>পোর্ট LED বন্ধ থাকলে</td>
+            <td>পোর্টটি হাফ-ডুপ্লেক্স মোডে রয়েছে।</td>
+        </tr>
+        <tr>
+            <td>পোর্ট LED সবুজ থাকলে</td>
+            <td>পোর্টটি ফুল-ডুপ্লেক্স মোডে রয়েছে।</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>পোর্ট স্পিড LED</h2>
+<table>
+    <thead>
+        <tr>
+            <th>LED অবস্থা</th>
+            <th>অর্থ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>LED বন্ধ থাকলে</td>
+            <td>পোর্টটি 10 Mbps গতিতে কাজ করছে।</td>
+        </tr>
+        <tr>
+            <td>LED সবুজ থাকলে</td>
+            <td>পোর্টটি 100 Mbps গতিতে কাজ করছে।</td>
+        </tr>
+        <tr>
+            <td>LED সবুজ জ্বলজ্বল করলে</td>
+            <td>পোর্টটি 1000 Mbps (1 Gbps) গতিতে কাজ করছে।</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>পাওয়ার ওভার ইথারনেট (PoE) মোড LED</h2>
+<table>
+    <thead>
+        <tr>
+            <th>LED অবস্থা</th>
+            <th>অর্থ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>LED বন্ধ থাকলে</td>
+            <td>PoE মোড নির্বাচিত নেই এবং কোনো পোর্টকে পাওয়ার দেওয়া থেকে বঞ্চিত করা হয়নি বা কোনো ত্রুটির অবস্থায় নেই।</td>
+        </tr>
+        <tr>
+            <td>LED অ্যাম্বার (হলুদ-কমলা) জ্বলজ্বল করলে</td>
+            <td>PoE মোড নির্বাচিত নেই তবে অন্তত একটি পোর্টকে পাওয়ার দেওয়া থেকে বঞ্চিত করা হয়েছে বা সেই পোর্টে PoE ত্রুটি রয়েছে।</td>
+        </tr>
+        <tr>
+            <td>LED সবুজ থাকলে</td>
+            <td>PoE মোড নির্বাচিত হয়েছে এবং পোর্ট LED গুলি বিভিন্ন রঙে জ্বলবে যার বিভিন্ন অর্থ রয়েছে:</td>
+        </tr>
+        <tr>
+            <td>পোর্ট LED বন্ধ থাকলে</td>
+            <td>PoE বন্ধ আছে।</td>
+        </tr>
+        <tr>
+            <td>পোর্ট LED সবুজ থাকলে</td>
+            <td>PoE চালু আছে।</td>
+        </tr>
+        <tr>
+            <td>পোর্ট LED সবুজ-অ্যাম্বার পর্যায়ক্রমে জ্বললে</td>
+            <td>PoE দেওয়া থেকে বঞ্চিত করা হয়েছে কারণ পাওয়ার ডিভাইসকে পাওয়ার সরবরাহ করলে সুইচের পাওয়ার ক্ষমতা অতিক্রম করবে।</td>
+        </tr>
+        <tr>
+            <td>LED অ্যাম্বার জ্বলজ্বল করলে</td>
+            <td>PoE বন্ধ আছে কারণ কোনো ত্রুটি রয়েছে।</td>
+        </tr>
+        <tr>
+            <td>LED অ্যাম্বার থাকলে</td>
+            <td>পোর্টের জন্য PoE নিষ্ক্রিয় করা হয়েছে।</td>
+        </tr>
+    </tbody>
+</table>
+
+<h1>Cisco Switch Boot Log</h1>
+<div class="log-output">
+    switch: set BOOT=flash:/c2960-lanbasek9-mz.122-55.SE7/c2960-lanbasek9-mz.122-55.SE7.bin<br>
+    (output omitted)<br><br>
+    switch: flash_init<br>
+    Initializing Flash...<br>
+    flashfs[0]: 2 files, 1 directories<br>
+    flashfs[0]: 0 orphaned files, 0 orphaned directories<br>
+    flashfs[0]: Total bytes: 32514048<br>
+    flashfs[0]: Bytes used: 11838464<br>
+    flashfs[0]: Bytes available: 20675584<br>
+    flashfs[0]: flashfs fsck took 10 seconds.<br>
+    ...done Initializing Flash.<br><br>
+    switch: dir flash:<br>
+    Directory of flash:/<br>
+    2  -rwx  11834846                 c2960-lanbasek9-mz.150-2.SE8.bin<br>
+    3  -rwx  2072                     multiple-fs<br><br>
+    switch: BOOT=flash:c2960-lanbasek9-mz.150-2.SE8.bin<br><br>
+    switch: set<br>
+    BOOT=flash:c2960-lanbasek9-mz.150-2.SE8.bin<br>
+    (output omitted)<br><br>
+    switch: boot
+</div>
 </body>
 </html>
