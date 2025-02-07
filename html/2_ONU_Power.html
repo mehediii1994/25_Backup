@@ -1713,5 +1713,497 @@ color: wheat
     (output omitted)<br><br>
     switch: boot
 </div>
+<h1>Cisco Switch MIDX Configaration</h1>
+    <div class="log-output">
+        S1#config terminal<br>
+        You must enter the exact and full command.<br>
+        S1#configure terminal<br>
+        Enter configuration commands, one per line. End with CNTL/Z.<br>
+        S1(config)#interface FastEthernet0/1<br>
+        S1(config-if)#duplex auto<br>
+        S1(config-if)#speed auto<br>
+        S1(config-if)#mdix auto<br>
+    </div>
+
+    <h2>S1 SSH Configuration</h2>
+    <pre>
+S1# show ip ssh
+S1(config)# ip domain-name cisco.com
+S1(config)# crypto key generate rsa
+How many bits in the modulus [512]: 1024
+S1(config)# username admin secret ccna
+S1(config)# line vty 0 15
+S1(config-line)# transport input ssh
+S1(config-line)# login local
+S1(config-line)# exit
+S1(config)# ip ssh version 2
+    </pre>
+    
+    <h2>R1 Interface Configuration</h2>
+    <pre>
+R1(config)# interface gigabitethernet 0/0/0
+R1(config-if)# ip address 192.168.10.1 255.255.255.0
+R1(config-if)# ipv6 address 2001:db8:acad:1::1/64
+R1(config-if)# description Link to LAN 1
+R1(config-if)# no shutdown
+R1(config-if)# exit
+
+R1(config)# interface gigabitethernet 0/0/1
+R1(config-if)# ip address 192.168.11.1 255.255.255.0
+R1(config-if)# ipv6 address 2001:db8:acad:2::1/64
+R1(config-if)# description Link to LAN 2
+R1(config-if)# no shutdown
+R1(config-if)# exit
+
+R1(config)# interface serial 0/0/0
+R1(config-if)# ip address 209.165.200.225 255.255.255.252
+R1(config-if)# ipv6 address 2001:db8:acad:3::225/64
+R1(config-if)# description Link to R2
+R1(config-if)# no shutdown
+R1(config-if)# exit
+R1(config)#
+    </pre>
+    <style>
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: #0e0101; }
+        table th, table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        table th { background-color: #2c3e50; color: rgb(194, 52, 52); }
+        pre { background: #070a04; padding: 10px; border-left: 3px solid #2c3e50; overflow-x: auto; }
+    </style>
+
+    <h1>Cisco vs Juniper BGP Configuration Comparison</h1>
+    <p>এই ডকুমেন্টটিতে Cisco এবং Juniper-এর BGP কনফিগারেশন কমান্ডগুলোর তুলনা করা হয়েছে।</p>
+
+    <h2>1. Basic BGP Configuration</h2>
+    <table>
+        <tr>
+            <th>Function</th>
+            <th>Cisco IOS</th>
+            <th>Juniper Junos OS</th>
+        </tr>
+        <tr>
+            <td>Router ID সেট করা</td>
+            <td><pre>router bgp 10<br>bgp router-id 10.10.0.1</pre></td>
+            <td><pre>set routing-options router-id 10.10.0.1</pre></td>
+        </tr>
+        <tr>
+            <td>Neighbor সংযোগ</td>
+            <td><pre>neighbor 10.10.0.2 remote-as 10</pre></td>
+            <td><pre>set protocols bgp group IBGP-PEER neighbor 10.10.0.2</pre></td>
+        </tr>
+        <tr>
+            <td>Update-source loopback</td>
+            <td><pre>neighbor 10.10.0.2 update-source loopback 0</pre></td>
+            <td><pre>set protocols bgp group IBGP-PEER local-address 10.10.0.1</pre></td>
+        </tr>
+        <tr>
+            <td>Activate IPv4 unicast</td>
+            <td><pre>address-family ipv4 unicast<br>neighbor 10.10.0.2 activate</pre></td>
+            <td><pre>set protocols bgp group IBGP-PEER family inet unicast</pre></td>
+        </tr>
+        <tr>
+            <td>Route Advertisement</td>
+            <td><pre>network 10.10.0.0 mask 255.255.252.0</pre></td>
+            <td><pre>set policy-options policy-statement EXPORT term 1 from route-filter 10.10.0.0/22 exact<br>set policy-options policy-statement EXPORT term 1 then accept<br>set protocols bgp group IBGP-PEER export EXPORT</pre></td>
+        </tr>
+    </table>
+
+    <h2>2. Route Reflector Configuration</h2>
+    <table>
+        <tr>
+            <th>Function</th>
+            <th>Cisco IOS</th>
+            <th>Juniper Junos OS</th>
+        </tr>
+        <tr>
+            <td>Route Reflector Client সেট করা</td>
+            <td><pre>neighbor 10.10.0.2 route-reflector-client</pre></td>
+            <td><pre>set protocols bgp group IBGP-PEER neighbor 10.10.0.2 route-reflector-client</pre></td>
+        </tr>
+        <tr>
+            <td>Next-hop-self সেট করা</td>
+            <td><pre>neighbor 10.10.0.2 next-hop-self</pre></td>
+            <td><pre>Juniper-এ Default (প্রয়োজন হলে policy ব্যবহার করা যায়)</pre></td>
+        </tr>
+        <tr>
+            <td>Send Community</td>
+            <td><pre>neighbor 10.10.0.2 send-community</pre></td>
+            <td><pre>set protocols bgp group IBGP-PEER neighbor 10.10.0.2 send-community</pre></td>
+        </tr>
+    </table>
+
+    <h2>3. Show Commands</h2>
+    <table>
+        <tr>
+            <th>Function</th>
+            <th>Cisco IOS</th>
+            <th>Juniper Junos OS</th>
+        </tr>
+        <tr>
+            <td>BGP Summary দেখার জন্য</td>
+            <td><pre>show ip bgp summary</pre></td>
+            <td><pre>show bgp summary</pre></td>
+        </tr>
+        <tr>
+            <td>Neighbor Information</td>
+            <td><pre>show ip bgp neighbors</pre></td>
+            <td><pre>show bgp neighbor</pre></td>
+        </tr>
+        <tr>
+            <td>Configuration দেখতে</td>
+            <td><pre>show running-config</pre></td>
+            <td><pre>show configuration protocols bgp</pre></td>
+        </tr>
+    </table>
+
+    <h2>4. Configuration Structure</h2>
+    <p><strong>Cisco:</strong> Command-based; লিনিয়ার ফ্ল্যাট স্ট্রাকচার</p>
+    <pre>
+    router bgp 10
+     bgp router-id 10.10.0.1
+     neighbor 10.10.0.2 remote-as 10
+     address-family ipv4 unicast
+      neighbor 10.10.0.2 activate
+    </pre>
+    <p><strong>Juniper:</strong> Hierarchical; Configuration tree-based structure</p>
+    <pre>
+    set routing-options router-id 10.10.0.1
+    set protocols bgp group IBGP-PEER type internal
+    set protocols bgp group IBGP-PEER neighbor 10.10.0.2
+    set protocols bgp group IBGP-PEER family inet unicast
+    </pre>
+
+    <h2>5. Save Configuration</h2>
+    <table>
+        <tr>
+            <th>Action</th>
+            <th>Cisco IOS</th>
+            <th>Juniper Junos OS</th>
+        </tr>
+        <tr>
+            <td>Configuration Save</td>
+            <td><pre>write memory</pre></td>
+            <td><pre>commit</pre></td>
+        </tr>
+        <tr>
+            <td>Configuration View</td>
+            <td><pre>show startup-config</pre></td>
+            <td><pre>show configuration</pre></td>
+        </tr>
+    </table>
+    <h1>সিসকো এবং জুনিপার কমান্ড তুলনা</h1>
+
+<h2>1. কনফিগারেশন মোড:</h2>
+
+<h3>সিসকো IOS:</h3>
+<pre><code>conf t</code></pre>
+<p><code>conf t</code> কমান্ডটি কনফিগারেশন মোডে প্রবেশ করে।</p>
+
+<h3>জুনোস OS:</h3>
+<pre><code>configure</code></pre>
+<p><code>configure</code> কমান্ডটি কনফিগারেশন মোডে প্রবেশ করে।</p>
+
+<h2>2. BGP কনফিগারেশন:</h2>
+
+<h3>সিসকো IOS:</h3>
+<pre><code>router bgp 10
+ bgp router-id 10.10.0.1
+ neighbor IBGP-PEER peer-group
+ neighbor IBGP-PEER remote-as 10
+ neighbor IBGP-PEER update-source loopback0
+ neighbor 10.10.0.2 peer-group IBGP-PEER
+ address-family ipv4 unicast
+  neighbor IBGP-PEER activate
+  neighbor IBGP-PEER next-hop-self
+  neighbor IBGP-PEER route-reflector-client</code></pre>
+<ul>
+    <li><code>router bgp</code> দিয়ে BGP প্রসেস শুরু হয়।</li>
+    <li><code>neighbor</code> দিয়ে পিয়ার গ্রুপ এবং নেইবার কনফিগার করা হয়।</li>
+    <li><code>address-family</code> দিয়ে IPv4 ইউনিকাস্ট অ্যাক্টিভেট করা হয়।</li>
+</ul>
+
+<h3>জুনোস OS:</h3>
+<pre><code>set routing-options autonomous-system 10
+set routing-options router-id 10.10.0.1
+set protocols bgp group IBGP-PEER type internal
+set protocols bgp group IBGP-PEER local-address 10.10.0.1
+set protocols bgp group IBGP-PEER neighbor 10.10.0.2
+set protocols bgp group IBGP-PEER family inet unicast
+set protocols bgp group IBGP-PEER cluster 10.10.0.1</code></pre>
+<ul>
+    <li><code>set routing-options autonomous-system</code> দিয়ে AS নাম্বার সেট করা হয়।</li>
+    <li><code>set protocols bgp group</code> দিয়ে BGP গ্রুপ তৈরি করা হয়।</li>
+    <li><code>family inet unicast</code> দিয়ে IPv4 ইউনিকাস্ট অ্যাক্টিভেট করা হয়।</li>
+    <li><code>cluster</code> দিয়ে Route Reflector ক্লাস্টার আইডি সেট করা হয়।</li>
+</ul>
+
+<h2>3. নেক্সট-হপ সেলফ:</h2>
+
+<h3>সিসকো IOS:</h3>
+<pre><code>neighbor IBGP-PEER next-hop-self</code></pre>
+<p><code>next-hop-self</code> কমান্ডটি ব্যবহার করে নেক্সট হপ হিসেবে নিজেকে advertise করা হয়।</p>
+
+<h3>জুনোস OS:</h3>
+<pre><code>set protocols bgp group IBGP-PEER export NEXT-HOP-SELF
+set policy-options policy-statement NEXT-HOP-SELF term 1 then next-hop self</code></pre>
+<p><code>next-hop self</code> পলিসি তৈরি করে নেক্সট হপ হিসেবে নিজেকে advertise করা হয়।</p>
+
+<h2>4. রুট রিফ্লেক্টর ক্লায়েন্ট:</h2>
+
+<h3>সিসকো IOS:</h3>
+<pre><code>neighbor IBGP-PEER route-reflector-client</code></pre>
+<p><code>route-reflector-client</code> কমান্ডটি ব্যবহার করে ক্লায়েন্ট রাউটারকে Route Reflector ক্লায়েন্ট হিসেবে কনফিগার করা হয়।</p>
+
+<h3>জুনোস OS:</h3>
+<pre><code>set protocols bgp group IBGP-PEER cluster 10.10.0.1</code></pre>
+<p><code>cluster</code> কমান্ডটি ব্যবহার করে Route Reflector ক্লাস্টার আইডি সেট করা হয়।</p>
+
+<h2>5. স্ট্যাটিক রুট যোগ করা:</h2>
+
+<h3>সিসকো IOS:</h3>
+<pre><code>ip route 10.10.0.0 255.255.252.0 null0</code></pre>
+<p><code>ip route</code> কমান্ডটি ব্যবহার করে স্ট্যাটিক রুট যোগ করা হয়।</p>
+
+<h3>জুনোস OS:</h3>
+<pre><code>set routing-options static route 10.10.0.0/22 discard</code></pre>
+<p><code>static route</code> কমান্ডটি ব্যবহার করে স্ট্যাটিক রুট যোগ করা হয়।</p>
+
+<h2>6. BGP স্ট্যাটাস চেক করা:</h2>
+
+<h3>সিসকো IOS:</h3>
+<pre><code>show bgp ipv4 unicast summary</code></pre>
+<p><code>show bgp summary</code> কমান্ডটি ব্যবহার করে BGP স্ট্যাটাস চেক করা হয়।</p>
+
+<h3>জুনোস OS:</h3>
+<pre><code>show bgp summary</code></pre>
+<p><code>show bgp summary</code> কমান্ডটি ব্যবহার করে BGP স্ট্যাটাস চেক করা হয়।</p>
+
+<h2>7. কমিউনিটি অ্যাট্রিবিউট পাঠানো:</h2>
+
+<h3>সিসকো IOS:</h3>
+<pre><code>neighbor IBGP-PEER send-community</code></pre>
+<p><code>send-community</code> কমান্ডটি ব্যবহার করে কমিউনিটি অ্যাট্রিবিউট পাঠানো হয়।</p>
+
+<h3>জুনোস OS:</h3>
+<pre><code>set protocols bgp group IBGP-PEER export SEND-COMMUNITY
+set policy-options policy-statement SEND-COMMUNITY term 1 then community add COMMUNITY-VALUE</code></pre>
+<p><code>community</code> পলিসি তৈরি করে কমিউনিটি অ্যাট্রিবিউট পাঠানো হয়।</p>
+
+<h2>8. কনফিগারেশন সেভ করা:</h2>
+
+<h3>সিসকো IOS:</h3>
+<pre><code>wr</code></pre>
+<p><code>wr</code> কমান্ডটি ব্যবহার করে কনফিগারেশন সেভ করা হয়।</p>
+
+<h3>জুনোস OS:</h3>
+<pre><code>commit</code></pre>
+<p><code>commit</code> কমান্ডটি ব্যবহার করে কনফিগারেশন সেভ করা হয়।</p>
+
+<h2>সারসংক্ষেপ:</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ফিচার</th>
+            <th>সিসকো IOS</th>
+            <th>জুনোস OS</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>কনফিগারেশন মোড</td>
+            <td><code>conf t</code></td>
+            <td><code>configure</code></td>
+        </tr>
+        <tr>
+            <td>BGP প্রসেস শুরু</td>
+            <td><code>router bgp 10</code></td>
+            <td><code>set routing-options autonomous-system 10</code></td>
+        </tr>
+        <tr>
+            <td>রাউটার আইডি সেট</td>
+            <td><code>bgp router-id 10.10.0.1</code></td>
+            <td><code>set routing-options router-id 10.10.0.1</code></td>
+        </tr>
+        <tr>
+            <td>পিয়ার গ্রুপ তৈরি</td>
+            <td><code>neighbor IBGP-PEER peer-group</code></td>
+            <td><code>set protocols bgp group IBGP-PEER</code></td>
+        </tr>
+        <tr>
+            <td>নেক্সট-হপ সেলফ</td>
+            <td><code>neighbor IBGP-PEER next-hop-self</code></td>
+            <td><code>set policy-options policy-statement NEXT-HOP-SELF</code></td>
+        </tr>
+        <tr>
+            <td>রুট রিফ্লেক্টর ক্লায়েন্ট</td>
+            <td><code>neighbor IBGP-PEER route-reflector-client</code></td>
+            <td><code>set protocols bgp group IBGP-PEER cluster 10.10.0.1</code></td>
+        </tr>
+        <tr>
+            <td>স্ট্যাটিক রুট যোগ</td>
+            <td><code>ip route 10.10.0.0 255.255.252.0 null0</code></td>
+            <td><code>set routing-options static route 10.10.0.0/22 discard</code></td>
+        </tr>
+        <tr>
+            <td>BGP স্ট্যাটাস চেক</td>
+            <td><code>show bgp ipv4 unicast summary</code></td>
+            <td><code>show bgp summary</code></td>
+        </tr>
+        <tr>
+            <td>কনফিগারেশন সেভ</td>
+            <td><code>wr</code></td>
+            <td><code>commit</code></td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>মূল পার্থক্য:</h2>
+<ul>
+    <li><strong>কমান্ড সিনট্যাক্স:</strong> সিসকো IOS এবং জুনোস OS-এর কমান্ড সিনট্যাক্স সম্পূর্ণ আলাদা। সিসকো IOS লাইন-বাই-লাইন কনফিগারেশন করে, অন্যদিকে জুনোস OS হায়ারার্কিক্যাল কনফিগারেশন করে।</li>
+    <li><strong>পলিসি বেসড কনফিগারেশন:</strong> জুনোস OS-এ পলিসি বেসড কনফিগারেশন বেশি ব্যবহৃত হয়, যেমন <code>policy-statement</code> এবং <code>term</code>।</li>
+    <li><strong>কনফিগারেশন সেভ:</strong> সিসকোতে <code>wr</code> কমান্ড ব্যবহার করা হয়, জুনোসে <code>commit</code> কমান্ড ব্যবহার করা হয়।</li>
+</ul>
+<h1>সিসকো এবং জুনিপারে LACP কনফিগারেশন পার্থক্য</h1>
+
+<h2>সিসকো কনফিগারেশন:</h2>
+
+<h3>ইথারচ্যানেল (Port-channel) কনফিগারেশন:</h3>
+<pre><code>interface Port-channel3
+  description ACCESS-RW-LINK-LACP
+  switchport mode trunk
+  switchport trunk allowed vlan 1-4049</code></pre>
+
+<h3>ফিজিক্যাল ইন্টারফেসে LACP কনফিগারেশন:</h3>
+<pre><code>interface Ethernet1/5
+  description ACCESS-RW-LINK
+  switchport mode trunk
+  switchport trunk allowed vlan 1-4049
+  channel-group 3 mode active</code></pre>
+
+<h2>জুনিপার কনফিগারেশন:</h2>
+
+<h3>অ্যাগ্রিগেটেড ইথারনেট (ae) ইন্টারফেস কনফিগারেশন:</h3>
+<pre><code>set interfaces ae3 description "ACCESS-RW-LINK-LACP"
+set interfaces ae3 unit 0 family ethernet-switching interface-mode trunk
+set interfaces ae3 unit 0 family ethernet-switching vlan members 1-4049</code></pre>
+
+<h3>ফিজিক্যাল ইন্টারফেসে LACP কনফিগারেশন:</h3>
+<pre><code>set interfaces ge-0/0/5 description "ACCESS-RW-LINK"
+set interfaces ge-0/0/5 ether-options 802.3ad ae3</code></pre>
+
+<h2>সাইড বাই সাইড তুলনা:</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ফিচার</th>
+            <th>সিসকো IOS</th>
+            <th>জুনোস OS</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>ইথারচ্যানেল/অ্যাগ্রিগেটেড ইন্টারফেস তৈরি</td>
+            <td><code>interface Port-channel3</code></td>
+            <td><code>set interfaces ae3</code></td>
+        </tr>
+        <tr>
+            <td>ইন্টারফেস ডেসক্রিপশন</td>
+            <td><code>description ACCESS-RW-LINK-LACP</code></td>
+            <td><code>set interfaces ae3 description "ACCESS-RW-LINK-LACP"</code></td>
+        </tr>
+        <tr>
+            <td>ট্রাঙ্ক মোড সেট</td>
+            <td><code>switchport mode trunk</code></td>
+            <td><code>set interfaces ae3 unit 0 family ethernet-switching interface-mode trunk</code></td>
+        </tr>
+        <tr>
+            <td>অনুমোদিত VLAN সেট</td>
+            <td><code>switchport trunk allowed vlan 1-4049</code></td>
+            <td><code>set interfaces ae3 unit 0 family ethernet-switching vlan members 1-4049</code></td>
+        </tr>
+        <tr>
+            <td>ফিজিক্যাল ইন্টারফেসে LACP কনফিগারেশন</td>
+            <td><code>channel-group 3 mode active</code></td>
+            <td><code>set interfaces ge-0/0/5 ether-options 802.3ad ae3</code></td>
+        </tr>
+        <tr>
+            <td>ফিজিক্যাল ইন্টারফেস ডেসক্রিপশন</td>
+            <td><code>description ACCESS-RW-LINK</code></td>
+            <td><code>set interfaces ge-0/0/5 description "ACCESS-RW-LINK"</code></td>
+        </tr>
+    </tbody>
+</table>
+<h1>Cisco vs Juniper: LACP and VLAN Configuration</h1>
+    <p>This document compares the LACP and VLAN configuration between Cisco and Juniper switches side by side.</p>
+
+    <h2>Comparison Table</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Function</th>
+                <th>Cisco Command</th>
+                <th>Juniper Command</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>LAG Interface Creation</td>
+                <td><code>interface port-channel3</code></td>
+                <td><code>set interfaces ae3</code></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td><code>description ACCESS-RW-LINK-LACP</code></td>
+                <td><code>set interfaces ae3 description "ACCESS-RW-LINK-LACP"</code></td>
+            </tr>
+            <tr>
+                <td>Trunk Mode</td>
+                <td><code>switchport mode trunk</code></td>
+                <td><code>set interfaces ae3 unit 0 family ethernet-switching port-mode trunk</code></td>
+            </tr>
+            <tr>
+                <td>Allowed VLANs</td>
+                <td><code>switchport trunk allowed vlan 1-4049</code></td>
+                <td><code>set interfaces ae3 unit 0 family ethernet-switching vlan members 1-4049</code></td>
+            </tr>
+            <tr>
+                <td>Physical Interface Addition</td>
+                <td><code>channel-group 3 mode active</code></td>
+                <td><code>set interfaces ge-0/0/5 ether-options 802.3ad ae3</code></td>
+            </tr>
+            <tr>
+                <td>LACP Mode</td>
+                <td><code>channel-group 3 mode active</code></td>
+                <td><code>set interfaces ae3 aggregated-ether-options lacp active</code></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Cisco Configuration Example</h2>
+    <pre>
+interface port-channel3
+ description ACCESS-RW-LINK-LACP
+ switchport mode trunk
+ switchport trunk allowed vlan 1-4049
+
+interface Ethernet1/5
+ description ACCESS-RW-LINK
+ switchport mode trunk
+ switchport trunk allowed vlan 1-4049
+ channel-group 3 mode active
+    </pre>
+
+    <h2>Juniper Configuration Example</h2>
+    <pre>
+set interfaces ae3 description "ACCESS-RW-LINK-LACP"
+set interfaces ae3 aggregated-ether-options lacp active
+set interfaces ae3 unit 0 family ethernet-switching port-mode trunk
+set interfaces ae3 unit 0 family ethernet-switching vlan members 1-4049
+
+set interfaces ge-0/0/5 description "ACCESS-RW-LINK"
+set interfaces ge-0/0/5 ether-options 802.3ad ae3
+    </pre>
 </body>
 </html>
