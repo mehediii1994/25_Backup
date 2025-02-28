@@ -657,6 +657,31 @@ Switch(config-vlan10)#q
 
 
 
+================================================= BDCOM=================
+
+Switch#config
+
+Switch_config#ip dhcp-relay snooping
+
+Switch_config#ip dhcp-relay snooping vlan 1
+
+Switch_config#ip arp inspection vlan 1
+
+Switch_config#ip verify source vlan 1
+------------------------------------------------------------------
+To trust the DHCP server
+
+Switch#config
+
+Switch_config#interface gigaEthernet 0/1 [The trusted server is connected from gig 0/1]
+
+Switch_config_g0/1#dhcp snooping trust
+
+Switch_config_g0/1#arp inspection trust 
+
+Switch_config_g0/1#ip-source trust
+
+
 
 
 

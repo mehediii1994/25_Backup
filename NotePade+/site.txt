@@ -10,6 +10,8 @@ http://ctgstream.com/
 https://fs.plus.net.bd/
 103.109.56.115 (FTP + Live TV)
 http://moviehaat.net (FTP + Live TV)
+http://172.19.178.178/tv/
+
 
 
 
@@ -169,3 +171,8 @@ AS138640	103.137.161.0/24	Top Network / Hello Tech Limited
 
 AS138640	103.109.57.0/24		Asiatel Network Limited
 AS138640	103.131.100.0/23	Asiatel Network Limited
+
+
+PLay-STor
+=========
+202.173.122.57

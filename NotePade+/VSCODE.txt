@@ -1,0 +1,18 @@
+file > preferences > settings > run in terminal
+
+django
+==========
+
+1 ) pip install django
+2 ) python.exe -m pip install --upgrade pip
+3 ) py -m venv myworld
+4 ) আপনার ভার্চুয়াল এনভায়রনমেন্ট (myworld) সক্রিয় আছে কিনা চেক করুন। = myworld\Scripts\activate.bat
+5 ) py -m pip install Django
+6 ) django-admin --version
+7 ) Django প্রজেক্ট তৈরি করুন— = django-admin startproject my_tennis_club
+8 ) cd my_tennis_club
+9 ) Django প্রজেক্ট চালানো (Run করা) =  py manage.py runserver
+10 ) 
+
+taskkill /F /PID <PID_NUMBER>
+
