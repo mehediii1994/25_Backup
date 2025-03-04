@@ -12,7 +12,10 @@ delete configaraton =  set logical-systems r1 interfaces ge-0/0/0 unit 0 family 
 					
 					root@Jonos-RW-1# delete logical-systems r1
 					root@Jonos-RW-1# delete logical-systems r2
+					
+vlan create যদি আপনি VLAN Trunk বা L3 VLAN করতে চান: = root@Jonos-RW-1# set interfaces ge-0/0/0 unit 10 family bridge vlan-id 10 
 
+vlan interface ip assign = set interfaces ge-0/0/0 unit 10 family inet address 
 
 
 
@@ -92,3 +95,5 @@ BGP Up ache kin ==  show bgp summary |match 103.61.240.0/24
 			 
 view bandwidth = run monitor interface ae15.3291
 
+
+run show route advertising-protocol bgp 103.21.41.146 logical-system CDN-RT |match 103.80.78.0/24 
