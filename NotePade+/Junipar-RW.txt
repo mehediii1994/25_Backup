@@ -63,6 +63,7 @@ set logical-systems FNA-RT firewall family inet filter copp term bgp from source
 
 set logical-systems FNA-RT interfaces ae15 unit  2708 family inet policer input policer-2708
 set logical-systems FNA-RT interfaces ae15 unit  2708 family inet policer output policer-2708
+
 set logical-systems FNA-RT firewall policer policer-2708 if-exceeding bandwidth-limit 1210m
 set logical-systems FNA-RT firewall policer policer-2708 if-exceeding burst-size-limit 1m
 set logical-systems FNA-RT firewall policer policer-2708 then discard
@@ -97,3 +98,68 @@ view bandwidth = run monitor interface ae15.3291
 
 
 run show route advertising-protocol bgp 103.21.41.146 logical-system CDN-RT |match 103.80.78.0/24 
+
+
+
+
+
+
+
+
+
+
+N14-RW
+======
+
+
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01#show interfaces description | include 1345
+
+Fri Mar  7 19:34:16.476 UTC
+Hu0/0/2/2.1345     up          up          Friends_Fiber_Net_INT
+
+
+
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01#show running-config interface Hu0/0/2/2.1345
+
+Fri Mar  7 19:34:35.739 UTC
+interface HundredGigE0/0/2/2.1345
+ description Friends_Fiber_Net_INT
+ service-policy output 1345_Friends_Fiber_Net_INT
+ ipv4 address 172.23.7.97 255.255.255.252
+ load-interval 30
+ encapsulation dot1q 1345
+ 
+ 
+ RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01#show running-config policy-map 1345_Friends_Fiber_Net_INT                   
+Fri Mar  7 19:36:37.957 UTC
+policy-map 1345_Friends_Fiber_Net_INT
+ class class-default
+  shape average 170 mbps 
+  queue-limit 50 kbytes 
+ ! 
+ end-policy-map
+! 
+
+
+   
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01#show running-config | include Friends_Fiber_Net_INT_in
+Fri Mar  7 19:42:17.582 UTC
+Building configuration...
+prefix-set Friends_Fiber_Net_INT_in
+route-policy Friends_Fiber_Net_INT_in
+  if destination in Friends_Fiber_Net_INT_in then
+   route-policy Friends_Fiber_Net_INT_in in
+   route-policy Friends_Fiber_Net_INT_in in
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01#
+
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01#configur 
+
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01(config)#interface Hu0/0/2/2.1345
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01(config-subif)#policy-map 1345_Friends_Fiber_Net_INT
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01(config-pmap)# class class-default
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01(config-pmap-c)#shape average 175 mbps
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01(config-pmap-c)#queue-limit 50 kbytes
+RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01(config-pmap-c)#commit 
+
+
+

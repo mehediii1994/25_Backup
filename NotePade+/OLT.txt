@@ -72,6 +72,14 @@ no epon bind-onu sequence 63
 no epon bind-onu sequence 64
 
 
+BDCOM-Switch root switch
+========
+spanning-tree mode mstp
+
+	interface GigaEthernet0/15
+	 spanning-tree bpdufilter enable
+	 spanning-tree guard root
+
 
 ===========================
 To configure the loopback on all ONU-

@@ -255,6 +255,15 @@ color: wheat
 </div>
 
 <h1>CisCos Nexus Switch</h1>
+
+<p class="x">Spanning Tree MSTP Configuration for Core-SW</p>
+    <pre>
+spanning-tree mode mstp
+
+interface GigaEthernet0/15
+    spanning-tree guard root
+    spanning-tree bpdufilter enable
+    </pre>
 <p class="x">MGMT Vlan IP assign</p>
 <ul class="y">
    <li>HINGULA-CORE-Nexus-SW#configure terminal</li>
