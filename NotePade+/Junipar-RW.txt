@@ -108,7 +108,7 @@ run show route advertising-protocol bgp 103.21.41.146 logical-system CDN-RT |mat
 
 
 
-N14-RW
+NCS-RW
 ======
 
 

@@ -257,7 +257,7 @@ color: wheat
 <h1>CisCos Nexus Switch</h1>
 
 <p class="x">Spanning Tree MSTP Configuration for Core-SW</p>
-    <pre>
+    <pre class="y">
 spanning-tree mode mstp
 
 interface GigaEthernet0/15
@@ -2236,5 +2236,47 @@ set interfaces ae3 unit 0 family ethernet-switching vlan members 1-4049
 set interfaces ge-0/0/5 description "ACCESS-RW-LINK"
 set interfaces ge-0/0/5 ether-options 802.3ad ae3
     </pre>
+
+    <h1>নেটওয়ার্ক কনফিগারেশন তুলনা (Cisco vs Juniper)</h1>
+    
+    <div class="row">
+        <div class="column">
+            <h2 class="x">Cisco</h2>
+            <table>
+                <tr><th>কাজ</th><th>কমান্ড</th></tr>
+                <tr><td>নতুন ইউজার তৈরি</td><td>username ... group root-system<br>username ... secret .....</td></tr>
+                <tr><td>IP দ্বৈততা চেক</td><td>sh running-config | inc 172.16.23.<br>sh ipv4 interface brief | inc 172.16.23.21</td></tr>
+                <tr><td>BGP নেটওয়ার্ক চেক</td><td>show running-config router bgp 137449 vrf FNA neighbor 172.16.23.70</td></tr>
+                <tr><td>BGP সামারি চেক</td><td>show bgp vrf FNA ipv4 unicast summary</td></tr>
+                <tr><td>ক্লায়েন্ট থেকে প্রাপ্ত প্রিফিক্স</td><td>show bgp vrf FNA ipv4 unicast neighbors 172.16.22.194 routes</td></tr>
+                <tr><td>আমাদের পাঠানো প্রিফিক্স</td><td>show bgp vrf FNA ipv4 unicast neighbors 172.16.19.38 advertised-routes</td></tr>
+                <tr><td>স্ট্যাটিক রুট</td><td>router static<br>address-family ipv4 unicast<br>103.109.56.172/30 103.137.161.254 description Top-Network-Routed-IP-5</td></tr>
+                <tr><td>ইন্টারফেস কনফিগার</td><td>interface Bundle-Ether101.203<br>description TOP-NETWORK_INTERNET<br>ipv4 address 103.137.161.253 255.255.255.252</td></tr>
+                <tr><td>BGP পিয়ারিং</td><td>router bgp 137449<br>neighbor 103.137.161.254 remote-as 138953</td></tr>
+                <tr><td>ট্রাফিক শেপিং</td><td>policy-map 203-TOP-NETWORK_INTERNET<br>class class-default<br>police rate 1710 mbps</td></tr>
+                <tr><td>রাউটিং পলিসি</td><td>route-policy top_networks_in<br>if destination in TOP-NETWORKS-IN then pass else drop endif</td></tr>
+                <tr><td>অ্যাক্সেস লিস্ট</td><td>ipv4 access-group nat_site ingress</td></tr>
+            </table>
+        </div>
+        
+        <div class="column">
+            <h2 class="x">Juniper</h2>
+            <table>
+                <tr><th>কাজ</th><th>কমান্ড</th></tr>
+                <tr><td>নতুন ইউজার তৈরি</td><td>set system login user USERNAME class super-user authentication plain-text-password</td></tr>
+                <tr><td>IP দ্বৈততা চেক</td><td>show configuration | match "172.16.23."<br>show interfaces terse | match "172.16.23.21"</td></tr>
+                <tr><td>BGP নেটওয়ার্ক চেক</td><td>show configuration protocols bgp group FNA neighbor 172.16.23.70</td></tr>
+                <tr><td>BGP সামারি চেক</td><td>show bgp summary instance FNA</td></tr>
+                <tr><td>ক্লায়েন্ট থেকে প্রাপ্ত প্রিফিক্স</td><td>show route advertising-protocol bgp 172.16.22.194</td></tr>
+                <tr><td>আমাদের পাঠানো প্রিফিক্স</td><td>show route receive-protocol bgp 172.16.19.38</td></tr>
+                <tr><td>স্ট্যাটিক রুট</td><td>set routing-options static route 103.109.56.172/30 next-hop 103.137.161.254</td></tr>
+                <tr><td>ইন্টারফেস কনফিগার</td><td>set interfaces xe-0/0/1 unit 203 description "TOP-NETWORK_INTERNET"<br>set interfaces xe-0/0/1 unit 203 vlan-id 203</td></tr>
+                <tr><td>BGP পিয়ারিং</td><td>set protocols bgp group Top-Networks peer-as 138953<br>set protocols bgp group Top-Networks neighbor 103.137.161.254 description "Top_Networks"</td></tr>
+                <tr><td>ট্রাফিক শেপিং</td><td>set firewall policer 203-TOP-NETWORK_INTERNET if-exceeding bandwidth-limit 1710m</td></tr>
+                <tr><td>রাউটিং পলিসি</td><td>set policy-options policy-statement top_networks_in term 1 from route-filter TOP-NETWORKS-IN exact</td></tr>
+                <tr><td>অ্যাক্সেস লিস্ট</td><td>set firewall family inet filter NAT-SITE term 1 from source-address 0.0.0.0/0</td></tr>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
