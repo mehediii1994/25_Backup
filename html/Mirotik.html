@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRE Tunnel Configuration Table</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        padding: 20px;
+    }
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #007acc;
+        color: white;
+    }
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+    code {
+        background-color: #eee;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-size: 14px;
+        display: block;
+    }
+</style>
+</head>
+<body>
+
+<h2>✅ GRE Tunnel Configuration Table (Box Wise)</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Box Name</th>
+            <th>Site-A (Router-A) Config</th>
+            <th>Site-B (Router-B) Config</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Public IP</td>
+            <td>1.1.1.1</td>
+            <td>2.2.2.2</td>
+        </tr>
+        <tr>
+            <td>GRE Tunnel Interface Create</td>
+            <td><code>/interface gre add name=gre-tunnel remote-address=2.2.2.2 local-address=1.1.1.1</code></td>
+            <td><code>/interface gre add name=gre-tunnel remote-address=1.1.1.1 local-address=2.2.2.2</code></td>
+        </tr>
+        <tr>
+            <td>GRE Tunnel IP Address</td>
+            <td><code>/ip address add address=10.10.10.1/30 interface=gre-tunnel</code></td>
+            <td><code>/ip address add address=10.10.10.2/30 interface=gre-tunnel</code></td>
+        </tr>
+        <tr>
+            <td>LAN IP Range (Example)</td>
+            <td>192.168.1.0/24</td>
+            <td>192.168.2.0/24</td>
+        </tr>
+        <tr>
+            <td>Routing to Opposite LAN</td>
+            <td><code>/ip route add dst-address=192.168.2.0/24 gateway=10.10.10.2</code></td>
+            <td><code>/ip route add dst-address=192.168.1.0/24 gateway=10.10.10.1</code></td>
+        </tr>
+        <tr>
+            <td>Firewall Rule (GRE Allow)</td>
+            <td><code>/ip firewall filter add chain=input protocol=gre action=accept</code></td>
+            <td><code>/ip firewall filter add chain=input protocol=gre action=accept</code></td>
+        </tr>
+        <tr>
+            <td>Ping Test (GRE Verify)</td>
+            <td><code>/ping 10.10.10.2</code></td>
+            <td><code>/ping 10.10.10.1</code></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h2>✅ Billing Based Hotspot Configuration Table (Box Wise)</h2>
+
+<table border="1" cellspacing="0" cellpadding="8">
+    <thead>
+        <tr>
+            <th>Step Name</th>
+            <th>Description (কি কাজ হবে)</th>
+            <th>Example / Command</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1. IP Address Setup</td>
+            <td>LAN Interface এ IP Address দিবেন (Hotspot এর জন্য)</td>
+            <td>/ip address add address=192.168.10.1/24 interface=ether2</td>
+        </tr>
+        <tr>
+            <td>2. DHCP Server for Hotspot</td>
+            <td>Client রা যেন IP পায়</td>
+            <td>/ip dhcp-server add address-pool=hs-pool interface=ether2</td>
+        </tr>
+        <tr>
+            <td>3. Hotspot Setup Wizard</td>
+            <td>Hotspot পুরো Configuration করবে</td>
+            <td>/ip hotspot setup (Follow Wizard)</td>
+        </tr>
+        <tr>
+            <td>4. User Profile Create (Timed or Data Limit)</td>
+            <td>সময়/ডাটা/স্পিড ভিত্তিক Package বানাবেন (Billing Control)</td>
+            <td>/ip hotspot user profile add name=1GB-Limit rate-limit=2M/2M address-pool=hs-pool</td>
+        </tr>
+        <tr>
+            <td>5. User Create (Per Customer)</td>
+            <td>আলাদাভাবে কাস্টমার বানাবেন এবং মেয়াদ/ডাটা দিবেন</td>
+            <td>/ip hotspot user add name=customer1 password=123456 profile=1GB-Limit</td>
+        </tr>
+        <tr>
+            <td>6. Firewall Address List (Optional - For Blocking Non-paid User)</td>
+            <td>Non-payment হলে Address List এ রাখবেন (Auto Block/Unblock)</td>
+            <td>/ip firewall address-list add list=non-paid address=192.168.10.50</td>
+        </tr>
+        <tr>
+            <td>7. Billing System Integration (Optional API or Radius)</td>
+            <td>Billing System থেকে Auto User Create/Expire করা যাবে</td>
+            <td>Radius/External Billing Software Integration (like Splynx, User Manager)</td>
+        </tr>
+        <tr>
+            <td>8. Payment Done হলে User Enable</td>
+            <td>কাস্টমার পেমেন্ট করলে ইউজার Active হবে</td>
+            <td>/ip hotspot user enable customer1</td>
+        </tr>
+        <tr>
+            <td>9. Non-payment হলে User Disable</td>
+            <td>কাস্টমার বিল না দিলে Auto Disable</td>
+            <td>/ip hotspot user disable customer1</td>
+        </tr>
+        <tr>
+            <td>10. Custom Login Page (Billing Link সহ)</td>
+            <td>Custom Login Page এ "Bill Payment Link" দিবেন</td>
+            <td>Files > hotspot > login.html</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>✅ Example Payment Button (HTML)</h3>
+<pre>
+&lt;a href="https://yourbillingportal.com/payment/customer1"&gt;Pay Your Bill&lt;/a&gt;
+</pre>
+
+<h3>✅ Example User Profile with Auto Disable</h3>
+<pre>
+/ip hotspot user profile add name=Bronze rate-limit=2M/2M on-login=":delay 7d; /ip hotspot user disable \$user"
+</pre>
+
+
+
+</body>
+</html>

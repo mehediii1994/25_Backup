@@ -2278,5 +2278,376 @@ set interfaces ge-0/0/5 ether-options 802.3ad ae3
             </table>
         </div>
     </div>
+
+    <h1>DBMS CRUD Operations</h1>
+
+    <div class="row">
+        <!-- Course Table Section -->
+        <div class="column">
+            <div class="x">Course Table</div>
+            <div class="table-container">
+                <table>
+                    <tr><th>Query</th></tr>
+                    <tr><td><div class="query"><strong>1. Insert a new course into the table.</strong><br>INSERT INTO course (course_id, title, dept_name, credits) VALUES ('CS102', 'Introduction to Programming', 'Computer Science', 4);</div></td></tr>
+                    <tr><td><div class="query"><strong>2. Add another course with a specific title and credits.</strong><br>INSERT INTO course (course_id, title, dept_name, credits) VALUES ('MAT201', 'Calculus II', 'Mathematics', 3);</div></td></tr>
+                    <tr><td><div class="query"><strong>3. Insert multiple courses at once.</strong><br>INSERT INTO course (course_id, title, dept_name, credits) VALUES ('BIO101', 'Introduction to Biology', 'Biology', 4), ('PHY101', 'General Physics', 'Physics', 3);</div></td></tr>
+                    <tr><td><div class="query"><strong>4. Retrieve all course records.</strong><br>SELECT * FROM course;</div></td></tr>
+                    <tr><td><div class="query"><strong>5. Find courses with fewer than 3 credits.</strong><br>SELECT * FROM course WHERE credits < 3;</div></td></tr>
+                    <tr><td><div class="query"><strong>6. Get the course title and department name for a specific course ID (e.g., 'CS102').</strong><br>SELECT title, dept_name FROM course WHERE course_id = 'CS102';</div></td></tr>
+                    <tr><td><div class="query"><strong>7. List all courses ordered by department name.</strong><br>SELECT * FROM course ORDER BY dept_name;</div></td></tr>
+                    <tr><td><div class="query"><strong>8. Find all courses with 'Advanced' in their title.</strong><br>SELECT * FROM course WHERE title LIKE '%Advanced%';</div></td></tr>
+                    <tr><td><div class="query"><strong>9. Update the credits of a course with a specific course ID (e.g., 'CS102').</strong><br>UPDATE course SET credits = 5 WHERE course_id = 'CS102';</div></td></tr>
+                    <tr><td><div class="query"><strong>10. Change the title of a course (e.g., 'MAT201') to 'Calculus II - Advanced'.</strong><br>UPDATE course SET title = 'Calculus II - Advanced' WHERE course_id = 'MAT201';</div></td></tr>
+                    <tr><td><div class="query"><strong>11. Update the department name for a course (e.g., 'BIO101') to 'Life Sciences'.</strong><br>UPDATE course SET dept_name = 'Life Sciences' WHERE course_id = 'BIO101';</div></td></tr>
+                    <tr><td><div class="query"><strong>12. Delete a specific course by course ID (e.g., 'PHY101').</strong><br>DELETE FROM course WHERE course_id = 'PHY101';</div></td></tr>
+                    <tr><td><div class="query"><strong>13. Remove all courses with credits equal to 1.</strong><br>DELETE FROM course WHERE credits = 1;</div></td></tr>
+                    <tr><td><div class="query"><strong>16. Delete courses from a specific department (e.g., 'Mathematics').</strong><br>DELETE FROM course WHERE dept_name = 'Mathematics';</div></td></tr>
+                    <tr><td><div class="query"><strong>17. Update multiple courses' credits to 4 if their department is 'Mathematics'.</strong><br>UPDATE course SET credits = 4 WHERE dept_name = 'Mathematics';</div></td></tr>
+                </table>
+            </div>
+        </div>
+    
+        <!-- Student Table Section -->
+        <div class="column">
+            <div class="x">Student Table</div>
+            <div class="table-container">
+                <table>
+                    <tr><th>Query</th></tr>
+                    <tr><td><div class="query"><strong>1. Insert a new student into the table.</strong><br>INSERT INTO student (ID, name, dept_name, tot_cred) VALUES (1, 'Alice Smith', 'Computer Science', 30);</div></td></tr>
+                    <tr><td><div class="query"><strong>2. Add another student with a specific name and department.</strong><br>INSERT INTO student (ID, name, dept_name, tot_cred) VALUES (2, 'Bob Johnson', 'Mathematics', 45);</div></td></tr>
+                    <tr><td><div class="query"><strong>3. Insert multiple students at once.</strong><br>INSERT INTO student (ID, name, dept_name, tot_cred) VALUES (3, 'Charlie Brown', 'Physics', 20), (4, 'Diana Prince', 'Computer Science', 50);</div></td></tr>
+                    <tr><td><div class="query"><strong>4. Retrieve all student records.</strong><br>SELECT * FROM student;</div></td></tr>
+                    <tr><td><div class="query"><strong>5. Find students with total credits greater than 40.</strong><br>SELECT * FROM student WHERE tot_cred > 40;</div></td></tr>
+                    <tr><td><div class="query"><strong>6. Get the name and department of a specific student by ID (e.g., 1).</strong><br>SELECT name, dept_name FROM student WHERE ID = 1;</div></td></tr>
+                    <tr><td><div class="query"><strong>7. List all students ordered by total credits in descending order.</strong><br>SELECT * FROM student ORDER BY tot_cred DESC;</div></td></tr>
+                    <tr><td><div class="query"><strong>8. Find all students whose name starts with 'A'.</strong><br>SELECT * FROM student WHERE name LIKE 'A%';</div></td></tr>
+                    <tr><td><div class="query"><strong>9. Update the total credits for a student with a specific ID (e.g., 1).</strong><br>UPDATE student SET tot_cred = 35 WHERE ID = 1;</div></td></tr>
+                    <tr><td><div class="query"><strong>10. Change the name of a student (e.g., ID 2) to 'Robert Johnson'.</strong><br>UPDATE student SET name = 'Robert Johnson' WHERE ID = 2;</div></td></tr>
+                    <tr><td><div class="query"><strong>11. Update the department name for a student (e.g., ID 3) to 'Engineering'.</strong><br>UPDATE student SET dept_name = 'Engineering' WHERE ID = 3;</div></td></tr>
+                    <tr><td><div class="query"><strong>12. Delete a specific student by ID (e.g., 4).</strong><br>DELETE FROM student WHERE ID = 4;</div></td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+
+<title>VXLAN EVPN Configuration on Nexus Switch</title>
+
+                            <h1>✅ Step by Step VXLAN EVPN Configuration Between Two Nexus Switches</h1>
+                            
+                            <h2>🎯 Prerequisite:</h2>
+                            <ul>
+                                <li>Nexus OS (NX-OS) এর latest version থাকতে হবে (যাতে VXLAN এবং EVPN সাপোর্ট করে)</li>
+                                <li>L3 connectivity থাকতে হবে দুই switch এর মধ্যে (underlay network)</li>
+                                <li>NVE (Network Virtualization Edge) feature enable করতে হবে</li>
+                                <li>BGP EVPN control plane configure করতে হবে</li>
+                            </ul>
+                            
+                            <h2>🔶 1. Underlay Network Configuration (IP reachability ensure করা)</h2>
+                            <p>প্রথমে Spine/Leaf architecture অনুযায়ী IP underlay configure করতে হবে (BGP, OSPF, etc.)। এখানে আমি দুই Nexus switch এর মধ্যে direct IP underlay দেখাচ্ছি।</p>
+                            
+                            <h3>Switch-1 (Leaf-1) - Underlay</h3>
+                            <pre>
+                            feature ospf
+                            feature bgp
+                            
+                            interface eth1/1
+                              no switchport
+                              ip address 10.0.12.1/30
+                            
+                            router ospf 1
+                              network 10.0.12.0 0.0.0.3 area 0
+                            </pre>
+                            
+                            <h3>Switch-2 (Leaf-2) - Underlay</h3>
+                            <pre>
+                            feature ospf
+                            feature bgp
+                            
+                            interface eth1/1
+                              no switchport
+                              ip address 10.0.12.2/30
+                            
+                            router ospf 1
+                              network 10.0.12.0 0.0.0.3 area 0
+                            </pre>
+                            
+                            <h2>🔶 2. Overlay Configuration (VXLAN NVE interface)</h2>
+                            <h3>Enable Required Features:</h3>
+                            <pre>
+                            feature nv overlay
+                            feature vn-segment-vlan-based
+                            feature interface-vlan
+                            feature bgp
+                            </pre>
+                            
+                            <h2>3. VNI, VLAN, NVE Configuration</h2>
+                            <h3>Example for Switch-1:</h3>
+                            <pre>
+                            vlan 10
+                              vn-segment 10010
+                            
+                            interface Vlan10
+                              no shutdown
+                              ip address 192.168.10.1/24
+                            
+                            interface nve1
+                              no shutdown
+                              source-interface loopback0
+                              member vni 10010
+                                ingress-replication protocol bgp
+                            </pre>
+                            
+                            <h3>Example for Switch-2:</h3>
+                            <pre>
+                            vlan 10
+                              vn-segment 10010
+                            
+                            interface Vlan10
+                              no shutdown
+                              ip address 192.168.10.2/24
+                            
+                            interface nve1
+                              no shutdown
+                              source-interface loopback0
+                              member vni 10010
+                                ingress-replication protocol bgp
+                            </pre>
+                            
+                            <h2>🔶 4. Loopback IP Configuration (VXLAN Source IP)</h2>
+                            <h3>Both switches:</h3>
+                            <pre>
+                            interface loopback0
+                              ip address 1.1.1.1/32  (Switch-1)
+                            
+                            interface loopback0
+                              ip address 2.2.2.2/32  (Switch-2)
+                            </pre>
+                            
+                            <h2>🔶 5. BGP EVPN Control Plane Configuration</h2>
+                            <h3>Switch-1:</h3>
+                            <pre>
+                            router bgp 65001
+                              router-id 1.1.1.1
+                              address-family l2vpn evpn
+                              neighbor 2.2.2.2 remote-as 65002
+                              neighbor 2.2.2.2 update-source loopback0
+                              address-family l2vpn evpn
+                            </pre>
+                            
+                            <h3>Switch-2:</h3>
+                            <pre>
+                            router bgp 65002
+                              router-id 2.2.2.2
+                              address-family l2vpn evpn
+                              neighbor 1.1.1.1 remote-as 65001
+                              neighbor 1.1.1.1 update-source loopback0
+                              address-family l2vpn evpn
+                            </pre>
+                            
+                            <h2>🔶 6. Host Facing Ports (Optional)</h2>
+                            <h3>Switch-1:</h3>
+                            <pre>
+                            interface eth1/2
+                              switchport
+                              switchport access vlan 10
+                              no shutdown
+                            </pre>
+                            
+                            <h3>Switch-2:</h3>
+                            <pre>
+                            interface eth1/2
+                              switchport
+                              switchport access vlan 10
+                              no shutdown
+                            </pre>
+                            
+                            <h2>✅ 7. Verification Commands</h2>
+                            <h3>VXLAN status:</h3>
+                            <pre>
+                            show nve peers
+                            show nve vni
+                            </pre>
+                            
+                            <h3>BGP EVPN status:</h3>
+                            <pre>
+                            show bgp l2vpn evpn summary
+                            </pre>
+                            
+                            <h3>VNI status:</h3>
+                            <pre>
+                            show vlan
+                            show vn-segment
+                            </pre>
+                            
+                            <h2>🎉 Conclusion:</h2>
+                            <p>এভাবে দুইটি Nexus switch এর মধ্যে VXLAN tunnel establish হবে। আপনি চাইলে multicast-based replication, external gateway, এবং advanced EVPN features (like type-5 route, VRF-lite) যোগ করতে পারেন।</p>
+                            
+
+                            <div class="container">
+                                <h1>Step by Step VXLAN EVPN কনফিগারেশন</h1>
+                        
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Step</th>
+                                            <th>Example</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>1. Underlay Network কনফিগারেশন</strong></td>
+                                            <td>
+                                                <pre>
+                        Switch-1 (Leaf-1) - Underlay:
+                        feature ospf
+                        feature bgp
+                        interface eth1/1
+                          no switchport
+                          ip address 10.0.12.1/30
+                        router ospf 1
+                          network 10.0.12.0 0.0.0.3 area 0
+                        
+                        Switch-2 (Leaf-2) - Underlay:
+                        feature ospf
+                        feature bgp
+                        interface eth1/1
+                          no switchport
+                          ip address 10.0.12.2/30
+                        router ospf 1
+                          network 10.0.12.0 0.0.0.3 area 0
+                                                </pre>
+                                            </td>
+                                        </tr>
+                        
+                                        <tr>
+                                            <td><strong>2. Overlay কনফিগারেশন (VXLAN NVE ইন্টারফেস)</strong></td>
+                                            <td>
+                                                <pre>
+                        প্রয়োজনীয় ফিচার এনেবল করুন:
+                        feature nv overlay
+                        feature vn-segment-vlan-based
+                        feature interface-vlan
+                        feature bgp
+                                                </pre>
+                                            </td>
+                                        </tr>
+                        
+                                        <tr>
+                                            <td><strong>3. VNI, VLAN, NVE কনফিগারেশন</strong></td>
+                                            <td>
+                                                <pre>
+                        Switch-1 এর উদাহরণ:
+                        vlan 10
+                          vn-segment 10010
+                        interface Vlan10
+                          no shutdown
+                          ip address 192.168.10.1/24
+                        interface nve1
+                          no shutdown
+                          source-interface loopback0
+                          member vni 10010
+                            ingress-replication protocol bgp
+                        
+                        Switch-2 এর উদাহরণ:
+                        vlan 10
+                          vn-segment 10010
+                        interface Vlan10
+                          no shutdown
+                          ip address 192.168.10.2/24
+                        interface nve1
+                          no shutdown
+                          source-interface loopback0
+                          member vni 10010
+                            ingress-replication protocol bgp
+                                                </pre>
+                                            </td>
+                                        </tr>
+                        
+                                        <tr>
+                                            <td><strong>4. Loopback IP কনফিগারেশন</strong></td>
+                                            <td>
+                                                <pre>
+                        Switch-1:
+                        interface loopback0
+                          ip address 1.1.1.1/32
+                        
+                        Switch-2:
+                        interface loopback0
+                          ip address 2.2.2.2/32
+                                                </pre>
+                                            </td>
+                                        </tr>
+                        
+                                        <tr>
+                                            <td><strong>5. BGP EVPN কনফিগারেশন</strong></td>
+                                            <td>
+                                                <pre>
+                        Switch-1:
+                        router bgp 65001
+                          router-id 1.1.1.1
+                          address-family l2vpn evpn
+                          neighbor 2.2.2.2 remote-as 65002
+                          neighbor 2.2.2.2 update-source loopback0
+                          address-family l2vpn evpn
+                        
+                        Switch-2:
+                        router bgp 65002
+                          router-id 2.2.2.2
+                          address-family l2vpn evpn
+                          neighbor 1.1.1.1 remote-as 65001
+                          neighbor 1.1.1.1 update-source loopback0
+                          address-family l2vpn evpn
+                                                </pre>
+                                            </td>
+                                        </tr>
+                        
+                                        <tr>
+                                            <td><strong>6. Host Facing Ports (Optional)</strong></td>
+                                            <td>
+                                                <pre>
+                        Switch-1:
+                        interface eth1/2
+                          switchport
+                          switchport access vlan 10
+                          no shutdown
+                        
+                        Switch-2:
+                        interface eth1/2
+                          switchport
+                          switchport access vlan 10
+                          no shutdown
+                                                </pre>
+                                            </td>
+                                        </tr>
+                        
+                                        <tr>
+                                            <td><strong>7. Verification Commands</strong></td>
+                                            <td>
+                                                <pre>
+                        VXLAN status:
+                        show nve peers
+                        show nve vni
+                        
+                        BGP EVPN status:
+                        show bgp l2vpn evpn summary
+                        
+                        VNI status:
+                        show vlan
+                        show vn-segment
+                                                </pre>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                        
+                            </div>
+                                
+                                
+
+                                
+
+
+
 </body>
 </html>
