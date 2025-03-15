@@ -1,4 +1,9 @@
 
+
+Ping 
+====
+mehedi@HTL-NHK-PTX1000-01# run ping 172.16.46.82 logical-system SNC-BCDN-RT
+
 defult user name or password = root/root123
 host name set = root@Jonos-RW-1# show system |display set | match Jonos-RW-1 
 								 set system host-name Jonos-RW-1
@@ -99,6 +104,14 @@ view bandwidth = run monitor interface ae15.3291
 
 run show route advertising-protocol bgp 103.21.41.146 logical-system CDN-RT |match 103.80.78.0/24 
 
+
+
+ptp bgp check
+==============
+mehedi@HTL-NHK-PTX1000-01# run show bgp summary | match 172.23.7.2 
+
+mehedi@HTL-NHK-PTX1000-01# run show bgp summary logical-system SNC-BCDN-RT | match 172.16.46.82 
+172.16.46.82         137810      61847      40763       0       2 1w6d 6:09:55 1/1/1/0              0/0/0/0
 
 
 

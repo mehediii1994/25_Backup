@@ -245,6 +245,10 @@ Banglabazar Santo Huawei
 User: noc
 Pass: noc@2021
 
+Laxmipur-hw-1
+=============
+ mahedi 
+ mehedi@2021
 
 
 
@@ -314,6 +318,10 @@ PTIX
 IP : 172.22.5.94 ssh:37915
 UN/PW : mehedi/mehedi@2024
 
+Coronet ptix
+--------------
+IP : 172.31.252.5 ssh:37915
+UN/PW : mehedi/mehedi@2024
 
 IPAM
 ============
@@ -321,3 +329,29 @@ http://ipam.skynetchowmuhani.com/
 
 mehedi
 mehediii1994
+
+
+
+
+GGC= 0.8
+FNA= 0.7
+
+file zila
+=======
+68:d5:b7:aa:8b:78:7b:a9:94:3c:d2:e6:6f:5a:5a:72:8c:29:c8:2b:3b:c9:2c:3c:b5:6c:38:a2:84:78:54:/
+
+
+
+
+
+Islami bank AC
+ac / : 20507770237604515 
+
+
+
+
+
+DTCM$1234
+DtTCM$1234
+
+

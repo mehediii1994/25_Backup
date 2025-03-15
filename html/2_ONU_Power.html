@@ -2643,9 +2643,203 @@ set interfaces ge-0/0/5 ether-options 802.3ad ae3
                         
                             </div>
                                 
-                                
 
+                                <title>Access Point Configuration</title>
+                            </head>
+                            <body>
+                                <h1>Cisco AP Router Configaration</h1>
+                            
+                                <h2>General Settings</h2>
+                                <pre>
+                            hostname AP_NOC_2
+                            enable secret John@8080
+                            line console 0
+                            password John@8080
+                                </pre>
+                            
+                                <h2>SSID Configuration</h2>
+                                <pre>
+                            dot11 ssid INFINITY_NOC
+                             authentication open  
+                             authentication key-management wpa version 2
+                             guest-mode
+                             wpa-psk ascii InftNoc@2024#
+                             exit
+                                </pre>
+                            
+                                <h2>Radio Interface Dot11Radio0</h2>
+                                <pre>
+                            interface Dot11Radio0  
+                             encryption mode ciphers aes-ccm  
+                             ssid INFINITY_NOC  
+                             channel least-congested  
+                             no shutdown  
+                             exit
+                                </pre>
+                            
+                                <h2>Radio Interface Dot11Radio1</h2>
+                                <pre>
+                            interface Dot11Radio1  
+                             encryption mode ciphers aes-ccm  
+                             ssid INFINITY_NOC  
+                             channel least-congested  
+                             no shutdown  
+                             exit
+                                </pre>
+                            
+                                <h2>GigabitEthernet Interfaces</h2>
+                                <pre>
+                            interface GigabitEthernet0  
+                             no ip address  
+                             duplex auto  
+                             speed auto
+                            
+                            interface GigabitEthernet1  
+                             no ip address  
+                             duplex auto  
+                             speed auto
+                                </pre>
+                            
+                                <h2>HTTP and SSH Access</h2>
+                                <pre>
+                            ip http server  
+                            ip http secure-server  
+                            
+                            username admin secret John@8080  
+                            ip ssh version 2  
+                            line vty 0 15  
+                             transport input ssh  
+                             login local  
+                             exit
+                                </pre>
+                      
+
+                                    <h1>Cisco AP Router Configaration</h1>
                                 
+                                    <h2>১. ডিভাইসের নাম ও পাসওয়ার্ড সেট করা:</h2>
+                                    <pre>
+                                hostname AP_NOC_2
+                                enable secret John@8080
+                                line console 0
+                                password John@8080
+                                    </pre>
+                                    <p><strong>ব্যাখ্যা:</strong></p>
+                                    <ul>
+                                        <li><code>hostname AP_NOC_2</code>: ডিভাইসের নাম রাখা হলো <code>AP_NOC_2</code>।</li>
+                                        <li><code>enable secret John@8080</code>: ডিভাইসে Privileged Exec Mode এ যেতে চাইলে গোপন পাসওয়ার্ড <code>John@8080</code> ব্যবহার করতে হবে।</li>
+                                        <li><code>line console 0</code>: কনসোল পোর্টে লগইন করার জন্য।</li>
+                                        <li><code>password John@8080</code>: কনসোল লগইনের জন্য পাসওয়ার্ড সেট করা হলো <code>John@8080</code>।</li>
+                                    </ul>
+                                
+                                    <h2>২. SSID (WiFi Network Name) তৈরি ও নিরাপত্তা সেটআপ:</h2>
+                                    <pre>
+                                dot11 ssid INFINITY_NOC
+                                authentication open  
+                                authentication key-management wpa version 2
+                                guest-mode
+                                wpa-psk ascii InftNoc@2024#
+                                exit
+                                    </pre>
+                                    <p><strong>ব্যাখ্যা:</strong></p>
+                                    <ul>
+                                        <li><code>dot11 ssid INFINITY_NOC</code>: <code>INFINITY_NOC</code> নামের ওয়াইফাই নেটওয়ার্ক তৈরি।</li>
+                                        <li><code>authentication open</code>: ওপেন অথেন্টিকেশন (কিন্তু পরে WPA2 দিয়ে নিরাপদ করা হয়েছে)।</li>
+                                        <li><code>authentication key-management wpa version 2</code>: WPA2 নিরাপত্তা ব্যবস্থা সক্রিয়।</li>
+                                        <li><code>guest-mode</code>: ওয়াইফাই নেটওয়ার্ককে ব্রডকাস্ট করা হবে, অর্থাৎ সবাই দেখতে পাবে।</li>
+                                        <li><code>wpa-psk ascii InftNoc@2024#</code>: ওয়াইফাই পাসওয়ার্ড <code>InftNoc@2024#</code> সেট করা।</li>
+                                    </ul>
+                                
+                                    <h2>৩. রেডিও ইন্টারফেস কনফিগারেশন (WiFi Frequency Bands):</h2>
+                                    <h3>📡 (a) 2.4 GHz রেডিও ইন্টারফেস:</h3>
+                                    <pre>
+                                interface Dot11Radio0  
+                                encryption mode ciphers aes-ccm  
+                                ssid INFINITY_NOC  
+                                channel least-congested  
+                                no shutdown  
+                                exit
+                                    </pre>
+                                    <p><strong>ব্যাখ্যা:</strong></p>
+                                    <ul>
+                                        <li><code>interface Dot11Radio0</code>: ২.৪ GHz এর WiFi ইন্টারফেস।</li>
+                                        <li><code>encryption mode ciphers aes-ccm</code>: এনক্রিপশন হিসেবে AES-CCM ব্যবহার হবে (উন্নত নিরাপত্তা)।</li>
+                                        <li><code>ssid INFINITY_NOC</code>: আগেই তৈরি করা WiFi নেটওয়ার্ক অ্যাসাইন করা হলো।</li>
+                                        <li><code>channel least-congested</code>: এমন চ্যানেল ব্যবহার করবে যেখানে কম ভিড়।</li>
+                                        <li><code>no shutdown</code>: ইন্টারফেস চালু করা হলো।</li>
+                                    </ul>
+                                
+                                    <h3>📡 (b) 5 GHz রেডিও ইন্টারফেস:</h3>
+                                    <pre>
+                                interface Dot11Radio1  
+                                encryption mode ciphers aes-ccm  
+                                ssid INFINITY_NOC  
+                                channel least-congested  
+                                no shutdown  
+                                exit
+                                    </pre>
+                                    <p><strong>ব্যাখ্যা:</strong></p>
+                                    <ul>
+                                        <li><code>interface Dot11Radio1</code>: ৫ GHz এর WiFi ইন্টারফেস।</li>
+                                        <li>বাকি সবকিছু একই: এনক্রিপশন, SSID, চ্যানেল, চালু করা হলো।</li>
+                                    </ul>
+                                
+                                    <h2>৪. ইথারনেট পোর্ট কনফিগারেশন:</h2>
+                                    <pre>
+                                interface GigabitEthernet0  
+                                no ip address  
+                                duplex auto  
+                                speed auto
+                                
+                                interface GigabitEthernet1  
+                                no ip address  
+                                duplex auto  
+                                speed auto
+                                    </pre>
+                                    <p><strong>ব্যাখ্যা:</strong></p>
+                                    <ul>
+                                        <li>দুটি ইথারনেট পোর্ট (LAN পোর্ট) আছে।</li>
+                                        <li><code>no ip address</code>: আইপি অ্যাড্রেস দেওয়া হয়নি (পরবর্তীতে দেওয়া যেতে পারে)।</li>
+                                        <li><code>duplex auto</code> এবং <code>speed auto</code>: স্পিড ও ডুপ্লেক্স স্বয়ংক্রিয়ভাবে ঠিক হবে।</li>
+                                    </ul>
+                                
+                                    <h2>৫. ওয়েব ও SSH সার্ভার চালু করা:</h2>
+                                    <pre>
+                                ip http server  
+                                ip http secure-server  
+                                    </pre>
+                                    <p><strong>ব্যাখ্যা:</strong></p>
+                                    <ul>
+                                        <li>ওয়েব ইন্টারফেসে (GUI) কনফিগারেশনের জন্য HTTP ও HTTPS সার্ভার চালু করা হলো।</li>
+                                    </ul>
+                                
+                                    <h2>৬. ইউজার একাউন্ট এবং SSH সেটআপ:</h2>
+                                    <pre>
+                                username admin secret John@8080  
+                                ip ssh version 2  
+                                line vty 0 15  
+                                transport input ssh  
+                                login local  
+                                exit
+                                    </pre>
+                                    <p><strong>ব্যাখ্যা:</strong></p>
+                                    <ul>
+                                        <li><code>username admin secret John@8080</code>: <code>admin</code> নামে ইউজার একাউন্ট, পাসওয়ার্ড <code>John@8080</code>।</li>
+                                        <li><code>ip ssh version 2</code>: SSH version 2 চালু।</li>
+                                        <li><code>line vty 0 15</code>: রিমোট এক্সেস (SSH এর জন্য) লাইন ০ থেকে ১৫ পর্যন্ত।</li>
+                                        <li><code>transport input ssh</code>: SSH ছাড়া অন্য কিছুতে (যেমন Telnet) প্রবেশ করা যাবে না।</li>
+                                        <li><code>login local</code>: লোকাল ইউজার (<code>admin</code>) দিয়ে লগইন হবে।</li>
+                                    </ul>
+                                
+                                    <h2>🔑 সারাংশ (Summary):</h2>
+                                    <ol>
+                                        <li>ডিভাইসের নাম ও সিক্রেট পাসওয়ার্ড সেট।</li>
+                                        <li><code>INFINITY_NOC</code> নামে ওয়াইফাই তৈরি, WPA2 ও AES নিরাপত্তা।</li>
+                                        <li>২.৪ GHz ও ৫ GHz দুই ব্যান্ডে চালু।</li>
+                                        <li>ইথারনেট পোর্ট অটো মোডে।</li>
+                                        <li>ওয়েব ও HTTPS ম্যানেজমেন্ট অ্যাক্সেস।</li>
+                                        <li>SSH অ্যাক্সেস সহ ইউজারনেম-পাসওয়ার্ড।</li>
+                                    </ol>
+                               
 
 
 
