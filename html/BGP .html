@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>eBGP উদাহরণ</title>
+    <title>ALL about BGP</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -27,11 +27,27 @@
         }
         pre {
             background: #272822;
-            color: #f8f8f2;
+            color: #272822;
             padding: 15px;
             border-radius: 8px;
-            overflow-x: auto;
+            
         }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        pre {
+            color: #e2ff51;
+        }
+
+        table {
+            width: fit-content;
+           
+        }
+        
+        
     </style>
 </head>
 <body>
@@ -2375,7 +2391,1855 @@ B        192.168.2.2 [20/0] via 10.12.1.2, 00:06:12
                                                       
                                                           <p>এইভাবে R3 থেকে R7 পর্যন্ত এবং TR1, TR2, TR3 সব জায়গায় OSPF configure হবে। শুধু Router ID এবং Loopback/Networks অনুযায়ী IP গুলো adjust করবে।</p>
 
+                                                              <h1>eBGP Setup among ISPs and Customers</h1>
+                                                              <p>
+                                                                  The configuration establishes eBGP (External BGP) relationships between Customers (CUST12, CUST34) and ISPs (AR1, AR2, AR3, AR4). There are two separate customers:
+                                                              </p>
+                                                              <ul>
+                                                                  <li><strong>CUST12</strong>: Connected to AR1 (AS 10) and AR2 (AS 20).</li>
+                                                                  <li><strong>CUST34</strong>: Connected to AR3 (AS 30) and AR4 (AS 40).</li>
+                                                              </ul>
+                                                          
+                                                              <h2>IP Block Announcement</h2>
+                                                              <p>
+                                                                  The <code>network</code> command is used to announce the customer's IP blocks via BGP. For example:
+                                                              </p>
+                                                              <pre>
+                                                                  network 192.168.12.0 mask 255.255.255.0
+                                                                  network 192.168.13.0 mask 255.255.255.0
+                                                                  network 192.168.12.0 mask 255.255.254.0
+                                                              </pre>
+                                                              <p>
+                                                                  This allows CUST12 to announce its IP blocks to the ISP routers (AR1, AR2). Similarly, CUST34 announces its IP blocks:
+                                                              </p>
+                                                              <pre>
+                                                                  network 192.168.34.0 mask 255.255.255.0
+                                                                  network 192.168.35.0 mask 255.255.255.0
+                                                                  network 192.168.34.0 mask 255.255.254.0
+                                                              </pre>
+                                                          
+                                                              <h2>IP Prefix-List for Filtering</h2>
+                                                              <p>
+                                                                  The prefix-list is used to control which IP blocks are announced. For example, in CUST12:
+                                                              </p>
+                                                              <pre>
+                                                                  ip prefix-list PL-OWN-1 seq 5 permit 192.168.12.0/24
+                                                                  ip prefix-list PL-OWN-1 seq 10 permit 192.168.12.0/23
+                                                              </pre>
+                                                              <p>
+                                                                  This ensures that only the specified IP blocks (192.168.12.0/24 and 192.168.12.0/23) are announced. Similarly:
+                                                              </p>
+                                                              <pre>
+                                                                  ip prefix-list PL-OWN-2 seq 5 permit 192.168.13.0/24
+                                                                  ip prefix-list PL-OWN-2 seq 10 permit 192.168.12.0/23
+                                                              </pre>
+                                                          
+                                                              <h2>Route-Map for Filtering</h2>
+                                                              <p>
+                                                                  Route-maps are used to apply the prefix-list filters to specific neighbors. For example, in CUST12:
+                                                              </p>
+                                                              <pre>
+                                                                  route-map RM-AR1-OUT permit 10
+                                                                  match ip address prefix-list PL-OWN-1
+                                                              </pre>
+                                                              <p>
+                                                                  This ensures that only the IP blocks defined in <code>PL-OWN-1</code> are announced to AR1. Similarly:
+                                                              </p>
+                                                              <pre>
+                                                                  route-map RM-AR2-OUT permit 10
+                                                                  match ip address prefix-list PL-OWN-2
+                                                              </pre>
+                                                          
+                                                              <h2>Attaching Route-Map to Neighbors</h2>
+                                                              <p>
+                                                                  The route-map is attached to the neighbor configuration to enforce the filtering. For example:
+                                                              </p>
+                                                              <pre>
+                                                                  neighbor 10.10.2.1 route-map RM-AR1-OUT out
+                                                                  neighbor 10.20.2.1 route-map RM-AR2-OUT out
+                                                              </pre>
+                                                              <p>
+                                                                  This ensures that only the specified IP blocks are sent to the respective neighbors (AR1 and AR2).
+                                                              </p>
+                                                          
+                                                              <h2>Key Points</h2>
+                                                              <ul>
+                                                                  <li><strong>Announce IP Blocks:</strong> Customers announce their IP blocks to ISPs.</li>
+                                                                  <li><strong>Filter Announcements:</strong> Prefix-lists and route-maps ensure only specific IP blocks are announced.</li>
+                                                                  <li><strong>Remove Private AS:</strong> Private AS numbers are removed during announcements.</li>
+                                                                  <li><strong>Granular Control:</strong> Route-maps and prefix-lists provide precise control over routing announcements.</li>
+                                                              </ul>
 
+                                                              <h1>eBGP Configuration among ISPs and Customers</h1>
+                                                              <h2>Task: Announce Corresponding IP Blocks + Inbound Filter (Prefix-list)</h2>
+                                                          
+                                                              <h3>CUST12 Configuration</h3>
+                                                              <pre>
+                                                                  conf t
+                                                                  router bgp 12
+                                                                  distance bgp 200 200 200
+                                                                  no bgp default ipv4-unicast
+                                                                  neighbor 10.10.2.1 remote-as 10
+                                                                  neighbor 10.10.2.1 description AR1
+                                                                  neighbor 10.20.2.1 remote-as 20
+                                                                  neighbor 10.20.2.1 description AR2
+                                                                  address-family ipv4 unicast
+                                                                      neighbor 10.10.2.1 activate
+                                                                      neighbor 10.10.2.1 remove-private-as
+                                                                      neighbor 10.10.2.1 route-map RM-AR1-OUT out
+                                                                      neighbor 10.20.2.1 activate
+                                                                      neighbor 10.20.2.1 remove-private-as
+                                                                      neighbor 10.20.2.1 route-map RM-AR2-OUT out
+                                                                      network 192.168.12.0 mask 255.255.255.0
+                                                                      network 192.168.13.0 mask 255.255.255.0
+                                                                      network 192.168.12.0 mask 255.255.254.0
+                                                                  exit
+                                                                  exit
+                                                                  !
+                                                                  interface loopback 1
+                                                                      ip address 192.168.12.1 255.255.255.0
+                                                                  exit
+                                                                  !
+                                                                  interface loopback 2
+                                                                      ip address 192.168.13.1 255.255.255.0
+                                                                  exit
+                                                                  !
+                                                                  ip route 192.168.12.0 255.255.254.0 null0
+                                                                  !
+                                                                  ip prefix-list PL-OWN-1 seq 5 permit 192.168.12.0/24
+                                                                  ip prefix-list PL-OWN-1 seq 10 permit 192.168.12.0/23
+                                                                  ip prefix-list PL-OWN-2 seq 5 permit 192.168.13.0/24
+                                                                  ip prefix-list PL-OWN-2 seq 10 permit 192.168.12.0/23
+                                                                  route-map RM-AR1-OUT permit 10
+                                                                      match ip address prefix-list PL-OWN-1
+                                                                  exit
+                                                                  route-map RM-AR2-OUT permit 10
+                                                                      match ip address prefix-list PL-OWN-2
+                                                                  exit
+                                                                  exit
+                                                                  wr
+                                                              </pre>
+                                                          
+                                                              <h4>BGP Summary for CUST12</h4>
+                                                              <pre>
+                                                                  CUST12#show bgp ipv4 unicast summary
+                                                                  Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+                                                                  10.10.2.1       4           10      19      20       27    0    0 00:06:44       24
+                                                                  10.20.2.1       4           20      19      20       27    0    0 00:06:42       24
+                                                              </pre>
+                                                          
+                                                              <h3>CUST34 Configuration</h3>
+                                                              <pre>
+                                                                  conf t
+                                                                  router bgp 34
+                                                                  distance bgp 200 200 200
+                                                                  no bgp default ipv4-unicast
+                                                                  neighbor 10.30.2.1 remote-as 30
+                                                                  neighbor 10.30.2.1 description AR3
+                                                                  neighbor 10.40.2.1 remote-as 40
+                                                                  neighbor 10.40.2.1 description AR4
+                                                                  address-family ipv4 unicast
+                                                                      neighbor 10.30.2.1 activate
+                                                                      neighbor 10.30.2.1 remove-private-as
+                                                                      neighbor 10.30.2.1 route-map RM-AR3-OUT out
+                                                                      neighbor 10.40.2.1 activate
+                                                                      neighbor 10.40.2.1 remove-private-as
+                                                                      neighbor 10.40.2.1 route-map RM-AR4-OUT out
+                                                                      network 192.168.34.0 mask 255.255.255.0
+                                                                      network 192.168.35.0 mask 255.255.255.0
+                                                                      network 192.168.34.0 mask 255.255.254.0
+                                                                  exit
+                                                                  exit
+                                                                  !
+                                                                  interface loopback 1
+                                                                      ip address 192.168.34.1 255.255.255.0
+                                                                  exit
+                                                                  !
+                                                                  interface loopback 2
+                                                                      ip address 192.168.35.1 255.255.255.0
+                                                                  exit
+                                                                  !
+                                                                  ip route 192.168.34.0 255.255.254.0 null0
+                                                                  !
+                                                                  ip prefix-list PL-OWN-1 seq 5 permit 192.168.34.0/24
+                                                                  ip prefix-list PL-OWN-1 seq 10 permit 192.168.34.0/23
+                                                                  ip prefix-list PL-OWN-2 seq 5 permit 192.168.35.0/24
+                                                                  ip prefix-list PL-OWN-2 seq 10 permit 192.168.34.0/23
+                                                                  route-map RM-AR3-OUT permit 10
+                                                                      match ip address prefix-list PL-OWN-1
+                                                                  exit
+                                                                  route-map RM-AR4-OUT permit 10
+                                                                      match ip address prefix-list PL-OWN-2
+                                                                  exit
+                                                                  exit
+                                                                  wr
+                                                              </pre>
+                                                          
+                                                              <h4>BGP Summary for CUST34</h4>
+                                                              <pre>
+                                                                  CUST34#show bgp ipv4 unicast summary
+                                                                  Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+                                                                  10.30.2.1       4           30      12      13       27    0    0 00:00:43       24
+                                                                  10.40.2.1       4           40      12      13       27    0    0 00:00:45       24
+                                                              </pre>
+                                                          
+                                                              <h1>Task-0: eBGP Config among ISPs and Customers</h1>
+                                                              <h2>১. eBGP Setup among ISPs and Customers:</h2>
+                                                              <p>
+                                                                  প্রথমেই Customer (CUST12, CUST34) এবং ISP (AR1, AR2, AR3, AR4) এর মধ্যে eBGP (External BGP) সম্পর্ক গড়া হয়েছে। এখানে দুইটা আলাদা customer আছে:
+                                                              </p>
+                                                              <ul>
+                                                                  <li><b>CUST12 এর জন্য:</b> AR1 (AS 10), AR2 (AS 20)</li>
+                                                                  <li><b>CUST34 এর জন্য:</b> AR3 (AS 30), AR4 (AS 40)</li>
+                                                              </ul>
+                                                          
+                                                              <h2>২. IP Block Announce করার জন্য ব্যবহৃত কমান্ড:</h2>
+                                                              <h3>২.১ network কমান্ড:</h3>
+                                                              <p>CUST12:</p>
+                                                              <pre>
+                                                          network 192.168.12.0 mask 255.255.255.0
+                                                          network 192.168.13.0 mask 255.255.255.0
+                                                          network 192.168.12.0 mask 255.255.254.0
+                                                              </pre>
+                                                              <p>এই কমান্ডগুলোর মাধ্যমে CUST12 তার নিজস্ব IP block গুলো BGP এর মাধ্যমে announce করছে। অর্থাৎ, তার IP গুলোকে সে বাইরের ISP রাউটার (AR1, AR2) কে জানাচ্ছে।</p>
+                                                          
+                                                              <p>CUST34:</p>
+                                                              <pre>
+                                                          network 192.168.34.0 mask 255.255.255.0
+                                                          network 192.168.35.0 mask 255.255.255.0
+                                                          network 192.168.34.0 mask 255.255.254.0
+                                                              </pre>
+                                                          
+                                                              <h2>৩. IP Prefix-List এর কাজ (ফিল্টারিং করার জন্য):</h2>
+                                                              <h3>৩.১ উদাহরণ (CUST12):</h3>
+                                                              <pre>
+                                                          ip prefix-list PL-OWN-1 seq 5 permit 192.168.12.0/24
+                                                          ip prefix-list PL-OWN-1 seq 10 permit 192.168.12.0/23
+                                                              </pre>
+                                                              <p>
+                                                                  PL-OWN-1 এই prefix-list এর মাধ্যমে 192.168.12.0/24 এবং 192.168.12.0/23 IP গুলো শুধু announce করা হবে বলে ঠিক করা হয়েছে।
+                                                                  অর্থাৎ, এই prefix গুলোর বাইরে অন্য কোন IP block এই রাউটার announce করবে না।
+                                                              </p>
+                                                          
+                                                              <p>একইভাবে:</p>
+                                                              <pre>
+                                                          ip prefix-list PL-OWN-2 seq 5 permit 192.168.13.0/24
+                                                          ip prefix-list PL-OWN-2 seq 10 permit 192.168.12.0/23
+                                                              </pre>
+                                                              <p>PL-OWN-2 আরেকটা IP block নিয়ন্ত্রণ করছে।</p>
+                                                          
+                                                              <h2>৪. Route-map এর কাজ (Prefix-list অনুযায়ী filter করে IP announce করা):</h2>
+                                                              <h3>৪.১ উদাহরণ (CUST12):</h3>
+                                                              <pre>
+                                                          route-map RM-AR1-OUT permit 10
+                                                          match ip address prefix-list PL-OWN-1
+                                                              </pre>
+                                                              <p>এই route-map AR1 (AS 10) এর দিকে যেসব route announce করা হবে, তা PL-OWN-1 prefix-list অনুযায়ী নির্ধারিত। অর্থাৎ, শুধু নির্দিষ্ট IP গুলো AR1-কে পাঠানো হবে।</p>
+                                                          
+                                                              <p>একইভাবে AR2 এর জন্য:</p>
+                                                              <pre>
+                                                          route-map RM-AR2-OUT permit 10
+                                                          match ip address prefix-list PL-OWN-2
+                                                              </pre>
+                                                          
+                                                              <h2>৫. Neighbor command-এ route-map attach করা:</h2>
+                                                              <pre>
+                                                          neighbor 10.10.2.1 route-map RM-AR1-OUT out
+                                                          neighbor 10.20.2.1 route-map RM-AR2-OUT out
+                                                              </pre>
+                                                              <p>এর মাধ্যমে নির্দিষ্ট route-map অনুযায়ী যেসব IP block announce করা হবে, তা neighbor (AR1, AR2) এর কাছে যাবে।</p>
+                                                          
+                                                              <h2>🔑 কেন এইগুলো করা হলো?</h2>
+                                                              <ul>
+                                                                  <li><b>নিজস্ব IP block announce করা:</b> যেন customer-রা তাদের block গুলো ISP কে জানাতে পারে।</li>
+                                                                  <li><b>ফিল্টার করে announce করা:</b> যেন কেবল নির্দিষ্ট IP গুলোই বাইরে যায়, কোন ভুল বা অতিরিক্ত route না যায়।</li>
+                                                                  <li><b>remove-private-as:</b> private AS number গুলো যেন announce করার সময় মুছে যায়।</li>
+                                                                  <li><b>Route-map + Prefix-list:</b> আরো granular control—কার কাছে কোন IP যাবে, সেটা নিশ্চিত করা।</li>
+                                                              </ul>
+
+                                                              <h1>OSPF Configuration and Neighbor Information</h1>
+                                                              
+                                                              <h2>CR1 Configuration</h2>
+                                                              <pre>
+                                                              conf t
+                                                              router ospf 1
+                                                              router-id 10.10.0.1
+                                                              passive-interface default
+                                                              no passive-interface fastEthernet 0/0
+                                                              no passive-interface fastEthernet 1/0
+                                                              no passive-interface fastEthernet 2/0
+                                                              exit
+                                                              interface fastEthernet 0/0
+                                                              ip ospf network point-to-point
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              interface fastEthernet 1/0
+                                                              ip ospf network point-to-point
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              interface fastEthernet 2/0
+                                                              ip ospf network point-to-point
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              interface loopback0
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              exit
+                                                              wr
+                                                              </pre>
+                                                              
+                                                              <h2>BR1 Configuration</h2>
+                                                              <pre>
+                                                              conf t
+                                                              router ospf 1
+                                                              router-id 10.10.0.2
+                                                              passive-interface default
+                                                              no passive-interface fastEthernet 0/0
+                                                              default-information originate always
+                                                              exit
+                                                              interface fastEthernet 0/0
+                                                              ip ospf network point-to-point
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              interface loopback0
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              exit
+                                                              wr
+                                                              </pre>
+                                                              
+                                                              <h2>PR1 Configuration</h2>
+                                                              <pre>
+                                                              conf t
+                                                              router ospf 1
+                                                              router-id 10.10.0.3
+                                                              passive-interface default
+                                                              no passive-interface fastEthernet 0/0
+                                                              exit
+                                                              interface fastEthernet 0/0
+                                                              ip ospf network point-to-point
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              interface loopback0
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              exit
+                                                              wr
+                                                              </pre>
+                                                              
+                                                              <h2>AR1 Configuration</h2>
+                                                              <pre>
+                                                              conf t
+                                                              router ospf 1
+                                                              router-id 10.10.0.4
+                                                              passive-interface default
+                                                              no passive-interface fastEthernet 0/0
+                                                              exit
+                                                              interface fastEthernet 0/0
+                                                              ip ospf network point-to-point
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              interface loopback0
+                                                              ip ospf 1 area 0
+                                                              exit
+                                                              exit
+                                                              wr
+                                                              </pre>
+                                                              
+                                                              <h2>CR1 OSPF Neighbors</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Neighbor ID</th>
+                                                                      <th>Priority</th>
+                                                                      <th>State</th>
+                                                                      <th>Dead Time</th>
+                                                                      <th>Address</th>
+                                                                      <th>Interface</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>10.10.0.3</td>
+                                                                      <td>0</td>
+                                                                      <td>FULL/ -</td>
+                                                                      <td>00:00:31</td>
+                                                                      <td>10.10.1.6</td>
+                                                                      <td>FastEthernet1/0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>10.10.0.4</td>
+                                                                      <td>0</td>
+                                                                      <td>FULL/ -</td>
+                                                                      <td>00:00:38</td>
+                                                                      <td>10.10.1.10</td>
+                                                                      <td>FastEthernet2/0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>10.10.0.2</td>
+                                                                      <td>0</td>
+                                                                      <td>FULL/ -</td>
+                                                                      <td>00:00:34</td>
+                                                                      <td>10.10.1.2</td>
+                                                                      <td>FastEthernet0/0</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>BR1 OSPF Neighbors</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Neighbor ID</th>
+                                                                      <th>Priority</th>
+                                                                      <th>State</th>
+                                                                      <th>Dead Time</th>
+                                                                      <th>Address</th>
+                                                                      <th>Interface</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>10.10.0.1</td>
+                                                                      <td>0</td>
+                                                                      <td>FULL/ -</td>
+                                                                      <td>00:00:33</td>
+                                                                      <td>10.10.1.1</td>
+                                                                      <td>FastEthernet0/0</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>PR1 OSPF Neighbors</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Neighbor ID</th>
+                                                                      <th>Priority</th>
+                                                                      <th>State</th>
+                                                                      <th>Dead Time</th>
+                                                                      <th>Address</th>
+                                                                      <th>Interface</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>10.10.0.1</td>
+                                                                      <td>0</td>
+                                                                      <td>FULL/ -</td>
+                                                                      <td>00:00:36</td>
+                                                                      <td>10.10.1.5</td>
+                                                                      <td>FastEthernet0/0</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>AR1 OSPF Neighbors</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Neighbor ID</th>
+                                                                      <th>Priority</th>
+                                                                      <th>State</th>
+                                                                      <th>Dead Time</th>
+                                                                      <th>Address</th>
+                                                                      <th>Interface</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>10.10.0.1</td>
+                                                                      <td>0</td>
+                                                                      <td>FULL/ -</td>
+                                                                      <td>00:00:39</td>
+                                                                      <td>10.10.1.9</td>
+                                                                      <td>FastEthernet0/0</td>
+                                                                  </tr>
+                                                              </table>
+
+
+
+                                                                  <h1>OSPF Overview (সহজভাবে)</h1>
+                                                                  <p>OSPF হলো একটি dynamic routing protocol, যা একাধিক রাউটারকে একে অপরের সাথে দ্রুততম পথ (best path) খুঁজতে সাহায্য করে। আমরা এখানে OSPF process চালিয়ে, প্রত্যেকটা রাউটারের জন্য একটা Router-ID দিয়েছি। Router-ID সাধারণত Loopback IP Address হিসেবে দেয়া হয়। Passive Interface মানে, ওই ইন্টারফেস দিয়ে OSPF Hello Packet যাবে না, মানে অন্য রাউটারের সাথে relation (neighbor) হবে না।</p>
+                                                              
+                                                                  <h2>Passive-interface Concept</h2>
+                                                                  <p><code>passive-interface default</code> দিলে সব ইন্টারফেস OSPF এর জন্য বন্ধ হয়ে যাবে। যেগুলো দিয়ে OSPF চালাতে চাই (যেমন অন্য রাউটারের সাথে কানেক্ট করা ইন্টারফেস), সেগুলোকে <code>no passive-interface</code> দিয়ে খুলে দিতে হবে।</p>
+                                                                  <pre>passive-interface default
+                                                                    no passive-interface fastEthernet 0/0</pre>
+                                                                  <p>মানে, সব interface বন্ধ, শুধু Fa0/0 দিয়ে OSPF চালাবে।</p>
+                                                              
+                                                                  <h2>Point-to-Point (P2P) Interface Type</h2>
+                                                                  <p>ইন্টারফেসে <code>ip ospf network point-to-point</code> দিলে বুঝাবে যে এটা P2P লিংক, মানে দুইটা রাউটারের মধ্যে সরাসরি সংযোগ। এতে করে OSPF এর মধ্যে DR/BDR নির্বাচন হবে না, কারন এটা একেবারে সরাসরি কানেকশন।</p>
+                                                              
+                                                                  <h2>SOHO Network এ Example Discussion</h2>
+                                                                  <p>ধরো আমাদের কাছে ৪টা রাউটার আছে (CR1, BR1, PR1, AR1)। এগুলো আলাদাভাবে কাজ করে, কিন্তু নিজেদের মধ্যে OSPF দিয়ে কানেক্টেড। তাদের মধ্যে কে কোথায় কানেক্টেড, সেটা neighbor output দেখিয়ে দিচ্ছে।</p>
+                                                                  <p>উদাহরণ আলোচনা:</p>
+                                                                  <table border="1">
+                                                                      <tr>
+                                                                          <th>Router</th>
+                                                                          <th>Neighbor</th>
+                                                                          <th>Link</th>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>CR1</td>
+                                                                          <td>PR1 (10.10.0.3), AR1 (10.10.0.4), BR1 (10.10.0.2)</td>
+                                                                          <td>Fa1/0, Fa2/0, Fa0/0</td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>BR1</td>
+                                                                          <td>CR1 (10.10.0.1)</td>
+                                                                          <td>Fa0/0</td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>PR1</td>
+                                                                          <td>CR1 (10.10.0.1)</td>
+                                                                          <td>Fa0/0</td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                          <td>AR1</td>
+                                                                          <td>CR1 (10.10.0.1)</td>
+                                                                          <td>Fa0/0</td>
+                                                                      </tr>
+                                                                  </table>
+                                                                  <p>👉 তাই, CR1 হচ্ছে একটা central router যেটা সবাইকে কানেক্ট করে রেখেছে।</p>
+                                                              
+                                                                  <h2>Default Route এবং OSPF</h2>
+                                                                  <p>BR1 থেকে বাইরের ইন্টারনেট যেতে হলে, <code>default-information originate always</code> ব্যবহার করা হয়েছে, যাতে OSPF এর মাধ্যমে অন্য রাউটারগুলো default route (0.0.0.0/0) পায়।</p>
+                                                              
+                                                                  <h2>Practical SOHO মতন চিন্তা</h2>
+                                                                  <p>ধরো তুমি একটা ISP বা ছোট অফিস চালাচ্ছো। তোমার নেটওয়ার্কে ৪ টা রাউটার আছে। একে অপরের সাথে কানেক্ট করার জন্য OSPF ইউজ করছো। যেগুলো internal interface (LAN), সেখানে <code>passive-interface</code> দিচ্ছো, যাতে ওগুলো দিয়ে OSPF চলতে না পারে। একে অপরের সাথে কানেক্টেড লিংকগুলোতে <code>point-to-point</code> দিয়ে OSPF neighbor তৈরি করছো। BR1 দিয়ে বাইরের ইন্টারনেট, তাই ওটা default route দেয়।</p>
+                                                              
+                                                                  <h2>শেষ কথা (Summary)</h2>
+                                                                  <ul>
+                                                                      <li>OSPF IGP দিয়ে রাউটার কানেকশন।</li>
+                                                                      <li><code>passive-interface</code> দিয়ে control।</li>
+                                                                      <li><code>point-to-point</code> দিয়ে সোজাসুজি লিংক।</li>
+                                                                      <li>default route propagate করা হচ্ছে BR1 থেকে।</li>
+                                                                  </ul>
+
+
+                                                              
+
+                                                              <h1>OSPF Configuration for SOHO Network</h1>
+                                                              
+                                                              <h2>OSPF Command vs Explanation (Side by Side Table)</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>আপনার দেওয়া কমান্ড</th>
+                                                                      <th>ব্যাখ্যা (Explanation in Bengali)</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>conf t</td>
+                                                                      <td>রাউটারে কনফিগারেশন মোডে ঢুকার কমান্ড।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>router ospf 1</td>
+                                                                      <td>OSPF process 1 শুরু করা হচ্ছে।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>router-id 10.10.0.X</td>
+                                                                      <td>এই রাউটারের জন্য একটি ইউনিক আইডি (Router-ID) সেট করা। সাধারণত Loopback IP হয়।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>passive-interface default</td>
+                                                                      <td>সব ইন্টারফেস থেকে OSPF Hello packet বন্ধ করা হচ্ছে।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>no passive-interface fastEthernet 0/0</td>
+                                                                      <td>নির্দিষ্ট ইন্টারফেস (যেখানে অন্য রাউটার কানেক্টেড) OSPF এর জন্য চালু রাখা হচ্ছে।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>no passive-interface fastEthernet 1/0</td>
+                                                                      <td>(CR1 এর ক্ষেত্রে) এই ইন্টারফেস দিয়ে OSPF চালু থাকবে।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>no passive-interface fastEthernet 2/0</td>
+                                                                      <td>(CR1 এর ক্ষেত্রে) আরেকটি ইন্টারফেস দিয়ে OSPF চালু থাকবে।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>default-information originate always</td>
+                                                                      <td>(BR1 এর ক্ষেত্রে) এই রাউটার OSPF দিয়ে অন্যদের জন্য default route (0.0.0.0/0) পাঠাবে।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>interface fastEthernet 0/0</td>
+                                                                      <td>ইন্টারফেস কনফিগারেশন মোডে যাওয়া।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>ip ospf network point-to-point</td>
+                                                                      <td>P2P (Point-to-Point) লিংক হিসেবে OSPF treat করবে (ডাইরেক্ট কানেকশন)।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>ip ospf 1 area 0</td>
+                                                                      <td>OSPF process 1 কে Area 0 তে যুক্ত করা।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>interface loopback0</td>
+                                                                      <td>Loopback ইন্টারফেস কনফিগারেশন।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>ip ospf 1 area 0</td>
+                                                                      <td>Loopback ইন্টারফেসকেও OSPF এর সাথে যুক্ত করা হচ্ছে।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>exit</td>
+                                                                      <td>কনফিগারেশন মোড থেকে বের হওয়া।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>wr</td>
+                                                                      <td>রাউটার কনফিগারেশন Save করা (write memory)।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>show ip ospf neighbor</td>
+                                                                      <td>কোন কোন রাউটার OSPF Neighbor হিসেবে যুক্ত আছে তা দেখার জন্য।</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>OSPF Configuration Table (Side by Side for CR1, BR1, PR1, AR1)</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Feature</th>
+                                                                      <th>CR1</th>
+                                                                      <th>BR1</th>
+                                                                      <th>PR1</th>
+                                                                      <th>AR1</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>Router-ID</td>
+                                                                      <td>router-id 10.10.0.1</td>
+                                                                      <td>router-id 10.10.0.2</td>
+                                                                      <td>router-id 10.10.0.3</td>
+                                                                      <td>router-id 10.10.0.4</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>Passive all interfaces?</td>
+                                                                      <td>passive-interface default</td>
+                                                                      <td>passive-interface default</td>
+                                                                      <td>passive-interface default</td>
+                                                                      <td>passive-interface default</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>No passive interface (Active Links)</td>
+                                                                      <td>no passive-interface fastEthernet 0/0<br>no passive-interface fastEthernet 1/0<br>no passive-interface fastEthernet 2/0</td>
+                                                                      <td>no passive-interface fastEthernet 0/0</td>
+                                                                      <td>no passive-interface fastEthernet 0/0</td>
+                                                                      <td>no passive-interface fastEthernet 0/0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>Point-to-Point Interface type</td>
+                                                                      <td>ip ospf network point-to-point on all FastEthernet</td>
+                                                                      <td>ip ospf network point-to-point on Fa0/0</td>
+                                                                      <td>ip ospf network point-to-point on Fa0/0</td>
+                                                                      <td>ip ospf network point-to-point on Fa0/0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>OSPF Area assignment</td>
+                                                                      <td>ip ospf 1 area 0 (all interfaces + loopback)</td>
+                                                                      <td>ip ospf 1 area 0 (Fa0/0 + loopback)</td>
+                                                                      <td>ip ospf 1 area 0 (Fa0/0 + loopback)</td>
+                                                                      <td>ip ospf 1 area 0 (Fa0/0 + loopback)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>Loopback in OSPF?</td>
+                                                                      <td>Yes</td>
+                                                                      <td>Yes</td>
+                                                                      <td>Yes</td>
+                                                                      <td>Yes</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>Default Route Advertisement?</td>
+                                                                      <td>No</td>
+                                                                      <td>default-information originate always</td>
+                                                                      <td>No</td>
+                                                                      <td>No</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>Purpose (Role)</td>
+                                                                      <td>Core Router (connects all other routers)</td>
+                                                                      <td>Border Router (connect to outside/Internet)</td>
+                                                                      <td>Provider Router (upstream ISP/peer)</td>
+                                                                      <td>Access Router (customer/peer connection)</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>Neighbor Relation Summary (OSPF Neighbor)</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Router</th>
+                                                                      <th>Neighbors (Router ID)</th>
+                                                                      <th>Through Interface</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>CR1</td>
+                                                                      <td>10.10.0.2 (BR1), 10.10.0.3 (PR1), 10.10.0.4 (AR1)</td>
+                                                                      <td>Fa0/0 (BR1), Fa1/0 (PR1), Fa2/0 (AR1)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>BR1</td>
+                                                                      <td>10.10.0.1 (CR1)</td>
+                                                                      <td>Fa0/0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>PR1</td>
+                                                                      <td>10.10.0.1 (CR1)</td>
+                                                                      <td>Fa0/0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>AR1</td>
+                                                                      <td>10.10.0.1 (CR1)</td>
+                                                                      <td>Fa0/0</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>সহজ ভাষায় রাউটারের কাজ</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Router Name</th>
+                                                                      <th>কাজ</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>CR1</td>
+                                                                      <td>কেন্দ্রীয় রাউটার, সবার সাথে কানেক্টেড, OSPF চালায়।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>BR1</td>
+                                                                      <td>বাইরের ইন্টারনেট বা অন্য নেটওয়ার্কে যাওয়ার রাস্তা দেয়, Default Route propagate করে।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>PR1</td>
+                                                                      <td>অন্য ISP বা Provider রাউটার, CR1-এর সাথে OSPF চালায়।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>AR1</td>
+                                                                      <td>গ্রাহক বা Access রাউটার, CR1-এর সাথে OSPF চালায়।</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>Diagram হিসাবে কল্পনা করলে (Textual View)</h2>
+                                                              <pre>
+                                                                      [PR1]      [AR1]
+                                                                        |          |
+                                                                       Fa1/0    Fa2/0
+                                                                        \        /
+                                                                         [CR1]--------[BR1]
+                                                                             Fa0/0
+                                                              </pre>
+                                                              
+                                                              <h2>সংক্ষেপে</h2>
+                                                              <ul>
+                                                                  <li>CR1 সবার সাথে কানেক্টেড, মূল হাব।</li>
+                                                                  <li>BR1 ইন্টারনেটের জন্য ডিফল্ট রুট দিয়ে দিচ্ছে।</li>
+                                                                  <li>সব ইন্টারফেস প্যাসিভ, শুধু OSPF চালানোর ইন্টারফেস ছাড়া।</li>
+                                                                  <li>পয়েন্ট টু পয়েন্ট লিংক হওয়ায় OSPF দ্রুত কাজ করে।</li>
+                                                                  <li>Loopback IP থেকে Router-ID তৈরি।</li>
+                                                              </ul>
+                                                              
+
+                                                              
+                                                              <h1>iBGP Configuration for ISPs with Route Reflector and Peer Group</h1>
+                                                              
+                                                              <h2>CR1 Configuration</h2>
+                                                              <pre>
+                                                              conf t
+                                                              router bgp 10
+                                                              bgp router-id 10.10.0.1
+                                                              distance bgp 200 200 200
+                                                              no bgp default ipv4-unicast
+                                                              neighbor IBGP-PEER peer-group
+                                                              neighbor IBGP-PEER remote-as 10
+                                                              neighbor IBGP-PEER update-source loopback 0
+                                                              neighbor 10.10.0.2 peer-group IBGP-PEER
+                                                              neighbor 10.10.0.2 description BR
+                                                              neighbor 10.10.0.3 peer-group IBGP-PEER
+                                                              neighbor 10.10.0.3 description PR
+                                                              neighbor 10.10.0.4 peer-group IBGP-PEER
+                                                              neighbor 10.10.0.4 description AR
+                                                              address-family ipv4 unicast
+                                                              neighbor 10.10.0.2 activate
+                                                              neighbor 10.10.0.3 activate
+                                                              neighbor 10.10.0.4 activate
+                                                              neighbor IBGP-PEER next-hop-self
+                                                              neighbor IBGP-PEER route-reflector-client
+                                                              neighbor IBGP-PEER send-community
+                                                              network 10.10.0.0 mask 255.255.252.0
+                                                              exit
+                                                              exit
+                                                              ip route 10.10.0.0 255.255.252.0 null 0
+                                                              exit
+                                                              wr
+                                                              </pre>
+                                                              
+                                                              <h2>BR1 Configuration</h2>
+                                                              <pre>
+                                                              conf t
+                                                              router bgp 10
+                                                              bgp router-id 10.10.0.2
+                                                              distance bgp 200 200 200
+                                                              no bgp default ipv4-unicast
+                                                              neighbor 10.10.0.1 remote-as 10
+                                                              neighbor 10.10.0.1 description CR
+                                                              neighbor 10.10.0.1 update-source loopback 0
+                                                              address-family ipv4 unicast
+                                                              neighbor 10.10.0.1 activate
+                                                              neighbor 10.10.0.1 next-hop-self
+                                                              neighbor 10.10.0.1 send-community
+                                                              exit
+                                                              exit
+                                                              exit
+                                                              wr
+                                                              </pre>
+                                                              
+                                                              <h2>PR1 Configuration</h2>
+                                                              <pre>
+                                                              conf t
+                                                              router bgp 10
+                                                              bgp router-id 10.10.0.3
+                                                              distance bgp 200 200 200
+                                                              no bgp default ipv4-unicast
+                                                              neighbor 10.10.0.1 remote-as 10
+                                                              neighbor 10.10.0.1 description CR
+                                                              neighbor 10.10.0.1 update-source loopback 0
+                                                              address-family ipv4 unicast
+                                                              neighbor 10.10.0.1 activate
+                                                              neighbor 10.10.0.1 next-hop-self
+                                                              neighbor 10.10.0.1 send-community
+                                                              exit
+                                                              exit
+                                                              exit
+                                                              wr
+                                                              </pre>
+                                                              
+                                                              <h2>AR1 Configuration</h2>
+                                                              <pre>
+                                                              conf t
+                                                              router bgp 10
+                                                              bgp router-id 10.10.0.4
+                                                              distance bgp 200 200 200
+                                                              no bgp default ipv4-unicast
+                                                              neighbor 10.10.0.1 remote-as 10
+                                                              neighbor 10.10.0.1 description CR
+                                                              neighbor 10.10.0.1 update-source loopback 0
+                                                              address-family ipv4 unicast
+                                                              neighbor 10.10.0.1 activate
+                                                              neighbor 10.10.0.1 next-hop-self
+                                                              neighbor 10.10.0.1 send-community
+                                                              network 10.10.2.0 mask 255.255.255.192
+                                                              exit
+                                                              exit
+                                                              ip route 10.10.2.0 255.255.255.192 null 0
+                                                              exit
+                                                              wr
+                                                              </pre>
+                                                              
+                                                              <h2>BGP Summary Output</h2>
+                                                              
+                                                              <h3>CR1#show bgp ipv4 unicast summary</h3>
+                                                              <pre>
+                                                              BGP router identifier 10.10.0.1, local AS number 10
+                                                              BGP table version is 1, main routing table version 1
+                                                              Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+                                                              10.10.0.2       4           10       4       4        1    0    0 00:01:33        0
+                                                              10.10.0.3       4           10       4       4        1    0    0 00:00:43        0
+                                                              10.10.0.4       4           10       2       2        1    0    0 00:00:14        0
+                                                              </pre>
+                                                              
+                                                              <h3>BR1#show bgp ipv4 unicast summary</h3>
+                                                              <pre>
+                                                              BGP router identifier 10.10.0.2, local AS number 10
+                                                              BGP table version is 1, main routing table version 1
+                                                              Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+                                                              10.10.0.1       4           10       4       4        1    0    0 00:01:47        0
+                                                              </pre>
+                                                              
+                                                              <h3>PR1#show bgp ipv4 unicast summary</h3>
+                                                              <pre>
+                                                              BGP router identifier 10.10.0.3, local AS number 10
+                                                              BGP table version is 1, main routing table version 1
+                                                              Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+                                                              10.10.0.1       4           10       4       4        1    0    0 00:01:05        0
+                                                              </pre>
+                                                              
+                                                              <h3>AR1#show bgp ipv4 unicast summary</h3>
+                                                              <pre>
+                                                              BGP router identifier 10.10.0.4, local AS number 10
+                                                              BGP table version is 1, main routing table version 1
+                                                              Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+                                                              10.10.0.1       4           10       2       2        1    0    0 00:00:39        0
+                                                              </pre>
+ 
+
+                                                                  <h1>iBGP কনফিগারেশন</h1>
+                                                                  <p>এই iBGP কনফিগারেশনটি একটি ISP নেটওয়ার্কে ব্যবহার করা হয়েছে, যেখানে CR1 (Core Router 1) রাউট রিফ্লেক্টর (RR) হিসেবে কাজ করছে এবং BR1, PR1, এবং AR1 রাউটারগুলি তার ক্লায়েন্ট। নিচে ধাপে ধাপে বাংলায় আলোচনা করা হলো:</p>
+                                                              
+                                                                  <h2>1. CR1 (Core Router 1) কনফিগারেশন:</h2>
+                                                                  <p>CR1 রাউটারটি রাউট রিফ্লেক্টর (RR) হিসেবে কাজ করছে এবং BR1, PR1, এবং AR1 রাউটারগুলিকে তার ক্লায়েন্ট হিসেবে কনফিগার করা হয়েছে।</p>
+                                                                  <pre>
+                                                              router bgp 10
+                                                              bgp router-id 10.10.0.1
+                                                              distance bgp 200 200 200
+                                                              no bgp default ipv4-unicast
+                                                              
+                                                              neighbor IBGP-PEER peer-group
+                                                              neighbor IBGP-PEER remote-as 10
+                                                              neighbor IBGP-PEER update-source loopback 0
+                                                              
+                                                              neighbor 10.10.0.2 peer-group IBGP-PEER
+                                                              neighbor 10.10.0.2 description BR
+                                                              neighbor 10.10.0.3 peer-group IBGP-PEER
+                                                              neighbor 10.10.0.3 description PR
+                                                              neighbor 10.10.0.4 peer-group IBGP-PEER
+                                                              neighbor 10.10.0.4 description AR
+                                                              
+                                                              address-family ipv4 unicast
+                                                               neighbor 10.10.0.2 activate
+                                                               neighbor 10.10.0.3 activate
+                                                               neighbor 10.10.0.4 activate
+                                                               neighbor IBGP-PEER next-hop-self
+                                                               neighbor IBGP-PEER route-reflector-client
+                                                               neighbor IBGP-PEER send-community
+                                                               network 10.10.0.0 mask 255.255.252.0
+                                                              exit-address-family
+                                                              
+                                                              ip route 10.10.0.0 255.255.252.0 null 0
+                                                                  </pre>
+                                                              
+                                                                  <h2>2. BR1 (Border Router 1) কনফিগারেশন:</h2>
+                                                                  <p>BR1 রাউটারটি CR1 এর সাথে iBGP পিয়ারিং করছে।</p>
+                                                                  <pre>
+                                                              router bgp 10
+                                                              bgp router-id 10.10.0.2
+                                                              distance bgp 200 200 200
+                                                              no bgp default ipv4-unicast
+                                                              
+                                                              neighbor 10.10.0.1 remote-as 10
+                                                              neighbor 10.10.0.1 description CR
+                                                              neighbor 10.10.0.1 update-source loopback 0
+                                                              
+                                                              address-family ipv4 unicast
+                                                               neighbor 10.10.0.1 activate
+                                                               neighbor 10.10.0.1 next-hop-self
+                                                               neighbor 10.10.0.1 send-community
+                                                              exit-address-family
+                                                                  </pre>
+                                                              
+                                                                  <h2>3. PR1 (Provider Router 1) কনফিগারেশন:</h2>
+                                                                  <p>PR1 রাউটারটিও CR1 এর সাথে iBGP পিয়ারিং করছে।</p>
+                                                                  <pre>
+                                                              router bgp 10
+                                                              bgp router-id 10.10.0.3
+                                                              distance bgp 200 200 200
+                                                              no bgp default ipv4-unicast
+                                                              
+                                                              neighbor 10.10.0.1 remote-as 10
+                                                              neighbor 10.10.0.1 description CR
+                                                              neighbor 10.10.0.1 update-source loopback 0
+                                                              
+                                                              address-family ipv4 unicast
+                                                               neighbor 10.10.0.1 activate
+                                                               neighbor 10.10.0.1 next-hop-self
+                                                               neighbor 10.10.0.1 send-community
+                                                              exit-address-family
+                                                                  </pre>
+                                                              
+                                                                  <h2>4. AR1 (Access Router 1) কনফিগারেশন:</h2>
+                                                                  <p>AR1 রাউটারটি CR1 এর সাথে iBGP পিয়ারিং করছে এবং একটি নেটওয়ার্ক অ্যাডভারটাইজ করছে।</p>
+                                                                  <pre>
+                                                              router bgp 10
+                                                              bgp router-id 10.10.0.4
+                                                              distance bgp 200 200 200
+                                                              no bgp default ipv4-unicast
+                                                              
+                                                              neighbor 10.10.0.1 remote-as 10
+                                                              neighbor 10.10.0.1 description CR
+                                                              neighbor 10.10.0.1 update-source loopback 0
+                                                              
+                                                              address-family ipv4 unicast
+                                                               neighbor 10.10.0.1 activate
+                                                               neighbor 10.10.0.1 next-hop-self
+                                                               neighbor 10.10.0.1 send-community
+                                                               network 10.10.2.0 mask 255.255.255.192
+                                                              exit-address-family
+                                                              
+                                                              ip route 10.10.2.0 255.255.255.192 null 0
+                                                                  </pre>
+                                                              
+                                                                  <h2>5. BGP স্ট্যাটাস চেক করা:</h2>
+                                                                  <p>সব রাউটারে BGP স্ট্যাটাস চেক করা হয়েছে এবং সব পিয়ারিং সঠিকভাবে এস্টাবলিশ হয়েছে।</p>
+                                                                  <pre>
+                                                              CR1#show bgp ipv4 unicast summary
+                                                              BR1#show bgp ipv4 unicast summary
+                                                              PR1#show bgp ipv4 unicast summary
+                                                              AR1#show bgp ipv4 unicast summary
+                                                                  </pre>
+                                                              
+                                                                  <p>এই কনফিগারেশনের মাধ্যমে CR1 রাউট রিফ্লেক্টর হিসেবে কাজ করছে এবং BR1, PR1, এবং AR1 রাউটারগুলি তার ক্লায়েন্ট হিসেবে কাজ করছে। সব রাউটার সঠিকভাবে পিয়ারিং করেছে এবং BGP টেবিলে রুটগুলি শেয়ার করছে।</p>
+
+
+                                                              <h1>iBGP কনফিগারেশন এবং BGP স্ট্যাটাস</h1>
+                                                              
+                                                              <h2>iBGP কনফিগারেশন তুলনা (CR1, BR1, PR1, AR1)</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>কনফিগারেশন ধাপ</th>
+                                                                      <th>CR1 (Core Router 1)</th>
+                                                                      <th>BR1 (Border Router 1)</th>
+                                                                      <th>PR1 (Provider Router 1)</th>
+                                                                      <th>AR1 (Access Router 1)</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>BGP প্রসেস শুরু</td>
+                                                                      <td><code>router bgp 10</code></td>
+                                                                      <td><code>router bgp 10</code></td>
+                                                                      <td><code>router bgp 10</code></td>
+                                                                      <td><code>router bgp 10</code></td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>রাউটার আইডি</td>
+                                                                      <td><code>bgp router-id 10.10.0.1</code></td>
+                                                                      <td><code>bgp router-id 10.10.0.2</code></td>
+                                                                      <td><code>bgp router-id 10.10.0.3</code></td>
+                                                                      <td><code>bgp router-id 10.10.0.4</code></td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>BGP ডিসট্যান্স</td>
+                                                                      <td><code>distance bgp 200 200 200</code></td>
+                                                                      <td><code>distance bgp 200 200 200</code></td>
+                                                                      <td><code>distance bgp 200 200 200</code></td>
+                                                                      <td><code>distance bgp 200 200 200</code></td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>IPv4 ইউনিকাস্ট ডিসএবল</td>
+                                                                      <td><code>no bgp default ipv4-unicast</code></td>
+                                                                      <td><code>no bgp default ipv4-unicast</code></td>
+                                                                      <td><code>no bgp default ipv4-unicast</code></td>
+                                                                      <td><code>no bgp default ipv4-unicast</code></td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>পিয়ার গ্রুপ তৈরি</td>
+                                                                      <td>
+                                                                          <code>neighbor IBGP-PEER peer-group</code><br>
+                                                                          <code>neighbor IBGP-PEER remote-as 10</code><br>
+                                                                          <code>neighbor IBGP-PEER update-source loopback 0</code>
+                                                                      </td>
+                                                                      <td>-</td>
+                                                                      <td>-</td>
+                                                                      <td>-</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>পিয়ার যোগ</td>
+                                                                      <td>
+                                                                          <code>neighbor 10.10.0.2 peer-group IBGP-PEER</code><br>
+                                                                          <code>neighbor 10.10.0.3 peer-group IBGP-PEER</code><br>
+                                                                          <code>neighbor 10.10.0.4 peer-group IBGP-PEER</code>
+                                                                      </td>
+                                                                      <td>
+                                                                          <code>neighbor 10.10.0.1 remote-as 10</code><br>
+                                                                          <code>neighbor 10.10.0.1 update-source loopback 0</code>
+                                                                      </td>
+                                                                      <td>
+                                                                          <code>neighbor 10.10.0.1 remote-as 10</code><br>
+                                                                          <code>neighbor 10.10.0.1 update-source loopback 0</code>
+                                                                      </td>
+                                                                      <td>
+                                                                          <code>neighbor 10.10.0.1 remote-as 10</code><br>
+                                                                          <code>neighbor 10.10.0.1 update-source loopback 0</code>
+                                                                      </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>IPv4 ইউনিকাস্ট ফ্যামিলি</td>
+                                                                      <td>
+                                                                          <code>address-family ipv4 unicast</code><br>
+                                                                          <code>neighbor 10.10.0.2 activate</code><br>
+                                                                          <code>neighbor 10.10.0.3 activate</code><br>
+                                                                          <code>neighbor 10.10.0.4 activate</code><br>
+                                                                          <code>neighbor IBGP-PEER next-hop-self</code><br>
+                                                                          <code>neighbor IBGP-PEER route-reflector-client</code><br>
+                                                                          <code>neighbor IBGP-PEER send-community</code><br>
+                                                                          <code>network 10.10.0.0 mask 255.255.252.0</code>
+                                                                      </td>
+                                                                      <td>
+                                                                          <code>address-family ipv4 unicast</code><br>
+                                                                          <code>neighbor 10.10.0.1 activate</code><br>
+                                                                          <code>neighbor 10.10.0.1 next-hop-self</code><br>
+                                                                          <code>neighbor 10.10.0.1 send-community</code>
+                                                                      </td>
+                                                                      <td>
+                                                                          <code>address-family ipv4 unicast</code><br>
+                                                                          <code>neighbor 10.10.0.1 activate</code><br>
+                                                                          <code>neighbor 10.10.0.1 next-hop-self</code><br>
+                                                                          <code>neighbor 10.10.0.1 send-community</code>
+                                                                      </td>
+                                                                      <td>
+                                                                          <code>address-family ipv4 unicast</code><br>
+                                                                          <code>neighbor 10.10.0.1 activate</code><br>
+                                                                          <code>neighbor 10.10.0.1 next-hop-self</code><br>
+                                                                          <code>neighbor 10.10.0.1 send-community</code><br>
+                                                                          <code>network 10.10.2.0 mask 255.255.255.192</code>
+                                                                      </td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>স্ট্যাটিক রুট</td>
+                                                                      <td><code>ip route 10.10.0.0 255.255.252.0 null 0</code></td>
+                                                                      <td>-</td>
+                                                                      <td>-</td>
+                                                                      <td><code>ip route 10.10.2.0 255.255.255.192 null 0</code></td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>BGP স্ট্যাটাস তুলনা (CR1, BR1, PR1, AR1)</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>রাউটার</th>
+                                                                      <th>নেইবার</th>
+                                                                      <th>AS</th>
+                                                                      <th>MsgRcvd</th>
+                                                                      <th>MsgSent</th>
+                                                                      <th>TblVer</th>
+                                                                      <th>Up/Down</th>
+                                                                      <th>State/PfxRcd</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td rowspan="3">CR1</td>
+                                                                      <td>10.10.0.2</td>
+                                                                      <td>10</td>
+                                                                      <td>4</td>
+                                                                      <td>4</td>
+                                                                      <td>1</td>
+                                                                      <td>00:01:33</td>
+                                                                      <td>0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>10.10.0.3</td>
+                                                                      <td>10</td>
+                                                                      <td>4</td>
+                                                                      <td>4</td>
+                                                                      <td>1</td>
+                                                                      <td>00:00:43</td>
+                                                                      <td>0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>10.10.0.4</td>
+                                                                      <td>10</td>
+                                                                      <td>2</td>
+                                                                      <td>2</td>
+                                                                      <td>1</td>
+                                                                      <td>00:00:14</td>
+                                                                      <td>0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>BR1</td>
+                                                                      <td>10.10.0.1</td>
+                                                                      <td>10</td>
+                                                                      <td>4</td>
+                                                                      <td>4</td>
+                                                                      <td>1</td>
+                                                                      <td>00:01:47</td>
+                                                                      <td>0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>PR1</td>
+                                                                      <td>10.10.0.1</td>
+                                                                      <td>10</td>
+                                                                      <td>4</td>
+                                                                      <td>4</td>
+                                                                      <td>1</td>
+                                                                      <td>00:01:05</td>
+                                                                      <td>0</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>AR1</td>
+                                                                      <td>10.10.0.1</td>
+                                                                      <td>10</td>
+                                                                      <td>2</td>
+                                                                      <td>2</td>
+                                                                      <td>1</td>
+                                                                      <td>00:00:39</td>
+                                                                      <td>0</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>টেবিলের ব্যাখ্যা:</h2>
+                                                              <ol>
+                                                                  <li><strong>CR1 (Core Router 1):</strong>
+                                                                      <ul>
+                                                                          <li>CR1 রাউট রিফ্লেক্টর (RR) হিসেবে কাজ করছে।</li>
+                                                                          <li><code>IBGP-PEER</code> পিয়ার গ্রুপ তৈরি করে BR1, PR1, এবং AR1 কে ক্লায়েন্ট হিসেবে যোগ করা হয়েছে।</li>
+                                                                          <li><code>next-hop-self</code>, <code>route-reflector-client</code>, এবং <code>send-community</code> কমান্ডগুলি ব্যবহার করা হয়েছে।</li>
+                                                                          <li>নেটওয়ার্ক <code>10.10.0.0/22</code> অ্যাডভারটাইজ করা হয়েছে।</li>
+                                                                      </ul>
+                                                                  </li>
+                                                                  <li><strong>BR1, PR1, AR1:</strong>
+                                                                      <ul>
+                                                                          <li>এই রাউটারগুলি CR1 এর সাথে পিয়ারিং করেছে।</li>
+                                                                          <li>সবাই <code>next-hop-self</code> এবং <code>send-community</code> কমান্ড ব্যবহার করেছে।</li>
+                                                                          <li>AR1 নেটওয়ার্ক <code>10.10.2.0/26</code> অ্যাডভারটাইজ করেছে।</li>
+                                                                      </ul>
+                                                                  </li>
+                                                                  <li><strong>BGP স্ট্যাটাস:</strong>
+                                                                      <ul>
+                                                                          <li>সব রাউটারে BGP পিয়ারিং সঠিকভাবে এস্টাবলিশ হয়েছে।</li>
+                                                                          <li><code>State/PfxRcd</code> কলামে <code>0</code> মানে এখনো কোনো প্রিফিক্স রিসিভ হয়নি (শুরুতে এটি স্বাভাবিক)।</li>
+                                                                      </ul>
+                                                                  </li>
+                                                              </ol>
+                                                              
+
+                                                              
+                                                              <h2>BGP Path Attributes (বাংলা)</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Attribute Name</th>
+                                                                      <th>কাজ (Function)</th>
+                                                                      <th>ধরন (Type)</th>
+                                                                      <th>বেছে নেয়ার নিয়ম (Preference Rule)</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>AS_PATH</td>
+                                                                      <td>কোন কোন AS পেরিয়ে এসেছে (পথের তালিকা)</td>
+                                                                      <td>Well-known Mandatory</td>
+                                                                      <td>কম সংখ্যক AS_PATH পছন্দনীয় (Shortest Path)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>NEXT_HOP</td>
+                                                                      <td>গন্তব্যে পৌঁছানোর জন্য পরবর্তী হপের IP ঠিকানা</td>
+                                                                      <td>Well-known Mandatory</td>
+                                                                      <td>অবশ্যই পৌঁছাতে হবে, নইলে রুট গ্রহণ হবে না</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>ORIGIN</td>
+                                                                      <td>রুট কোথা থেকে এসেছে (উৎপত্তি)</td>
+                                                                      <td>Well-known Mandatory</td>
+                                                                      <td>IGP (i) < EGP (e) < Incomplete (?)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>LOCAL_PREF</td>
+                                                                      <td>কোন পথে AS থেকে বের হবে (Outbound)</td>
+                                                                      <td>Well-known Discretionary</td>
+                                                                      <td>সর্বোচ্চ Local Preference পছন্দনীয়</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>COMMUNITY</td>
+                                                                      <td>Prefix গুচ্ছবদ্ধ করে নীতি প্রয়োগ</td>
+                                                                      <td>Optional Transitive</td>
+                                                                      <td>নীতি অনুযায়ী কাজ (Grouping based policy)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>AGGREGATOR</td>
+                                                                      <td>কে সারাংশ (Aggregate) তৈরি করেছে</td>
+                                                                      <td>Optional Transitive</td>
+                                                                      <td>তথ্য সহ যোগ হয় (Informational)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>MED (Multi-Exit Discriminator)</td>
+                                                                      <td>প্রতিবেশী AS-কে প্রবেশপথ সম্পর্কে জানায় (Inbound)</td>
+                                                                      <td>Optional Non-transitive</td>
+                                                                      <td>সর্বনিম্ন MED পছন্দনীয় (Lowest MED wins)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>ATOMIC_AGGREGATE</td>
+                                                                      <td>সারাংশের সময় তথ্য হারানোর ইঙ্গিত</td>
+                                                                      <td>Well-known Discretionary</td>
+                                                                      <td>Aggregation সংক্রান্ত</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>BGP Best Path Selection Rules (বাংলা)</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>ক্রম (Order)</th>
+                                                                      <th>নিয়ম (Rule)</th>
+                                                                      <th>ব্যাখ্যা (Explanation)</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>1</td>
+                                                                      <td>Highest LOCAL_PREF</td>
+                                                                      <td>সর্বোচ্চ Local Preference-যুক্ত পথ বেছে নেয়</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>2</td>
+                                                                      <td>Locally originated routes</td>
+                                                                      <td>নিজের উৎপন্ন করা রুট</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>3</td>
+                                                                      <td>Shortest AS_PATH</td>
+                                                                      <td>কম সংখ্যক AS পার হওয়া পথ</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>4</td>
+                                                                      <td>Lowest ORIGIN code</td>
+                                                                      <td>IGP < EGP < Incomplete</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>5</td>
+                                                                      <td>Lowest MED</td>
+                                                                      <td>সবচেয়ে কম MED-যুক্ত পথ</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>6</td>
+                                                                      <td>eBGP over iBGP</td>
+                                                                      <td>eBGP রুট বেশি পছন্দনীয়</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>7</td>
+                                                                      <td>Lowest IGP cost to NEXT_HOP</td>
+                                                                      <td>পরবর্তী হপে পৌঁছানোর IGP খরচ কম</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>8</td>
+                                                                      <td>Oldest eBGP route</td>
+                                                                      <td>সবচেয়ে পুরোনো eBGP রুট</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>9</td>
+                                                                      <td>Lowest Router ID</td>
+                                                                      <td>কম Router ID-যুক্ত পথ</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>10</td>
+                                                                      <td>Lowest Neighbor IP</td>
+                                                                      <td>কম IP Address-যুক্ত প্রতিবেশী</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>11</td>
+                                                                      <td>If no route to NEXT_HOP, discard path</td>
+                                                                      <td>পরবর্তী হপে রুট না থাকলে বাতিল</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+
+                                                              <h1>🌐 BGP Path Attributes (BGP পথের বৈশিষ্ট্য)</h1>
+                                                              
+                                                              <h2>✳️ BGP Path Attribute কী?</h2>
+                                                              <p>BGP (Border Gateway Protocol)-এর মাধ্যমে রাউটিং আপডেটে যেসব তথ্য থাকে, সেগুলোই Path Attributes।</p>
+                                                              <p>এগুলো নেটওয়ার্ক পর্যন্ত পৌঁছানোর পথ বর্ণনা করে।</p>
+                                                              <p>নীতিমালার (Policy) মাধ্যমে পথ নিয়ন্ত্রণ করতে ব্যবহৃত হয়।</p>
+                                                              
+                                                              <h2>🔑 প্রধান BGP Path Attributes ও তাদের ব্যাখ্যা (উদাহরণসহ):</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Attribute নাম</th>
+                                                                      <th>ব্যাখ্যা</th>
+                                                                      <th>উদাহরণ</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>AS_PATH</td>
+                                                                      <td>কোন কোন AS (Autonomous System) পেরিয়ে গন্তব্যে পৌঁছেছে তা দেখায়। সংক্ষিপ্ত AS_PATH-কে বেশি প্রাধান্য।</td>
+                                                                      <td>যদি 100.10.0.0/16 নেটওয়ার্ক AS100 থেকে AS200 ও AS300 হয়ে AS900-তে যায়, তবে AS_PATH হবে: <code>300 200 100</code></td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>NEXT_HOP</td>
+                                                                      <td>গন্তব্যে যেতে পরবর্তী হপের (রাউটার) IP ঠিকানা।</td>
+                                                                      <td>eBGP হলে প্রতিবেশী AS-এর IP, যেমন: <code>130.10.0.1</code>; iBGP হলে লুপব্যাক ঠিকানা।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>ORIGIN</td>
+                                                                      <td>রুট কোথা থেকে এসেছে তা নির্ধারণ করে। IGP (i), EGP (e), বা Incomplete (?) হতে পারে।</td>
+                                                                      <td>যদি AS100 নিজের নেটওয়ার্ক ঘোষণা দেয়, তবে ORIGIN হবে <code>i (IGP)</code>।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>LOCAL_PREF</td>
+                                                                      <td>AS-এর মধ্যে কোন পথ দিয়ে বাহির হবে তা নির্ধারণ করে। উচ্চতর মান পছন্দনীয়।</td>
+                                                                      <td>যদি AS100 থেকে বাহির হওয়ার দুটি পথ থাকে: 200 (LOCAL_PREF=200) ও 500 (LOCAL_PREF=150), তবে ২০০ পছন্দ হবে।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>COMMUNITY</td>
+                                                                      <td>এক বা একাধিক প্রিফিক্সকে গ্রুপ করে নীতিমালা প্রয়োগ।</td>
+                                                                      <td>যেমন: <code>100:200</code> কমিউনিটি ট্যাগ দিয়ে বিশেষ নিয়ম প্রয়োগ।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>MED</td>
+                                                                      <td>প্রতিবেশী AS-কে বলে দেয় কোন প্রবেশ পথ পছন্দনীয়। নিম্ন MED পছন্দনীয়।</td>
+                                                                      <td>একই গন্তব্যের দুটি পথ, MED=10 এবং MED=200, হলে MED=10 পছন্দ।</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>🔄 AS_PATH উদাহরণ (চিত্র ভিত্তিক):</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>গন্তব্য</th>
+                                                                      <th>AS_PATH</th>
+                                                                      <th>ব্যাখ্যা</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>100.10.0.0/16</td>
+                                                                      <td>300 200 100</td>
+                                                                      <td>AS300 → AS200 → AS100</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>130.10.0.0/16</td>
+                                                                      <td>300 200</td>
+                                                                      <td>AS300 → AS200</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>100.10.0.0/16</td>
+                                                                      <td>200 100</td>
+                                                                      <td>AS200 → AS100</td>
+                                                                  </tr>
+                                                              </table>
+                                                              <p>নিয়ম: যে AS_PATH সবচেয়ে ছোট, সেই পথ বেছে নেয়।</p>
+                                                              
+                                                              <h2>🔄 NEXT_HOP উদাহরণ (চিত্র অনুযায়ী):</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>কিভাবে কাজ করে</th>
+                                                                      <th>ব্যাখ্যা</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>eBGP</td>
+                                                                      <td>প্রতিবেশী AS থেকে পাওয়া আপডেটে যে IP থাকে, তাই NEXT_HOP। যেমন: <code>130.10.0.1</code></td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>iBGP</td>
+                                                                      <td>eBGP থেকে পাওয়া আপডেট iBGP-তে পাঠালে NEXT_HOP পরিবর্তন হয় না।</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>Next-Hop-Self</td>
+                                                                      <td>iBGP প্রতিবেশীর জন্য নিজেকে NEXT_HOP বানাতে <code>next-hop-self</code> কমান্ড ব্যবহার।</td>
+                                                                  </tr>
+                                                              </table>
+                                                              <h3>🔸 উদাহরণ:</h3>
+                                                              <pre>router bgp 100
+                                                              neighbor 100.10.0.11 remote-as 100
+                                                              neighbor 100.10.0.11 next-hop-self</pre>
+                                                              
+                                                              <h2>🏁 ORIGIN Example (রুটের উৎস):</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>ORIGIN Code</th>
+                                                                      <th>ব্যাখ্যা</th>
+                                                                      <th>উদাহরণ</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>i (IGP)</td>
+                                                                      <td>নিজের AS থেকে নেটওয়ার্ক ঘোষণা</td>
+                                                                      <td><code>network 100.10.0.0 mask 255.255.0.0</code></td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>e (EGP)</td>
+                                                                      <td>EGP দ্বারা আসা (পুরাতন)</td>
+                                                                      <td>ব্যবহৃত হয় না সাধারণত</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>? (Incomplete)</td>
+                                                                      <td>রিডিস্ট্রিবিউট করা রুট, উৎস অজানা</td>
+                                                                      <td>OSPF থেকে BGP তে আসলে</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>📤 LOCAL_PREF উদাহরণ:</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Path</th>
+                                                                      <th>LOCAL_PREF</th>
+                                                                      <th>বাছাই হবে</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>AS200</td>
+                                                                      <td>200</td>
+                                                                      <td>✅ (পছন্দনীয়)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>AS500</td>
+                                                                      <td>150</td>
+                                                                      <td>❌</td>
+                                                                  </tr>
+                                                              </table>
+                                                              <p>উচ্চ মানের LOCAL_PREF সব সময় বেছে নেয়।</p>
+                                                              
+                                                              <h2>🏷️ COMMUNITY উদাহরণ:</h2>
+                                                              <h3>গ্রুপিং:</h3>
+                                                              <pre><code>100:200 → মানে হলো AS100 থেকে আসা এবং ২০০ নীতিমালায় পড়বে।</code></pre>
+                                                              <h3>BGP Large Communities (RFC8092):</h3>
+                                                              <pre><code>32-bit ASN:32-bit:32-bit
+                                                              উদাহরণ: 65000:100:200</code></pre>
+                                                              
+                                                              <h2>🚪 MED উদাহরণ:</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>Path</th>
+                                                                      <th>MED মান</th>
+                                                                      <th>পছন্দনীয় পথ</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>R1 → R3</td>
+                                                                      <td>10</td>
+                                                                      <td>✅</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>R2 → R4</td>
+                                                                      <td>200</td>
+                                                                      <td>❌</td>
+                                                                  </tr>
+                                                              </table>
+                                                              <p>নিম্ন মানের MED বেশি প্রাধান্য।</p>
+                                                              
+                                                              <h2>⚙️ BGP Operation Flow (কাজের ধাপ):</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>ধাপ</th>
+                                                                      <th>ব্যাখ্যা</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>১</td>
+                                                                      <td>প্রতিবেশী থেকে আপডেট গ্রহণ (Inbound Updates)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>২</td>
+                                                                      <td>BGP টেবিলে সংরক্ষণ (BGP Table)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৩</td>
+                                                                      <td>সেরা পথ নির্বাচন (Best Path Selection)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৪</td>
+                                                                      <td>রাউটিং টেবিলে সংযোজন (Routing Table)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৫</td>
+                                                                      <td>ফরওয়ার্ডিং টেবিলে সংযোজন (Forwarding Table)</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৬</td>
+                                                                      <td>অন্য BGP প্রতিবেশীতে প্রেরণ (Outbound Updates)</td>
+                                                                  </tr>
+                                                              </table>
+                                                              
+                                                              <h2>✅ BGP Best Path Selection (উত্তম পথ বাছাইয়ের ধাপ):</h2>
+                                                              <table>
+                                                                  <tr>
+                                                                      <th>ক্রম</th>
+                                                                      <th>নীতিমালা</th>
+                                                                      <th>ব্যাখ্যা</th>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>১</td>
+                                                                      <td>Highest LOCAL_PREF</td>
+                                                                      <td>সর্বোচ্চ Local Preference</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>২</td>
+                                                                      <td>Locally originated route</td>
+                                                                      <td>নিজের উৎপাদিত রুট</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৩</td>
+                                                                      <td>Shortest AS_PATH</td>
+                                                                      <td>কম AS hop</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৪</td>
+                                                                      <td>Lowest ORIGIN Code</td>
+                                                                      <td>i < e < ?</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৫</td>
+                                                                      <td>Lowest MED</td>
+                                                                      <td>ছোট MED মান</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৬</td>
+                                                                      <td>eBGP over iBGP</td>
+                                                                      <td>eBGP কে অগ্রাধিকার</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৭</td>
+                                                                      <td>Lowest IGP cost to NEXT_HOP</td>
+                                                                      <td>IGP-তে কম খরচের পথ</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৮</td>
+                                                                      <td>Oldest eBGP route</td>
+                                                                      <td>পুরনো রুট</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>৯</td>
+                                                                      <td>Lowest Router ID</td>
+                                                                      <td>কম Router ID</td>
+                                                                  </tr>
+                                                                  <tr>
+                                                                      <td>🔟</td>
+                                                                      <td>Lowest Neighbor IP</td>
+                                                                      <td>কম IP address</td>
+                                                                  </tr>
+                                                              </table>
+         
+
+                                                              
+                                                              <h2>🔵 BGP Peer Group (বিজিপি পিয়ার গ্রুপ)</h2>
+                                                              
+                                                              <h3>🔶 সমস্যা (Problem):</h3>
+                                                              <p>iBGP নেটওয়ার্কে একাধিক রাউটার থাকলে, একই আপডেট বারবার প্রত্যেক নোডের জন্য তৈরি হয়।<br>
+                                                              এতে CPU এর উপর অনর্থক চাপ পড়ে, কারণ একই হিসাব বারবার করা হয়।<br>
+                                                              অথচ সব iBGP পিয়ার একই আপডেট পায়, মানে একই তথ্য।</p>
+                                                              
+                                                              <h3>🔶 সমাধান (Solution):</h3>
+                                                              <p>Peer Group তৈরি করলে:<br>
+                                                              যেসব পিয়ারদের একই Outbound Policy, তাদের এক গ্রুপে রাখা যায়।<br>
+                                                              একবার আপডেট তৈরি করলেই, গ্রুপের সব পিয়ার তা পাবে।<br>
+                                                              এতে CPU কম খরচ হয় এবং কনফিগারেশন সহজ হয়।</p>
+                                                              
+                                                              <h3>⚙️ Peer Group কাজের নিয়ম:</h3>
+                                                              <ul>
+                                                                  <li>TCP সেশন প্রত্যেক পিয়ারের জন্য আলাদাভাবে তৈরি করতে হয়।</li>
+                                                                  <li>গ্রুপে একই Outbound Filter প্রযোজ্য, কিন্তু Inbound Filter আলাদা করা যায়।</li>
+                                                              </ul>
+                                                              
+                                                              <h3>কনফিগারেশন সহজ:</h3>
+                                                              <ol>
+                                                                  <li>পিয়ার গ্রুপ বানাও।</li>
+                                                                  <li>গ্রুপে পিয়ার যোগ করো।</li>
+                                                                  <li>ভবিষ্যতে নেটওয়ার্ক বড় হলে, সহজে স্কেল করা যাবে।</li>
+                                                              </ol>
+                                                              
+                                                              <h3>✅ Best Practices:</h3>
+                                                              <ul>
+                                                                  <li>iBGP-র জন্য সবসময় Peer Group ব্যবহার করো, এমনকি কম পিয়ার হলেও।</li>
+                                                                  <li>eBGP-র ক্ষেত্রেও peer-group ব্যবহার করা ভালো:
+                                                                      <ul>
+                                                                          <li>যদি একই AS এর অনেক গ্রাহক থাকে (RFC 2270)।</li>
+                                                                          <li>IXP-তে (Internet Exchange Point), যেখানে পলিসি একই হয়।</li>
+                                                                      </ul>
+                                                                  </li>
+                                                              </ul>
+                                                              
+                                                              <h2>🔵 BGP Loop Prevention (রাউটিং লুপ প্রতিরোধ)</h2>
+                                                              
+                                                              <h3>🔶 eBGP-তে লুপ প্রতিরোধ:</h3>
+                                                              <p>AS_PATH অ্যাট্রিবিউট দেখে।<br>
+                                                              যদি নিজের AS নম্বর ফিরে আসে, লুপ ধরা পড়ে, রুট বাতিল হয়।</p>
+                                                              
+                                                              <h3>🔶 iBGP-তে লুপ প্রতিরোধ:</h3>
+                                                              <p>iBGP রাউটার অন্য iBGP রাউটারকে iBGP থেকে শেখা রুট শেয়ার করতে পারে না।<br>
+                                                              তাই সব iBGP রাউটার একে অপরের সাথে কানেক্টেড থাকতে হয় (Full-Mesh)।</p>
+                                                              
+                                                              <h3>⚙️ iBGP Full-Mesh স্কেলিং সমস্যা:</h3>
+                                                              <p>n(n-1)/2 সেশন লাগে।<br>
+                                                              যেমন:<br>
+                                                              ১০ রাউটার = ৪৫ সেশন<br>
+                                                              ১০০ রাউটার = ৪৯৫০ সেশন<br>
+                                                              সমাধান দরকার!</p>
+                                                              
+                                                              <h2>🔵 Route Reflector (RR) – সমাধান</h2>
+                                                              
+                                                              <h3>🔶 Route Reflector (RFC4456):</h3>
+                                                              <p>RR-এর ক্লায়েন্টরা শুধু RR এর সাথে কানেক্টেড।<br>
+                                                              RR রাউট প্রতিফলিত করে (Reflect) অন্য ক্লায়েন্ট ও নন-ক্লায়েন্টদের।<br>
+                                                              এতে সব রাউটারের মধ্যে সরাসরি কানেকশনের দরকার হয় না।<br>
+                                                              একাধিক ক্লাস্টার থাকতে পারে।</p>
+                                                              
+                                                              <h3>⚙️ RR কাজের নিয়ম (উদাহরণ সহ):</h3>
+                                                              <p>ধরা যাক, AS 17821 এ রাউটার A, B, C, D আছে। C আর D হলো Route Reflector।</p>
+                                                              
+                                                              <h3>✅ RR কীভাবে আপডেট পাঠায়:</h3>
+                                                              <ul>
+                                                                  <li>ক্লায়েন্ট থেকে পেলে ➡️ অন্য ক্লায়েন্ট ও নন-ক্লায়েন্টকে দেয়।</li>
+                                                                  <li>নন-ক্লায়েন্ট থেকে পেলে ➡️ কেবল ক্লায়েন্টকে দেয়।</li>
+                                                                  <li>eBGP থেকে পেলে ➡️ ক্লায়েন্ট ও নন-ক্লায়েন্ট উভয়কেই দেয়।</li>
+                                                              </ul>
+                                                              
+                                                              <h2>🔵 RR লুপ প্রতিরোধ</h2>
+                                                              
+                                                              <h3>✅ Originator_ID:</h3>
+                                                              <p>RR কোন রাউটার প্রথম রুট পাঠিয়েছে সেটা Originator_ID দিয়ে চিহ্নিত করে।<br>
+                                                              নিজের ID দেখলে বুঝবে লুপ হয়েছে।</p>
+                                                              
+                                                              <h3>✅ Cluster_List:</h3>
+                                                              <p>কোন কোন ক্লাস্টার পার হয়েছে, তার লিস্ট রাখে।<br>
+                                                              যদি নিজের Cluster_ID দেখতে পায়, লুপ হয়েছে, রুট বাতিল করবে।</p>
+                                                              
+                                                              <h2>🔵 RR ডিজাইন কৌশল (Best Practice)</h2>
+                                                              
+                                                              <h3>✅ Cluster Design:</h3>
+                                                              <p>AS-কে বিভিন্ন ক্লাস্টারে ভাগ করো।<br>
+                                                              প্রতিটা ক্লাস্টারে:<br>
+                                                              কমপক্ষে ১টি RR, কিছু ক্লায়েন্ট।<br>
+                                                              প্রয়োজনে ১টির বেশি RR (কিন্তু এটা সাধারণত ঠিক না, জটিল হয়)।<br>
+                                                              ক্লাস্টারের ভেতরে ক্লায়েন্টদের মধ্যে পিয়ারিং প্রয়োজন নেই, RR সব রুট পাঠাবে।<br>
+                                                              বিভিন্ন ক্লাস্টারের RR গুলো একে অপরের সাথে পুরোপুরি মেশড।</p>
+                                                              
+                                                              <h2>🔵 RR Example কনফিগারেশন (উদাহরণ)</h2>
+                                                              
+                                                              <h3>✅ RR রাউটার কনফিগারেশন:</h3>
+                                                              <pre>router bgp 17821
+                                                              neighbor 2406:6400:2 remote-as 17821
+                                                              neighbor 2406:6400:2 route-reflector-client
+                                                              neighbor 2406:6400:3 remote-as 17821
+                                                              neighbor 2406:6400:3 route-reflector-client
+                                                              neighbor 2406:6400:4 remote-as 17821
+                                                              neighbor 2406:6400:4 route-reflector-client</pre>
+                                                              
+                                                              <h3>✅ RR Client কনফিগারেশন:</h3>
+                                                              <pre>router bgp 17821
+                                                              neighbor 2406:6400:1 remote-as 17821</pre>
+                                                              
+                                                              <h2>🔵 RR Redundancy (রিডান্ডেন্সি বা ব্যাকআপ)</h2>
+                                                              
+                                                              <h3>✅ দুইটা আলাদা ক্লাস্টার:</h3>
+                                                              <p>প্রতিটা ক্লায়েন্ট দুইটা আলাদা ক্লাস্টারের RR-র সাথে পিয়ার করে।<br>
+                                                              যেমন:</p>
+                                                              <pre>Cluster 1 -> RR1
+                                                              Cluster 2 -> RR2</pre>
+                                                              
+                                                              <h3>✅ Best Practice:</h3>
+                                                              <p>এক ক্লাস্টারে দুই RR না রাখা ভালো, বরং ভিন্ন ক্লাস্টার থেকে পিয়ার করো।<br>
+                                                              সব RR এর মধ্যে পুরোপুরি মেশড।<br>
+                                                              এতে নেটওয়ার্ক রিডান্ডেন্ট হয়, লুপ রোধ হয়, স্কেল সহজ।</p>
+                                                              
+                                                              <h3>✅ সামগ্রিক নেটওয়ার্ক ডিজাইন: হায়ারার্কিক্যাল RR</h3>
+                                                              <p>বড় নেটওয়ার্কে হায়ারার্কিক্যাল Route Reflector ডিজাইন ফলো করো।<br>
+                                                              অর্থাৎ, কিছু RR অন্য ক্লাস্টারের RR এর ক্লায়েন্ট হয়।<br>
+                                                              এতে কম সেশন লাগে, সহজে স্কেল হয়।</p>
+                                                              
+                                                              <h3>🔑 উদাহরণস্বরূপ ডিজাইন:</h3>
+                                                              <pre>Cluster 1 -> RR1
+                                                              Cluster 2 -> RR2
+                                                              Cluster 3 -> RR3
+                                                              Cluster 4 -> RR4
+                                                              RR1, RR2, RR3, RR4 নিজেদের মধ্যে কানেক্টেড।</pre>
+                                                              
+
+
+                                                              <body>
+                                                                  <h1>BGP Peer Group vs Route Reflector (RR)</h1>
+                                                                  <table>
+                                                                      <thead>
+                                                                          <tr>
+                                                                              <th>বিষয় (Topic)</th>
+                                                                              <th>BGP Peer Group</th>
+                                                                              <th>Route Reflector (RR)</th>
+                                                                          </tr>
+                                                                      </thead>
+                                                                      <tbody>
+                                                                          <tr>
+                                                                              <td>মূল উদ্দেশ্য</td>
+                                                                              <td>আপডেট একবার তৈরি করে একই পলিসির পিয়ারদের পাঠানো</td>
+                                                                              <td>iBGP Full Mesh এ সীমাবদ্ধতা কাটিয়ে স্কেলিং সহজ করা</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>যেখানে ব্যবহৃত হয়</td>
+                                                                              <td>iBGP ও eBGP উভয় ক্ষেত্রেই, বিশেষ করে একই পলিসির পিয়ারদের জন্য</td>
+                                                                              <td>শুধুমাত্র iBGP-তে, Full Mesh এ বিকল্প সমাধান</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>TCP Session</td>
+                                                                              <td>প্রতিটি পিয়ারের সাথে আলাদাভাবে TCP সেশন তৈরি হয়</td>
+                                                                              <td>ক্লায়েন্টদের সাথে আলাদাভাবে TCP সেশন, কিন্তু অন্যদের সাথে প্রয়োজন নেই</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>Routing Update পদ্ধতি</td>
+                                                                              <td>একবার আপডেট তৈরি হলে গ্রুপের সব পিয়ার পায়</td>
+                                                                              <td>RR ক্লায়েন্টদের থেকে পাওয়া রুট ক্লায়েন্ট এবং নন-ক্লায়েন্টদের প্রতিফলিত করে (reflect)</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>Example (উদাহরণ)</td>
+                                                                              <td>
+                                                                                  Peer Group: 3 টা পিয়ার আছে যাদের একই Outbound Policy:<br>
+                                                                                  <pre>
+                                                              neighbor 1.1.1.1 peer-group PEER1
+                                                              neighbor 2.2.2.2 peer-group PEER1
+                                                              neighbor 3.3.3.3 peer-group PEER1
+                                                                                  </pre>
+                                                                              </td>
+                                                                              <td>
+                                                                                  RR: RR এবং ৩টি ক্লায়েন্ট:<br>
+                                                                                  <pre>
+                                                              neighbor 1.1.1.1 route-reflector-client
+                                                              neighbor 2.2.2.2 route-reflector-client
+                                                              neighbor 3.3.3.3 route-reflector-client
+                                                                                  </pre>
+                                                                              </td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>কনফিগারেশন সহজ করে?</td>
+                                                                              <td>✅ হ্যাঁ, একই ধরনের পলিসি হলে বারবার লিখতে হয় না</td>
+                                                                              <td>✅ হ্যাঁ, কারণ Full Mesh প্রয়োজন হয় না</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>Loop Prevention কিভাবে?</td>
+                                                                              <td>N/A (Loop রোধের জন্য নয়)</td>
+                                                                              <td>Originator_ID ও Cluster_List দিয়ে লুপ চিহ্নিত ও প্রতিরোধ</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>CPU Efficiency (দক্ষতা)</td>
+                                                                              <td>✅ হ্যাঁ, একবার আপডেট তৈরি হয়, গ্রুপের সবাই পায়</td>
+                                                                              <td>✅ হ্যাঁ, কারণ সব রাউটারকে আলাদাভাবে আপডেট পাঠাতে হয় না</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>উদ্দেশ্য অনুযায়ী Best Practice</td>
+                                                                              <td>সব iBGP পিয়ারের জন্য Peer Group করা ভালো</td>
+                                                                              <td>বড় iBGP নেটওয়ার্কে Route Reflector প্রয়োজন, নইলে Full Mesh অনেক সেশন লাগে</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>স্কেলিং সমস্যা সমাধান করে?</td>
+                                                                              <td>❌ না, শুধু কনফিগ সহজ করে, Full Mesh কমায় না</td>
+                                                                              <td>✅ হ্যাঁ, Full Mesh এর বিকল্প, বড় নেটওয়ার্ক সহজে স্কেল হয়</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>Redundancy (ব্যাকআপ)</td>
+                                                                              <td>আলাদাভাবে করতে হয়, গ্রুপ লেভেলে রিডান্ডেন্সি নাই</td>
+                                                                              <td>✅ একাধিক RR রাখা যায় ভিন্ন ক্লাস্টারে, ব্যাকআপ হিসেবে</td>
+                                                                          </tr>
+                                                                      </tbody>
+                                                                  </table>
+                                                              
+                                                                  <h2>উদাহরণ দিয়ে পরিষ্কার করা যাক:</h2>
+                                                                  <h3>উদাহরণ ১: BGP Peer Group</h3>
+                                                                  <p>ধরো, ৩টা iBGP পিয়ার আছে (R1, R2, R3), যাদের একই Outbound Policy।</p>
+                                                                  <pre>
+                                                              router bgp 65000
+                                                              neighbor PEER-GROUP peer-group
+                                                              neighbor PEER-GROUP remote-as 65000
+                                                              neighbor PEER-GROUP route-reflector-client
+                                                              
+                                                              neighbor 192.168.1.1 peer-group PEER-GROUP
+                                                              neighbor 192.168.1.2 peer-group PEER-GROUP
+                                                              neighbor 192.168.1.3 peer-group PEER-GROUP
+                                                                  </pre>
+                                                                  <p>➡️ এখানে PEER-GROUP ডেফাইন করে সবাইকে একই আপডেট দেওয়া হচ্ছে।</p>
+                                                              
+                                                                  <h3>উদাহরণ ২: Route Reflector (RR)</h3>
+                                                                  <p>ধরো, R1 হলো RR, আর R2, R3, R4 হলো ক্লায়েন্ট।</p>
+                                                                  <pre>
+                                                              router bgp 65000
+                                                              neighbor 192.168.1.2 remote-as 65000
+                                                              neighbor 192.168.1.2 route-reflector-client
+                                                              neighbor 192.168.1.3 remote-as 65000
+                                                              neighbor 192.168.1.3 route-reflector-client
+                                                              neighbor 192.168.1.4 remote-as 65000
+                                                              neighbor 192.168.1.4 route-reflector-client
+                                                                  </pre>
+                                                                  <p>➡️ এখানে R1 থেকে R2, R3, R4 সবাই আপডেট পাবে, কিন্তু তারা নিজেদের মধ্যে কানেক্টেড না হলেও চলবে।</p>
+                                                              
+                                                                  <h2>উপসংহার (Summary):</h2>
+                                                                  <table>
+                                                                      <thead>
+                                                                          <tr>
+                                                                              <th>কাজ</th>
+                                                                              <th>Peer Group</th>
+                                                                              <th>Route Reflector (RR)</th>
+                                                                          </tr>
+                                                                      </thead>
+                                                                      <tbody>
+                                                                          <tr>
+                                                                              <td>কনফিগারেশন সহজ করে?</td>
+                                                                              <td>✅</td>
+                                                                              <td>✅</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>স্কেলিং সহজ করে?</td>
+                                                                              <td>❌ (Full mesh থাকে)</td>
+                                                                              <td>✅ (Full mesh এর দরকার নাই)</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>Loop প্রতিরোধ করে?</td>
+                                                                              <td>❌</td>
+                                                                              <td>✅ (Originator_ID, Cluster_List)</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>রিডান্ডেন্সি সহজ?</td>
+                                                                              <td>❌</td>
+                                                                              <td>✅ (বিভিন্ন RR ক্লাস্টার)</td>
+                                                                          </tr>
+                                                                          <tr>
+                                                                              <td>CPU Optimization?</td>
+                                                                              <td>✅</td>
+                                                                              <td>✅</td>
+                                                                          </tr>
+                                                                      </tbody>
+                                                                  </table>
+                                                              </body>
+                                                              </html>                                                            
+
+                                                              
+
+
+                                                              
 
 </body>
 </html>
