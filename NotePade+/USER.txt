@@ -34,7 +34,7 @@ DtCM$123
 
 	103.41.94.14/31
 ======================== RW ======================
-GGC = N14 RW = 172.22.1.102 =DtCM$123/mehedi
+GGC = N14 RW = 172.22.1.102 = mehedi2025 / Mehedi@12345!
 FNA = SKY FNA RW = 172.22.1.241= Dhaka@123/mehedi
 BDIX = 
 NCS = IIG = non-licence = 172.16.26.1 = m094326688/mehedi
@@ -137,11 +137,11 @@ Anydesk
 		
 		Skynet@net@2014@
 
-user add  name=AsiaTel password=AT8@8@ group=full
-user add  name=Sky@Net password=skynet8@8@ group=full
-user add  name=mehedi password=mehedi1230 group=full
-user add  name=level2 password=Level@Sky24 group=write
-user add  name=level1 password=Level@Sky14 group=write
+user add  name=AsiaTel password=AT8@8@ group=full /
+user add  name=Sky@Net password=skynet8@8@ group=full / 
+user add  name=mehedi password=mehedi1230 group=full / 
+user add  name=level2 password=Level@Sky24 group=write /
+user add  name=level1 password=Level@Sky14 group=write / 
 user add  name=test password=test group=read
 user add  name=test password=test group=read
 Hello@Tech / hellotech8@8@
@@ -267,39 +267,7 @@ nitolmotors.com.bd
 
 
 
-10.15.0.188/30
 
-
-
-interface ge 0/0
- traffic-suppress 1 broadcast enable pps 250
- traffic-suppress 1 unknown-unicast disable
- vlan mode 1 trunk
- mac-address flapping detection 1 auto-recovery disable
- traffic-suppress 2 broadcast enable pps 250
- vlan mode 2 trunk
- vlan trunk 2 30,32-34
- traffic-suppress 3 broadcast enable pps 250
- traffic-suppress 4 broadcast enable pps 250
- vlan mode 4 trunk
- vlan trunk 4 40-46
- exit
-!
-interface xge 0/0
- vlan mode 1 trunk
- vlan trunk 1 20-25,30-34,40-46,430,431,436,462
- vlan mode 2 trunk
- vlan trunk 2 20,22-25,30-34,40-46
- exit
-!
-interface epon 0/0
- port-name 1 1
- vlan access 1 462
- vlan access 2 462
- vlan access 3 462
- vlan access 4 462
- isolate 1,2 disable
- exit
 
 
 
@@ -354,4 +322,4 @@ ac / : 20507770237604515
 DTCM$1234
 DtTCM$1234
 
-
+skynoc@2000#

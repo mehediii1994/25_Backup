@@ -40,12 +40,14 @@
         }
         pre {
             color: #e2ff51;
+            
         }
 
         table {
             width: fit-content;
            
         }
+       
         
         
     </style>
@@ -4085,7 +4087,6 @@ B        192.168.2.2 [20/0] via 10.12.1.2, 00:06:12
                                                               
 
 
-                                                              <body>
                                                                   <h1>BGP Peer Group vs Route Reflector (RR)</h1>
                                                                   <table>
                                                                       <thead>
@@ -4233,13 +4234,2446 @@ B        192.168.2.2 [20/0] via 10.12.1.2, 00:06:12
                                                                           </tr>
                                                                       </tbody>
                                                                   </table>
-                                                              </body>
-                                                              </html>                                                            
+                                                         
 
                                                               
 
 
-                                                              
+                                                                  <h2>BGP Configuration Table</h2>
+                                                                  
+                                                                  <table>
+                                                                    <tr>
+                                                                      <th>BR1</th>
+                                                                      <th>PR1</th>
+                                                                      <th>AR1</th>
+                                                                      <th>BR2</th>
+                                                                      <th>PR2</th>
+                                                                      <th>AR2</th>
+                                                                      <th>BR3</th>
+                                                                      <th>PR3</th>
+                                                                      <th>AR3</th>
+                                                                      <th>BR4</th>
+                                                                      <th>PR4</th>
+                                                                      <th>AR4</th>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td>
+                                                                        <pre>router bgp 10
+                                                                  neighbor 172.16.10.1 remote-as 100
+                                                                  neighbor 172.16.10.1 description TR1
+                                                                  neighbor 172.16.20.1 remote-as 200
+                                                                  neighbor 172.16.20.1 description TR2
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 172.16.10.1 activate
+                                                                  neighbor 172.16.20.1 activate
+                                                                  exit
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 10
+                                                                  no bgp enforce-first-as
+                                                                  neighbor 192.168.65.254 remote-as 65500
+                                                                  neighbor 192.168.65.254 description IXP
+                                                                  neighbor 10.0.0.2 remote-as 20
+                                                                  neighbor 10.0.0.2 description ISP2
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 192.168.65.254 activate
+                                                                  neighbor 192.168.65.254 remove-private-as
+                                                                  neighbor 10.0.0.2 activate
+                                                                  neighbor 10.0.0.2 remove-private-as
+                                                                  exit
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 10
+                                                                  neighbor 10.10.2.2 remote-as 12
+                                                                  neighbor 10.10.2.2 description CUST12
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 10.10.2.2 activate
+                                                                  neighbor 10.10.2.2 prefix-list PL-CUST12-IN in
+                                                                  neighbor 10.10.2.2 send-community
+                                                                  neighbor 10.10.2.2 remove-private-as
+                                                                  exit
+                                                                  exit
+                                                                  ip prefix-list PL-CUST12-IN permit 192.168.12.0/23 le 24
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 20
+                                                                  neighbor 172.16.10.5 remote-as 100
+                                                                  neighbor 172.16.10.5 description TR1
+                                                                  neighbor 172.16.20.5 remote-as 200
+                                                                  neighbor 172.16.20.5 description TR2
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 172.16.10.5 activate
+                                                                  neighbor 172.16.20.5 activate
+                                                                  exit
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 20
+                                                                  no bgp enforce-first-as
+                                                                  neighbor 192.168.65.254 remote-as 65500
+                                                                  neighbor 192.168.65.254 description IXP
+                                                                  neighbor 10.0.0.1 remote-as 10
+                                                                  neighbor 10.0.0.1 description ISP1
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 192.168.65.254 activate
+                                                                  neighbor 192.168.65.254 remove-private-as
+                                                                  neighbor 10.0.0.1 remove-private-as
+                                                                  neighbor 10.0.0.1 activate
+                                                                  exit
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 20
+                                                                  neighbor 10.20.2.2 remote-as 12
+                                                                  neighbor 10.20.2.2 description CUST12
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 10.20.2.2 activate
+                                                                  neighbor 10.20.2.2 prefix-list PL-CUST12-IN in
+                                                                  neighbor 10.20.2.2 send-community
+                                                                  neighbor 10.20.2.2 remove-private-as
+                                                                  exit
+                                                                  exit
+                                                                  ip prefix-list PL-CUST12-IN permit 192.168.12.0/23 le 24
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 30
+                                                                  neighbor 172.16.10.9 remote-as 100
+                                                                  neighbor 172.16.10.9 description TR1
+                                                                  neighbor 172.16.20.9 remote-as 200
+                                                                  neighbor 172.16.20.9 description TR2
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 172.16.10.9 activate
+                                                                  neighbor 172.16.20.9 activate
+                                                                  exit
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 30
+                                                                  no bgp enforce-first-as
+                                                                  neighbor 192.168.65.254 remote-as 65500
+                                                                  neighbor 192.168.65.254 description IXP
+                                                                  neighbor 10.0.0.2 remote-as 40
+                                                                  neighbor 10.0.0.2 description ISP4
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 192.168.65.254 remove-private-as
+                                                                  neighbor 10.0.0.2 remove-private-as
+                                                                  neighbor 192.168.65.254 activate
+                                                                  neighbor 10.0.0.2 activate
+                                                                  exit
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 30
+                                                                  neighbor 10.30.2.2 remote-as 34
+                                                                  neighbor 10.30.2.2 description CUST34
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 10.30.2.2 activate
+                                                                  neighbor 10.30.2.2 prefix-list PL-CUST34-IN in
+                                                                  neighbor 10.30.2.2 send-community
+                                                                  neighbor 10.30.2.2 remove-private-as
+                                                                  exit
+                                                                  exit
+                                                                  ip prefix-list PL-CUST34-IN permit 192.168.34.0/23 le 24
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 40
+                                                                  neighbor 172.16.10.13 remote-as 100
+                                                                  neighbor 172.16.10.13 description TR1
+                                                                  neighbor 172.16.20.13 remote-as 200
+                                                                  neighbor 172.16.20.13 description TR2
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 172.16.10.13 activate
+                                                                  neighbor 172.16.20.13 activate
+                                                                  exit
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 40
+                                                                  no bgp enforce-first-as
+                                                                  neighbor 192.168.65.254 remote-as 65500
+                                                                  neighbor 192.168.65.254 description IXP
+                                                                  neighbor 10.0.0.1 remote-as 30
+                                                                  neighbor 10.0.0.1 description ISP3
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 192.168.65.254 remove-private-as
+                                                                  neighbor 10.0.0.1 remove-private-as
+                                                                  neighbor 192.168.65.254 activate
+                                                                  neighbor 10.0.0.1 activate
+                                                                  exit
+                                                                  exit</pre>
+                                                                      </td>
+                                                                      <td>
+                                                                        <pre>router bgp 40
+                                                                  neighbor 10.40.2.2 remote-as 34
+                                                                  neighbor 10.40.2.2 description CUST34
+                                                                  address-family ipv4 unicast
+                                                                  neighbor 10.40.2.2 activate
+                                                                  neighbor 10.40.2.2 prefix-list PL-CUST34-IN in
+                                                                  neighbor 10.40.2.2 send-community
+                                                                  neighbor 10.40.2.2 remove-private-as
+                                                                  exit
+                                                                  exit
+                                                                  ip prefix-list PL-CUST34-IN permit 192.168.34.0/23 le 24
+                                                                  exit</pre>
+                                                                      </td>
+                                                                    </tr>
+                                                                  </table>
+
+ 
+                                                                  
+                                                                  <h1>BGP পলিসি নিয়ন্ত্রণ (BGP Policy Control)</h1>
+                                                                  
+                                                                  <h2>১. BGP নীতিমালার মাধ্যমে আপডেট নিয়ন্ত্রণ:</h2>
+                                                                  <ul>
+                                                                      <li><b>ইনবাউন্ড আপডেট:</b> পিয়ার (Peer) থেকে আসা আপডেট।</li>
+                                                                      <li><b>আউটবাউন্ড আপডেট:</b> পিয়ারের কাছে পাঠানো আপডেট (Best Paths)।</li>
+                                                                      <li>রাউটিং টেবিল (Routing Table), BGP টেবিল, ফিল্টার (নীতিমালা/Policy)।</li>
+                                                                  </ul>
+                                                                  
+                                                                  <h2>২. নীতিমালার মাধ্যমে Prefix নির্বাচন:</h2>
+                                                                  <ul>
+                                                                      <li>Prefix list দিয়ে মিলিয়ে দেখা।</li>
+                                                                      <li>AS path filter দিয়ে মিলিয়ে দেখা।</li>
+                                                                      <li>Community tag filter দিয়ে মিলিয়ে দেখা।</li>
+                                                                  </ul>
+                                                                  
+                                                                  <h2>৩. নীতিমালার মাধ্যমে Attribute সেটিং:</h2>
+                                                                  <ul>
+                                                                      <li>AS path পরিবর্তন (Prepend করা)।</li>
+                                                                      <li>Local Preference মান নির্ধারণ।</li>
+                                                                      <li>MED মান নির্ধারণ।</li>
+                                                                      <li>Community tag যোগ/অপসারণ।</li>
+                                                                  </ul>
+                                                                  
+                                                                  <h2>৪. Attribute দ্বারা ট্রাফিক নিয়ন্ত্রণ:</h2>
+                                                                  <ul>
+                                                                      <li><b>ইনবাউন্ড ট্রাফিক:</b> AS Path, MED, Community tag।</li>
+                                                                      <li><b>আউটবাউন্ড ট্রাফিক:</b> Local Preference।</li>
+                                                                  </ul>
+                                                                  
+                                                                  <h2>৫. Prefix List:</h2>
+                                                                  <ul>
+                                                                      <li>নির্দিষ্ট Prefix বা Prefix-এর পরিসর নির্বাচন।</li>
+                                                                      <li>IRRToolSet, bgpq3 দিয়ে তৈরি।</li>
+                                                                  </ul>
+                                                                  
+                                                                  <h2>৬. Prefix List Filter (IOS):</h2>
+                                                                  <pre>ip prefix-list TEST permit 0.0.0.0/0 ge 8 le 24</pre>
+                                                                  <pre>ipv6 prefix-list TEST-v6 permit 2001:6400::/32 le 48</pre>
+                                                                  <pre>ip prefix-list TEST deny 0.0.0.0/0</pre>
+                                                                  
+                                                                  <h2>৭. AS Path Filter:</h2>
+                                                                  <ul>
+                                                                      <li>বড় Prefix List-এর বিকল্প।</li>
+                                                                      <li>Regular Expressions:</li>
+                                                                  </ul>
+                                                                  <pre>
+                                                                  ^$  স্থানীয়ভাবে তৈরি
+                                                                  _100$  AS 100 থেকে আগত
+                                                                  _100_200_  100 ও 200 হয়ে গেছে
+                                                                  </pre>
+                                                                  
+                                                                  <h2>৮. Community Access List:</h2>
+                                                                  <ul>
+                                                                      <li>Prefix নির্বাচন ও চিহ্নিতকরণের জন্য ব্যবহৃত।</li>
+                                                                  </ul>
+                                                                  
+                                                                  <h2>৯. নীতিমালার সমন্বয়:</h2>
+                                                                  <ul>
+                                                                      <li>Route-map (IOS), Policy-statement (Junos), Route-policy (Huawei)।</li>
+                                                                  </ul>
+                                                                  
+                                                                  <h2>১০. Route-map (IOS):</h2>
+                                                                  <pre>
+                                                                  route-map AS-OUT permit 10
+                                                                  set as-path prepend 17821 17821 17821
+                                                                  
+                                                                  route-map LP-IN permit 10
+                                                                  match as-path 1
+                                                                  set local-preference 150
+                                                                  </pre>
+                                                                  
+                                                                  <h2>১১. Policy Filter প্রয়োগ:</h2>
+                                                                  <ul>
+                                                                      <li>ইনবাউন্ড/আউটবাউন্ড আপডেট নিয়ন্ত্রণ।</li>
+                                                                      <li>Hard Reset/Soft Reset (Route Refresh)।</li>
+                                                                  </ul>
+                                                                  
+                                                                  <h2>১২. Hard Reset:</h2>
+                                                                  <pre>
+                                                                  clear ip bgp *
+                                                                  clear ip bgp &lt;peer-address&gt;
+                                                                  </pre>
+                                                                  
+                                                                  <h2>১৩. Route Refresh:</h2>
+                                                                  <pre>
+                                                                  clear ip bgp &lt;peer-address&gt; [soft] in
+                                                                  clear bgp ipv6 unicast &lt;peer-address&gt; [soft] in
+                                                                  </pre>
+                                                                  
+                                                                  <h2>১৪. Soft Reconfiguration:</h2>
+                                                                  <ul>
+                                                                      <li>Route Refresh সাপোর্ট না করলে।</li>
+                                                                      <li>ইনবাউন্ড আপডেটের কপি আলাদাভাবে সংরক্ষণ।</li>
+                                                                  </ul>
+                                                                  <pre>
+                                                                  router bgp 17821
+                                                                  neighbor 1.1.1.1 remote-as 100
+                                                                  neighbor 1.1.1.1 route-map SET-LPREF in
+                                                                  neighbor 1.1.1.1 soft-reconfiguration inbound
+                                                                  clear ip bgp 1.1.1.1 soft [in|out]
+                                                                  </pre>
+                                                                  
+                                                                  <h2>✅ উপসংহার:</h2>
+                                                                  <p>
+                                                                      BGP নীতিমালা ব্যবস্থাপনায় prefix নির্বাচন, রুটিং কন্ট্রোল, এবং ট্রাফিক পরিচালনা করা যায়। Prefix List, AS path, Community, Route-map দিয়ে আপডেট ফিল্টার করে। প্রয়োজনে Hard/Soft Reset বা Route Refresh করে নতুন নীতিমালা কার্যকর করা যায়।
+                                                                  </p>
+                                                                  
+                                                                  <h3>Acknowledgement:</h3>
+                                                                  <ul>
+                                                                      <li>Philip Smith</li>
+                                                                      <li>Cisco Systems</li>
+                                                                  </ul>
+                                                                  
+
+                                                                      <h1>BGP Policy Control</h1>
+                                                                  
+                                                                      <h2>১. BGP নীতিমালার মাধ্যমে আপডেট নিয়ন্ত্রণ:</h2>
+                                                                      <p>BGP এর অভ্যন্তরীণ কার্যপ্রণালী:</p>
+                                                                      <ul>
+                                                                          <li><strong>ইনবাউন্ড (Inbound) আপডেট:</strong> পিয়ার (Peer) থেকে আসা আপডেট।</li>
+                                                                          <li><strong>আউটবাউন্ড (Outbound) আপডেট:</strong> পিয়ারের কাছে পাঠানো আপডেট (শ্রেষ্ঠ পথ বা Best Paths)।</li>
+                                                                          <li><strong>রাউটিং টেবিল (Routing Table) এবং BGP টেবিল:</strong> যেখানে সব রুট জমা থাকে।</li>
+                                                                          <li><strong>ফিল্টার (নীতিমালা/Policy):</strong> কোন রুট গ্রহণ/প্রেরণ করা হবে তা নিয়ন্ত্রণ করে।</li>
+                                                                      </ul>
+                                                                  
+                                                                      <h2>২. নীতিমালার মাধ্যমে Prefix নির্বাচন:</h2>
+                                                                      <ul>
+                                                                          <li>Prefix list দিয়ে মিলিয়ে দেখা।</li>
+                                                                          <li>AS path filter দিয়ে মিলিয়ে দেখা।</li>
+                                                                          <li>Community tag filter দিয়ে মিলিয়ে দেখা।</li>
+                                                                          <li>উপরোক্ত যেকোনো একটির বা একাধিকের সমন্বয়ে।</li>
+                                                                      </ul>
+                                                                  
+                                                                      <h2>৩. নীতিমালার মাধ্যমে Attribute সেটিং:</h2>
+                                                                      <ul>
+                                                                          <li>AS path পরিবর্তন (Prepend করা)।</li>
+                                                                          <li>Local Preference মান নির্ধারণ।</li>
+                                                                          <li>MED মান নির্ধারণ।</li>
+                                                                          <li>Community tag যোগ/অপসারণ।</li>
+                                                                      </ul>
+                                                                  
+                                                                      <h2>৪. Attribute দ্বারা ট্রাফিক নিয়ন্ত্রণ:</h2>
+                                                                      <ul>
+                                                                          <li><strong>ইনবাউন্ড ট্রাফিক (প্রবেশ):</strong> AS Path, MED, Community tag।</li>
+                                                                          <li><strong>আউটবাউন্ড ট্রাফিক (প্রস্থান):</strong> Local Preference।</li>
+                                                                      </ul>
+                                                                  
+                                                                      <h2>৫. Prefix List:</h2>
+                                                                      <ul>
+                                                                          <li>নির্দিষ্ট Prefix বা Prefix-এর পরিসর নির্বাচন করতে ব্যবহৃত।</li>
+                                                                          <li>Aggregates এবং Sub-aggregates নির্বাচন করা যায়।</li>
+                                                                          <li>Internet Routing Registry (IRR)-এর তথ্য থেকে তৈরি করা যায়: IRRToolSet (rtconfig), bgpq3 ইত্যাদি টুল দিয়ে।</li>
+                                                                      </ul>
+                                                                  
+                                                                      <h2>৬. Prefix List Filter (IOS):</h2>
+                                                                      <h3>উদাহরণ ১:</h3>
+                                                                      <p>যেকোনো Prefix যেগুলোর দৈর্ঘ্য ৮ থেকে ২৪ এর মধ্যে।</p>
+                                                                      <pre>ip prefix-list TEST permit 0.0.0.0/0 ge 8 le 24</pre>
+                                                                  
+                                                                      <h3>উদাহরণ ২:</h3>
+                                                                      <p>IPv6: 2400:6400::/32 থেকে /48 পর্যন্ত অনুমোদন।</p>
+                                                                      <pre>ipv6 prefix-list TEST-v6 permit 2001:6400::/32 le 48</pre>
+                                                                  
+                                                                      <h3>উদাহরণ ৩:</h3>
+                                                                      <p>Default route নিষিদ্ধ।</p>
+                                                                      <pre>ip prefix-list TEST deny 0.0.0.0/0</pre>
+                                                                  
+                                                                      <h3>উদাহরণ ৪:</h3>
+                                                                      <p>IPv6 Default route নিষিদ্ধ।</p>
+                                                                      <pre>ipv6 prefix-list TEST-v6 deny ::/0</pre>
+                                                                  
+                                                                      <h2>৭. AS Path Filter:</h2>
+                                                                      <ul>
+                                                                          <li>বড় Prefix List হলে সহজে ব্যবহৃত হয়।</li>
+                                                                          <li>Regular Expressions ব্যবহার করে।</li>
+                                                                      </ul>
+                                                                      <h3>Regular Expression-এর চিহ্নাবলী:</h3>
+                                                                      <pre>.  যেকোনো একটি ক্যারেক্টার
+                                                                  *  যেকোনো দৈর্ঘ্যের ক্যারেক্টার
+                                                                  +  কমপক্ষে একটি পুনরাবৃত্তি
+                                                                  ^  শুরুতে
+                                                                  $  শেষে
+                                                                  _  আলাদা করতে
+                                                                  () গ্রুপিং
+                                                                  [] পরিসর</pre>
+                                                                  
+                                                                      <h3>উদাহরণ:</h3>
+                                                                      <pre>^$  স্থানীয়ভাবে তৈরি
+                                                                  _100$  AS 100 থেকে আগত
+                                                                  _100_200_  100 ও 200 হয়ে গেছে
+                                                                  ^(_100)+$  শুধু AS 100 বারবার
+                                                                  ^701(_[0-9]+)*_(5539|8495|8763)$  701 থেকে আসা, শেষে ঐ ৩টার একটি</pre>
+                                                                  
+                                                                      <h3>কমান্ড:</h3>
+                                                                      <pre>ip as-path access-list 10 permit ^100$</pre>
+                                                                  
+                                                                      <h2>৮. Community Access List:</h2>
+                                                                      <ul>
+                                                                          <li>Prefix নির্বাচন ও চিহ্নিতকরণের জন্য ব্যবহৃত।</li>
+                                                                          <li>Prefix এ Community Tag বসানো যায়।</li>
+                                                                          <li>Peer দ্বারা Community সেট করার অনুমতি দিলে সাবধান থাকতে হবে।</li>
+                                                                      </ul>
+                                                                  
+                                                                      <h2>৯. নীতিমালার একত্র সমন্বয়:</h2>
+                                                                      <p>সব নীতিমালা একসাথে Route-map (IOS), Policy-statement (Junos), Route-policy (Huawei) দিয়ে।</p>
+                                                                  
+                                                                      <h2>১০. Route-map (IOS):</h2>
+                                                                      <p>শর্ত অনুযায়ী match এবং set করা হয়।</p>
+                                                                      <h3>কমান্ড:</h3>
+                                                                      <pre>route-map NAME permit|deny SEQ
+                                                                  match (শর্ত)
+                                                                  set (কাজ)</pre>
+                                                                  
+                                                                      <h3>উদাহরণ:</h3>
+                                                                      <pre>route-map AS-OUT permit 10
+                                                                  set as-path prepend 17821 17821 17821
+                                                                  
+                                                                  route-map LP-IN permit 10
+                                                                  match as-path 1
+                                                                  set local-preference 150</pre>
+                                                                  
+                                                                      <h2>১১. Policy Filter প্রয়োগ:</h2>
+                                                                      <ul>
+                                                                          <li>ইনবাউন্ড/আউটবাউন্ড আপডেট নীতিমালা দিয়ে ফিল্টার হয়।</li>
+                                                                          <li>BGP Table-এ নীতিমালায় বাতিলকৃত রুট থাকে না।</li>
+                                                                          <li>নীতিমালা পরিবর্তন হলে Hard Reset বা Soft Reset (Route Refresh) দিয়ে নতুন নীতিমালা কার্যকর করতে হয়।</li>
+                                                                      </ul>
+                                                                  
+                                                                      <h2>১২. Hard Reset:</h2>
+                                                                      <ul>
+                                                                          <li>TCP সেশন বন্ধ হয়।</li>
+                                                                          <li>নতুন TCP সেশন খুলে নতুন করে BGP Table পাঠায়।</li>
+                                                                          <li>নেটওয়ার্কে বিঘ্ন সৃষ্টি করে।</li>
+                                                                      </ul>
+                                                                      <h3>কমান্ড:</h3>
+                                                                      <pre>clear ip bgp *
+                                                                  clear ip bgp &lt;peer-address&gt;
+                                                                  clear bgp ipv6 unicast *
+                                                                  clear bgp ipv6 unicast &lt;peer-address&gt;</pre>
+                                                                  
+                                                                      <h2>১৩. Route Refresh:</h2>
+                                                                      <ul>
+                                                                          <li>BGP সেশন বন্ধ না করেই আপডেট নেয়া।</li>
+                                                                          <li>peer থেকে নতুন করে BGP table আনা বা দেয়া।</li>
+                                                                          <li>উভয় রাউটারকে route refresh সাপোর্ট করতে হয়।</li>
+                                                                      </ul>
+                                                                      <h3>কমান্ড:</h3>
+                                                                      <pre>clear ip bgp &lt;peer-address&gt; [soft] in
+                                                                  clear bgp ipv6 unicast &lt;peer-address&gt; [soft] in
+                                                                  clear ip bgp &lt;peer-address&gt; [soft] out
+                                                                  clear bgp ipv6 unicast &lt;peer-address&gt; [soft] out</pre>
+                                                                  
+                                                                      <h2>১৪. Soft Reconfiguration:</h2>
+                                                                      <ul>
+                                                                          <li>যদি Route Refresh সাপোর্ট না করে, তখন soft-reconfig ব্যবহার।</li>
+                                                                          <li>ইনবাউন্ড আপডেটের কপি আলাদাভাবে সংরক্ষণ।</li>
+                                                                          <li>Policy পরিবর্তনে কপি করা আপডেট দিয়ে নতুন করে ফিল্টার।</li>
+                                                                          <li>অতিরিক্ত মেমোরি ব্যবহার করে।</li>
+                                                                      </ul>
+                                                                      <h3>কমান্ড:</h3>
+                                                                      <pre>router bgp 17821
+                                                                  neighbor 1.1.1.1 remote-as 100
+                                                                  neighbor 1.1.1.1 route-map SET-LPREF in
+                                                                  neighbor 1.1.1.1 soft-reconfiguration inbound
+                                                                  clear ip bgp 1.1.1.1 soft [in|out]</pre>
+                                                                  
+                                                                      <h2>✅ উপসংহার:</h2>
+                                                                      <p>BGP নীতিমালা ব্যবস্থাপনার মাধ্যমে prefix নির্বাচন, রুটিং কন্ট্রোল, এবং ট্রাফিক পরিচালনা সহজ হয়। Prefix List, AS path, Community, Route-map ইত্যাদি টুলের মাধ্যমে আমরা ইনবাউন্ড ও আউটবাউন্ড আপডেট ফিল্টার করতে পারি। প্রয়োজনে Hard/Soft Reset অথবা Route Refresh করে নতুন নীতিমালা কার্যকর করা যায়।</p>
+
+
+
+                                                                      
+                                                                      <h1>BGP Configuration and Policy Logic</h1>
+                                                                      
+                                                                      <h2>Step 1: Complete BGP Configuration</h2>
+                                                                      <pre>
+                                                                      router bgp [OUR-ASN]
+                                                                      
+                                                                      # Step 1: Inbound Policy
+                                                                      # Customer: Highest Priority
+                                                                      route-map FROM-CUSTOMER-IN permit 10
+                                                                       set local-preference 200
+                                                                      neighbor [Customer-IP] remote-as [Customer-AS]
+                                                                      neighbor [Customer-IP] route-map FROM-CUSTOMER-IN in
+                                                                      
+                                                                      # Private Peer: Medium Priority
+                                                                      route-map FROM-PRIVATE-PEER-IN permit 10
+                                                                       set local-preference 150
+                                                                      neighbor [Private-Peer-IP] remote-as [Private-Peer-AS]
+                                                                      neighbor [Private-Peer-IP] route-map FROM-PRIVATE-PEER-IN in
+                                                                      
+                                                                      # IXP: Lower Priority
+                                                                      route-map FROM-IXP-IN permit 10
+                                                                       set local-preference 100
+                                                                      neighbor [IXP-IP] remote-as [IXP-AS]
+                                                                      neighbor [IXP-IP] route-map FROM-IXP-IN in
+                                                                      
+                                                                      # Transit: Lowest Priority
+                                                                      route-map FROM-TRANSIT-IN permit 10
+                                                                       set local-preference 50
+                                                                      neighbor [Transit-IP] remote-as [Transit-AS]
+                                                                      neighbor [Transit-IP] route-map FROM-TRANSIT-IN in
+                                                                      
+                                                                      
+                                                                      # Step 2: Outbound Policy
+                                                                      # Customer: Highest Priority, No Prepend
+                                                                      route-map TO-CUSTOMER-OUT permit 10
+                                                                       # No AS-Path prepend, direct path
+                                                                      neighbor [Customer-IP] remote-as [Customer-AS]
+                                                                      neighbor [Customer-IP] route-map TO-CUSTOMER-OUT out
+                                                                      
+                                                                      # Private Peer: Medium Priority, No Prepend
+                                                                      route-map TO-PRIVATE-PEER-OUT permit 10
+                                                                       # No prepend, direct path
+                                                                      neighbor [Private-Peer-IP] remote-as [Private-Peer-AS]
+                                                                      neighbor [Private-Peer-IP] route-map TO-PRIVATE-PEER-OUT out
+                                                                      
+                                                                      # IXP: Lower Priority, Prepend 2 times
+                                                                      route-map TO-IXP-OUT permit 10
+                                                                       set as-path prepend [OUR-ASN] [OUR-ASN]
+                                                                      neighbor [IXP-IP] remote-as [IXP-AS]
+                                                                      neighbor [IXP-IP] route-map TO-IXP-OUT out
+                                                                      
+                                                                      # Transit: Lowest Priority, Prepend 3 times
+                                                                      route-map TO-TRANSIT-OUT permit 10
+                                                                       set as-path prepend [OUR-ASN] [OUR-ASN] [OUR-ASN]
+                                                                      neighbor [Transit-IP] remote-as [Transit-AS]
+                                                                      neighbor [Transit-IP] route-map TO-TRANSIT-OUT out
+                                                                      </pre>
+                                                                      
+                                                                      <h2>Step 2: Explanation & Policy Logic</h2>
+                                                                      
+                                                                      <h3>1. Inbound Traffic Filtering (Local Preference)</h3>
+                                                                      <p>Local Preference ব্যবহার করে আমরা নির্ধারণ করি কোন ইনকামিং ট্রাফিক আগে আমাদের কাছে আসবে।</p>
+                                                                      
+                                                                      <ul>
+                                                                          <li><strong>Customer (Local Preference 200):</strong> আমরা চাচ্ছি যে Customer দিয়ে আসা ট্রাফিক সবচেয়ে আগে আসে, কারণ এটি আমাদের আয় বেশি করবে।</li>
+                                                                          <li><strong>Private Peer (Local Preference 150):</strong> Private Peer যেহেতু মধ্যম স্থানে, তাই এর Local Preference 150 রাখা হয়েছে।</li>
+                                                                          <li><strong>IXP (Local Preference 100):</strong> IXP ট্রাফিক একটু কম প্রাধান্য পাবে (Local Preference 100)।</li>
+                                                                          <li><strong>Transit (Local Preference 50):</strong> Transit ট্রাফিক সর্বনিম্ন প্রাধান্য পাবে, কারণ এটি fallback option হিসেবে কাজ করবে।</li>
+                                                                      </ul>
+                                                                      
+                                                                      <h3>2. Outbound Traffic Filtering (AS-Path Prepend)</h3>
+                                                                      <p>AS-Path Prepend ব্যবহার করে আমরা নির্ধারণ করি কোন রুট বাইরে যাবে এবং কোন পথে যাবে।</p>
+                                                                      
+                                                                      <ul>
+                                                                          <li><strong>Customer (No AS-Path Prepend):</strong> Customer-এ আমরা কোনো AS-Path Prepend ব্যবহার করিনি, কারণ এটি আমাদের প্রাধান্য পাবে।</li>
+                                                                          <li><strong>Private Peer (No AS-Path Prepend):</strong> Private Peer-এও কোনো prepend নেই, কারণ এটিও আমাদের গুরুত্বপূর্ণ পাথ।</li>
+                                                                          <li><strong>IXP (Prepend 2 times):</strong> IXP-এ আমরা 2 বার AS-PATH prepend করেছি, যাতে বাইরের ISP গুলো কম প্রাধান্য দেয় এবং আমাদের চাহিদা পূরণের জন্য অন্য পাথ গুলো বেছে নেয়।</li>
+                                                                          <li><strong>Transit (Prepend 3 times):</strong> Transit-এ 3 বার AS-PATH prepend করেছি, যাতে বাইরের ISP গুলো এড়ানোর চেষ্টা করবে এবং এটি শুধুমাত্র fallback হিসেবে ব্যবহৃত হবে।</li>
+                                                                      </ul>
+                                                                      
+                                                                      <h3>3. Priority Recap Table</h3>
+                                                                      <table>
+                                                                          <thead>
+                                                                              <tr>
+                                                                                  <th>Path Type</th>
+                                                                                  <th>Inbound Priority (Local-Pref)</th>
+                                                                                  <th>Outbound Priority (AS-Path Prepend)</th>
+                                                                              </tr>
+                                                                          </thead>
+                                                                          <tbody>
+                                                                              <tr>
+                                                                                  <td>Customer</td>
+                                                                                  <td>200 (Highest)</td>
+                                                                                  <td>0 (No prepend)</td>
+                                                                              </tr>
+                                                                              <tr>
+                                                                                  <td>Private Peer</td>
+                                                                                  <td>150</td>
+                                                                                  <td>0 (No prepend)</td>
+                                                                              </tr>
+                                                                              <tr>
+                                                                                  <td>IXP</td>
+                                                                                  <td>100</td>
+                                                                                  <td>2 times prepend</td>
+                                                                              </tr>
+                                                                              <tr>
+                                                                                  <td>Transit</td>
+                                                                                  <td>50 (Lowest)</td>
+                                                                                  <td>3 times prepend</td>
+                                                                              </tr>
+                                                                          </tbody>
+                                                                      </table>
+                                                                      
+                                                                      <h3>4. Working Logic Recap</h3>
+                                                                      <ul>
+                                                                          <li><strong>Inbound Traffic:</strong> Local Preference দিয়ে আমরা ইনকামিং ট্রাফিকের পথ নির্ধারণ করি, Customer-এ সবচেয়ে বেশি, Transit-এ সবচেয়ে কম।</li>
+                                                                          <li><strong>Outbound Traffic:</strong> AS-Path Prepend দিয়ে আমরা আউটগোইং ট্রাফিকের পথে নিয়ন্ত্রণ রাখি, যেখানে Transit এবং IXP-এর পথে বেশি prepend করা হয় যাতে এগুলো কম ব্যবহার হয়।</li>
+                                                                      </ul>
+
+<h1>BGP Configuration and Policy Explanation</h1>
+
+<h2>Step 1: Complete BGP Configuration</h2>
+<p>Configuration for Inbound & Outbound Filtering Using Local Preference and AS-Path Prepend</p>
+<pre>
+router bgp [OUR-ASN]
+
+# Step 1: Inbound Policy
+# Customer: Highest Priority
+route-map FROM-CUSTOMER-IN permit 10
+ set local-preference 200
+neighbor [Customer-IP] remote-as [Customer-AS]
+neighbor [Customer-IP] route-map FROM-CUSTOMER-IN in
+
+# Private Peer: Medium Priority
+route-map FROM-PRIVATE-PEER-IN permit 10
+ set local-preference 150
+neighbor [Private-Peer-IP] remote-as [Private-Peer-AS]
+neighbor [Private-Peer-IP] route-map FROM-PRIVATE-PEER-IN in
+
+# IXP: Lower Priority
+route-map FROM-IXP-IN permit 10
+ set local-preference 100
+neighbor [IXP-IP] remote-as [IXP-AS]
+neighbor [IXP-IP] route-map FROM-IXP-IN in
+
+# Transit: Lowest Priority
+route-map FROM-TRANSIT-IN permit 10
+ set local-preference 50
+neighbor [Transit-IP] remote-as [Transit-AS]
+neighbor [Transit-IP] route-map FROM-TRANSIT-IN in
+
+
+# Step 2: Outbound Policy
+# Customer: Highest Priority, No Prepend
+route-map TO-CUSTOMER-OUT permit 10
+ # No AS-Path prepend, direct path
+neighbor [Customer-IP] remote-as [Customer-AS]
+neighbor [Customer-IP] route-map TO-CUSTOMER-OUT out
+
+# Private Peer: Medium Priority, No Prepend
+route-map TO-PRIVATE-PEER-OUT permit 10
+ # No prepend, direct path
+neighbor [Private-Peer-IP] remote-as [Private-Peer-AS]
+neighbor [Private-Peer-IP] route-map TO-PRIVATE-PEER-OUT out
+
+# IXP: Lower Priority, Prepend 2 times
+route-map TO-IXP-OUT permit 10
+ set as-path prepend [OUR-ASN] [OUR-ASN]
+neighbor [IXP-IP] remote-as [IXP-AS]
+neighbor [IXP-IP] route-map TO-IXP-OUT out
+
+# Transit: Lowest Priority, Prepend 3 times
+route-map TO-TRANSIT-OUT permit 10
+ set as-path prepend [OUR-ASN] [OUR-ASN] [OUR-ASN]
+neighbor [Transit-IP] remote-as [Transit-AS]
+neighbor [Transit-IP] route-map TO-TRANSIT-OUT out
+</pre>
+
+<h2>Step 2: Explanation & Policy Logic</h2>
+
+<h3>1. Inbound Traffic Filtering (Local Preference)</h3>
+<p>Local Preference ব্যবহার করে আমরা নির্ধারণ করি কোন ইনকামিং ট্রাফিক আগে আমাদের কাছে আসবে।</p>
+
+<ul>
+    <li><strong>Customer (Local Preference 200):</strong> আমরা চাচ্ছি যে Customer দিয়ে আসা ট্রাফিক সবচেয়ে আগে আসে, কারণ এটি আমাদের আয় বেশি করবে।</li>
+    <li><strong>Private Peer (Local Preference 150):</strong> Private Peer যেহেতু মধ্যম স্থানে, তাই এর Local Preference 150 রাখা হয়েছে।</li>
+    <li><strong>IXP (Local Preference 100):</strong> IXP ট্রাফিক একটু কম প্রাধান্য পাবে (Local Preference 100)।</li>
+    <li><strong>Transit (Local Preference 50):</strong> Transit ট্রাফিক সর্বনিম্ন প্রাধান্য পাবে, কারণ এটি fallback option হিসেবে কাজ করবে।</li>
+</ul>
+
+<h3>2. Outbound Traffic Filtering (AS-Path Prepend)</h3>
+<p>AS-Path Prepend ব্যবহার করে আমরা নির্ধারণ করি কোন রুট বাইরে যাবে এবং কোন পথে যাবে।</p>
+
+<ul>
+    <li><strong>Customer (No AS-Path Prepend):</strong> Customer-এ আমরা কোনো AS-Path Prepend ব্যবহার করিনি, কারণ এটি আমাদের প্রাধান্য পাবে।</li>
+    <li><strong>Private Peer (No AS-Path Prepend):</strong> Private Peer-এও কোনো prepend নেই, কারণ এটিও আমাদের গুরুত্বপূর্ণ পাথ।</li>
+    <li><strong>IXP (Prepend 2 times):</strong> IXP-এ আমরা 2 বার AS-PATH prepend করেছি, যাতে বাইরের ISP গুলো কম প্রাধান্য দেয় এবং আমাদের চাহিদা পূরণের জন্য অন্য পাথ গুলো বেছে নেয়।</li>
+    <li><strong>Transit (Prepend 3 times):</strong> Transit-এ 3 বার AS-PATH prepend করেছি, যাতে বাইরের ISP গুলো এড়ানোর চেষ্টা করবে এবং এটি শুধুমাত্র fallback হিসেবে ব্যবহৃত হবে।</li>
+</ul>
+
+<h3>3. Priority Recap Table</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Path Type</th>
+            <th>Inbound Priority (Local-Pref)</th>
+            <th>Outbound Priority (AS-Path Prepend)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Customer</td>
+            <td>200 (Highest)</td>
+            <td>0 (No prepend)</td>
+        </tr>
+        <tr>
+            <td>Private Peer</td>
+            <td>150</td>
+            <td>0 (No prepend)</td>
+        </tr>
+        <tr>
+            <td>IXP</td>
+            <td>100</td>
+            <td>2 times prepend</td>
+        </tr>
+        <tr>
+            <td>Transit</td>
+            <td>50 (Lowest)</td>
+            <td>3 times prepend</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>4. Working Logic Recap</h3>
+<ul>
+    <li><strong>Inbound Traffic:</strong> Local Preference দিয়ে আমরা ইনকামিং ট্রাফিকের পথ নির্ধারণ করি, Customer-এ সবচেয়ে বেশি, Transit-এ সবচেয়ে কম।</li>
+    <li><strong>Outbound Traffic:</strong> AS-Path Prepend দিয়ে আমরা আউটগোইং ট্রাফিকের পথে নিয়ন্ত্রণ রাখি, যেখানে Transit এবং IXP-এর পথে বেশি prepend করা হয় যাতে এগুলো কম ব্যবহার হয়।</li>
+</ul>
+
+<
+
+<h1>BGP Configuration and Explanation</h1>
+
+<h2>Step 1: Complete BGP Configuration</h2>
+<pre>
+router bgp [OUR-ASN]
+
+# Step 1: Inbound Policy
+# Customer: Highest Priority
+route-map FROM-CUSTOMER-IN permit 10
+ set local-preference 200
+neighbor [Customer-IP] remote-as [Customer-AS]
+neighbor [Customer-IP] route-map FROM-CUSTOMER-IN in
+
+# Private Peer: Medium Priority
+route-map FROM-PRIVATE-PEER-IN permit 10
+ set local-preference 150
+neighbor [Private-Peer-IP] remote-as [Private-Peer-AS]
+neighbor [Private-Peer-IP] route-map FROM-PRIVATE-PEER-IN in
+
+# IXP: Lower Priority
+route-map FROM-IXP-IN permit 10
+ set local-preference 100
+neighbor [IXP-IP] remote-as [IXP-AS]
+neighbor [IXP-IP] route-map FROM-IXP-IN in
+
+# Transit: Lowest Priority
+route-map FROM-TRANSIT-IN permit 10
+ set local-preference 50
+neighbor [Transit-IP] remote-as [Transit-AS]
+neighbor [Transit-IP] route-map FROM-TRANSIT-IN in
+
+
+# Step 2: Outbound Policy
+# Customer: Highest Priority, No Prepend
+route-map TO-CUSTOMER-OUT permit 10
+ # No AS-Path prepend, direct path
+neighbor [Customer-IP] remote-as [Customer-AS]
+neighbor [Customer-IP] route-map TO-CUSTOMER-OUT out
+
+# Private Peer: Medium Priority, No Prepend
+route-map TO-PRIVATE-PEER-OUT permit 10
+ # No prepend, direct path
+neighbor [Private-Peer-IP] remote-as [Private-Peer-AS]
+neighbor [Private-Peer-IP] route-map TO-PRIVATE-PEER-OUT out
+
+# IXP: Lower Priority, Prepend 2 times
+route-map TO-IXP-OUT permit 10
+ set as-path prepend [OUR-ASN] [OUR-ASN]
+neighbor [IXP-IP] remote-as [IXP-AS]
+neighbor [IXP-IP] route-map TO-IXP-OUT out
+
+# Transit: Lowest Priority, Prepend 3 times
+route-map TO-TRANSIT-OUT permit 10
+ set as-path prepend [OUR-ASN] [OUR-ASN] [OUR-ASN]
+neighbor [Transit-IP] remote-as [Transit-AS]
+neighbor [Transit-IP] route-map TO-TRANSIT-OUT out
+</pre>
+
+<h2>Step 2: Explanation & Policy Logic</h2>
+
+<h3>1. Inbound Traffic Filtering (Local Preference)</h3>
+<p>Local Preference ব্যবহার করে আমরা নির্ধারণ করি কোন ইনকামিং ট্রাফিক আগে আমাদের কাছে আসবে।</p>
+
+<ul>
+    <li><strong>Customer (Local Preference 200):</strong> আমরা চাচ্ছি যে Customer দিয়ে আসা ট্রাফিক সবচেয়ে আগে আসে, কারণ এটি আমাদের আয় বেশি করবে।</li>
+    <li><strong>Private Peer (Local Preference 150):</strong> Private Peer যেহেতু মধ্যম স্থানে, তাই এর Local Preference 150 রাখা হয়েছে।</li>
+    <li><strong>IXP (Local Preference 100):</strong> IXP ট্রাফিক একটু কম প্রাধান্য পাবে (Local Preference 100)।</li>
+    <li><strong>Transit (Local Preference 50):</strong> Transit ট্রাফিক সর্বনিম্ন প্রাধান্য পাবে, কারণ এটি fallback option হিসেবে কাজ করবে।</li>
+</ul>
+
+<h3>2. Outbound Traffic Filtering (AS-Path Prepend)</h3>
+<p>AS-Path Prepend ব্যবহার করে আমরা নির্ধারণ করি কোন রুট বাইরে যাবে এবং কোন পথে যাবে।</p>
+
+<ul>
+    <li><strong>Customer (No AS-Path Prepend):</strong> Customer-এ আমরা কোনো AS-Path Prepend ব্যবহার করিনি, কারণ এটি আমাদের প্রাধান্য পাবে।</li>
+    <li><strong>Private Peer (No AS-Path Prepend):</strong> Private Peer-এও কোনো prepend নেই, কারণ এটিও আমাদের গুরুত্বপূর্ণ পাথ।</li>
+    <li><strong>IXP (Prepend 2 times):</strong> IXP-এ আমরা 2 বার AS-PATH prepend করেছি, যাতে বাইরের ISP গুলো কম প্রাধান্য দেয় এবং আমাদের চাহিদা পূরণের জন্য অন্য পাথ গুলো বেছে নেয়।</li>
+    <li><strong>Transit (Prepend 3 times):</strong> Transit-এ 3 বার AS-PATH prepend করেছি, যাতে বাইরের ISP গুলো এড়ানোর চেষ্টা করবে এবং এটি শুধুমাত্র fallback হিসেবে ব্যবহৃত হবে।</li>
+</ul>
+
+<h3>3. Priority Recap Table</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Path Type</th>
+            <th>Inbound Priority (Local-Pref)</th>
+            <th>Outbound Priority (AS-Path Prepend)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Customer</td>
+            <td>200 (Highest)</td>
+            <td>0 (No prepend)</td>
+        </tr>
+        <tr>
+            <td>Private Peer</td>
+            <td>150</td>
+            <td>0 (No prepend)</td>
+        </tr>
+        <tr>
+            <td>IXP</td>
+            <td>100</td>
+            <td>2 times prepend</td>
+        </tr>
+        <tr>
+            <td>Transit</td>
+            <td>50 (Lowest)</td>
+            <td>3 times prepend</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>4. Working Logic Recap</h3>
+<ul>
+    <li><strong>Inbound Traffic:</strong> Local Preference দিয়ে আমরা ইনকামিং ট্রাফিকের পথ নির্ধারণ করি, Customer-এ সবচেয়ে বেশি, Transit-এ সবচেয়ে কম।</li>
+    <li><strong>Outbound Traffic:</strong> AS-Path Prepend দিয়ে আমরা আউটগোইং ট্রাফিকের পথে নিয়ন্ত্রণ রাখি, যেখানে Transit এবং IXP-এর পথে বেশি prepend করা হয় যাতে এগুলো কম ব্যবহার হয়।</li>
+</ul>
+
+
+    <h1>Task 3.1 - Set Community and Local Preference (LP) for Inbound Prefixes on ISP Routers</h1>
+
+    <h2>⚙️ Community Value and LP Mapping (Inbound)</h2>
+    <table border="1">
+        <tr>
+            <th>Community</th>
+            <th>Description</th>
+            <th>Local Preference (LP)</th>
+        </tr>
+        <tr>
+            <td>X0:10</td>
+            <td>TR1-IN (Transit Router 1)</td>
+            <td>100</td>
+        </tr>
+        <tr>
+            <td>X0:20</td>
+            <td>TR2-IN (Transit Router 2)</td>
+            <td>100</td>
+        </tr>
+        <tr>
+            <td>X0:30</td>
+            <td>IXP-IN (Internet Exchange)</td>
+            <td>300</td>
+        </tr>
+        <tr>
+            <td>X0:40</td>
+            <td>PP-IN (Private Peer)</td>
+            <td>400</td>
+        </tr>
+        <tr>
+            <td>X0:50</td>
+            <td>CUST-IN (Customer Prefix)</td>
+            <td>500</td>
+        </tr>
+        <tr>
+            <td>X0:60</td>
+            <td>OWN-PREFIX (Own Network)</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:111</td>
+            <td>Uniform Advertisement</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:222</td>
+            <td>TO-IXP-ONLY</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:999</td>
+            <td>Everywhere except TR</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:1000</td>
+            <td>No Advertise to TR1</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:1001</td>
+            <td>Prepend 1x to TR1</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:1002</td>
+            <td>Prepend 2x to TR1</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:2000</td>
+            <td>No Advertise to TR2</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:2001</td>
+            <td>Prepend 1x to TR2</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:2002</td>
+            <td>Prepend 2x to TR2</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>X0:500</td>
+            <td>DEFAULT-ROUTE</td>
+            <td>-</td>
+        </tr>
+    </table>
+
+    <h2>🧠 Key Understanding of Configuration Purpose</h2>
+    <ul>
+        <li>Inbound Routes (from Transit/IXP/Peers/Customers) are tagged with specific communities and LP.</li>
+        <li>The Local Preference (LP) indicates priority of path selection, where higher LP = more preferred path.</li>
+        <li>Communities are used for fine-grained control of route announcements and propagation.</li>
+    </ul>
+
+    <h2>🔑 Inbound Route-Map Summary at Different Router Types</h2>
+
+    <h3>1. Transit Routers (BR1, BR2, BR3, BR4)</h3>
+    <ul>
+        <li>Set TR1-IN or TR2-IN for all routes except default.</li>
+        <li>Set DEFAULT-ROUTE (X0:500) when default route is matched.</li>
+    </ul>
+    <pre>
+route-map RM-TR1-IN permit 10
+ match ip address prefix-list DEFAULT-ROUTE
+ set community X0:500
+exit
+route-map RM-TR1-IN permit 20
+ set community X0:10
+exit
+    </pre>
+
+    <h3>2. Peer Routers (PR1, PR2, PR3, PR4)</h3>
+    <ul>
+        <li>For IXP peers, assign IXP-IN (X0:30) and set LP 300.</li>
+        <li>For Private peers, assign PP-IN (X0:40) and set LP 400.</li>
+    </ul>
+    <pre>
+route-map RM-IXP-IN permit 10
+ set community X0:30
+ set local-preference 300
+exit
+route-map RM-ISP2-IN permit 10
+ set community X0:40
+ set local-preference 400
+exit
+    </pre>
+
+    <h3>3. Access Routers (AR1, AR2, AR3, AR4)</h3>
+    <ul>
+        <li>Customer prefixes marked as CUST-IN (X0:50) with highest LP 500.</li>
+        <li>Additionally, apply other communities (like X0:111, X0:222) depending on desired control:
+            <ul>
+                <li>X0:111: Uniform Advertisement</li>
+                <li>X0:222: To IXP Only</li>
+                <li>X0:999: Everywhere except Transit</li>
+            </ul>
+        </li>
+        <li>Prepend/No-advertise communities as needed for TR1/TR2.</li>
+    </ul>
+    <pre>
+route-map RM-TO-ALL-EBGP-IN permit 10
+ set community X0:50 X0:111
+ set local-preference 500
+exit
+    </pre>
+
+    <h2>✅ General Notes on the Configuration</h2>
+    <ul>
+        <li><code>ip bgp-community new-format</code> enables standard community display (like X:Y).</li>
+        <li><code>route-map</code> with community tags helps to mark, prioritize, or filter incoming BGP routes.</li>
+        <li>Neighbors use specific route-maps for inbound policy enforcement.</li>
+    </ul>
+
+    <h2>🎯 Key Takeaways for Exam or Practical Labs</h2>
+    <ul>
+        <li><strong>Community-based Routing Control:</strong> Communities give tagging mechanism to influence BGP routing.</li>
+        <li><strong>LP as Path Selector:</strong> Local Preference influences outbound route choice within an AS.</li>
+        <li><strong>Separation of Roles:</strong>
+            <ul>
+                <li>Transit routers mark routes based on upstream.</li>
+                <li>Peers/IXP routers handle external sources.</li>
+                <li>Access routers focus on customer-originated traffic.</li>
+            </ul>
+        </li>
+        <li><strong>Community Usage:</strong>
+            <ul>
+                <li>Filtering (e.g., X0:1000 for no-advertise to TR1).</li>
+                <li>Prepending (e.g., X0:1001 for prepend 1x to TR1).</li>
+                <li>Selective advertisement (e.g., X0:222 for IXP only).</li>
+            </ul>
+        </li>
+    </ul>
+>
+        <h1>Inbound Prefix-এ Community এবং Local Preference (LP) সেট করা</h1>
+        <p>BGP-তে (Border Gateway Protocol) community value ও local preference (LP) ব্যবহার করে বিভিন্ন রাউটার থেকে আসা prefix-গুলোর জন্য নীতিমালা তৈরি করা হয়। এতে করে আমরা ঠিক করতে পারি কোন রাউটটা বেশি গুরুত্ব পাবে, আর কোন রাউটটা কম গুরুত্ব পাবে।</p>
+    
+        <h2>যে তালিকাটা দেওয়া হয়েছে সেখানে কী আছে?</h2>
+        <p>তালিকায় যেসব কমিউনিটি দেওয়া আছে, সেগুলোর মাধ্যমে বুঝানো হয়েছে:</p>
+        <ul>
+            <li>কোন ট্রানজিট (TR1, TR2) থেকে ইনবাউন্ড রুট আসলে LP কত হবে।</li>
+            <li>কোন IXP (ইন্টারনেট এক্সচেঞ্জ) থেকে আসলে LP কত হবে।</li>
+            <li>Private Peering (PP) থেকে আসলে LP কত।</li>
+            <li>কাস্টমার রুট (CUST-IN) আসলে LP কত।</li>
+            <li>নিজের Prefix (OWN-PREFIX) ইত্যাদি।</li>
+        </ul>
+    
+        <table border="1">
+            <tr>
+                <th>Community Value</th>
+                <th>Description</th>
+                <th>Set LP (Inbound)</th>
+            </tr>
+            <tr>
+                <td>X0:10</td>
+                <td>TR1-IN</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>X0:20</td>
+                <td>TR2-IN</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>X0:30</td>
+                <td>IXP-IN</td>
+                <td>300</td>
+            </tr>
+            <tr>
+                <td>X0:40</td>
+                <td>PP-IN</td>
+                <td>400</td>
+            </tr>
+            <tr>
+                <td>X0:50</td>
+                <td>CUST-IN</td>
+                <td>500</td>
+            </tr>
+            <tr>
+                <td>X0:60</td>
+                <td>OWN-PREFIX</td>
+                <td></td>
+            </tr>
+        </table>
+    
+        <h2>ব্যাখ্যা:</h2>
+        <p>ধরুন, কোনো prefix আসছে TR1 (Transit Router 1) থেকে, তাহলে তার কমিউনিটি হবে X0:10 এবং তার LP হবে ১০০।</p>
+        <p>যদি prefix আসে IXP থেকে, তাহলে কমিউনিটি হবে X0:30, LP হবে ৩০০।</p>
+        <p>এরপর বিভিন্ন রাউটার (যেমন CR1, BR1, PR1, AR1 ইত্যাদি)-এর জন্য যে route-map আছে, তা ব্যবহার করে inbound prefix-গুলোর জন্য এই কমিউনিটি এবং LP সেট করা হয়েছে।</p>
+    
+        <h3>উদাহরণ দিয়ে বুঝাই:</h3>
+        <h4>CR1 রাউটারে:</h4>
+        <pre>
+            route-map RM-TO-ALL-EBGP permit 10
+     set community 10:60 10:111</pre>
+        <p>মানে হলো, এই রাউটার তার নিজের prefix (OWN-PREFIX) এবং Uniform Advertisement হিসেবে প্রচার করবে।</p>
+        <pre>
+            router bgp 10
+     address-family ipv4 unicast
+     network 10.10.0.0 mask 255.255.252.0 route-map RM-TO-ALL-EBGP</pre>
+        <p>মানে হলো, 10.10.0.0/22 নেটওয়ার্কটা BGP-তে ঘোষণা করা হবে উক্ত রুট-ম্যাপ ফলো করে।</p>
+    
+        <h4>BR1 রাউটার:</h4>
+        <pre>route-map RM-TR1-IN permit 10
+     match ip address prefix-list DEFAULT-ROUTE
+     set community 10:500</pre>
+        <p>মানে, TR1 থেকে যদি ডিফল্ট রুট আসে, তাহলে তাকে কাস্টমার ইনবাউন্ড (CUST-IN) হিসেবে ধরা হবে। তার জন্য LP 500 হবে।</p>
+        <pre>
+            route-map RM-TR1-IN permit 20
+     set community 10:10</pre>
+        <p>TR1 থেকে যদি অন্য কোনো prefix আসে, তাহলে community হবে 10:10 (মানে TR1-IN) এবং LP 100 হবে (উপরের টেবিল অনুযায়ী)।</p>
+    
+        <h4>PR1 রাউটার:</h4>
+        <pre>route-map RM-IXP-IN permit 10
+     set community 10:30
+     set local-preference 300</pre>
+        <p>মানে, IXP থেকে আসা রুটগুলোতে ১০:৩০ কমিউনিটি দেবে এবং LP ৩০০ হবে।</p>
+    
+        <h2>সারাংশ:</h2>
+        <ol>
+            <li>প্রতিটা রাউটারের জন্য আলাদা route-map দিয়ে ইনবাউন্ড রুটগুলোর জন্য কমিউনিটি ও LP নির্ধারণ করা হয়েছে।</li>
+            <li>এই নীতিমালার ফলে রাউটার ঠিক করবে কোন রুটটা প্রেফার করবে, কোনটা ব্যাকআপ হিসেবে রাখবে।</li>
+            <li>কমিউনিটি ট্যাগ দিয়ে ভবিষ্যতে সহজে ফিল্টার করা বা প্রিপেন্ডিং-এর মাধ্যমে কন্ট্রোল করা যাবে।</li>
+
+            <h1>Route-map ব্যাখ্যা</h1>
+            <p>নিচে আমি এক এক করে ব্যাখ্যা করছি:</p>
+        
+            <h2>১. CR1 (Core Router 1)</h2>
+            <pre>route-map RM-TO-ALL-EBGP permit 10
+         set community 10:60 10:111</pre>
+            <p><strong>ব্যাখ্যা:</strong><br>
+            RM-TO-ALL-EBGP নামের এই route-map টা যখনই কাজ করবে (permit 10), তখন সব ইনবাউন্ড prefix-এ দুইটা community value সেট করবে:<br>
+            10:60 (মানে OWN-PREFIX)<br>
+            10:111 (এইটা Uniform Advertisement বোঝাতে পারে, হয়ত সব peer-দের দেখানোর জন্য)<br>
+            মানে, CR1 নিজের prefix (যেমন 10.10.0.0/22) ঘোষণা করবে এই community-tag দিয়ে।</p>
+        
+            <pre>router bgp 10
+         address-family ipv4 unicast
+         network 10.10.0.0 mask 255.255.252.0 route-map RM-TO-ALL-EBGP</pre>
+            <p>এখানে CR1 10.10.0.0/22 নেটওয়ার্কটা BGP-তে পাঠাবে আর এই route-map ফলো করবে।</p>
+        
+            <h2>২. BR1 (Border Router 1)</h2>
+            <pre>route-map RM-TR1-IN permit 10
+         match ip address prefix-list DEFAULT-ROUTE
+         set community 10:500</pre>
+            <p><strong>ব্যাখ্যা:</strong><br>
+            যদি TR1 থেকে default route (0.0.0.0/0) আসে, তাহলে 10:500 community দেওয়া হবে (মানে এটা Customer Inbound (CUST-IN) হিসেবে ধরা হবে)।</p>
+        
+            <pre>route-map RM-TR1-IN permit 20
+         set community 10:10</pre>
+            <p>আর যদি অন্য কোনো prefix আসে (default ছাড়া), তাকে 10:10 community দেওয়া হবে (মানে TR1-IN) এবং LP হবে ১০০।<br>
+            <strong>উদ্দেশ্য:</strong><br>
+            TR1 থেকে ডিফল্ট রুট এলে বেশি গুরুত্ব (CUST-IN), আর বাকি রুট সাধারণ ট্রানজিট হিসেবে।</p>
+        
+            <h2>৩. BR2 (Border Router 2)</h2>
+            <pre>route-map RM-TR2-IN permit 10
+         match ip address prefix-list DEFAULT-ROUTE
+         set community 10:500</pre>
+            <p>TR2 থেকে ডিফল্ট রুট এলে CUST-IN (১০:৫০০)।</p>
+        
+            <pre>route-map RM-TR2-IN permit 20
+         set community 10:20</pre>
+            <p>TR2 থেকে অন্য রুট এলে 10:20 community (মানে TR2-IN), LP হবে ১০০।</p>
+        
+            <h2>৪. PR1 (Peering Router 1)</h2>
+            <pre>route-map RM-IXP-IN permit 10
+         set community 10:30
+         set local-preference 300</pre>
+            <p><strong>ব্যাখ্যা:</strong><br>
+            IXP থেকে আসা রুটকে 10:30 কমিউনিটি দিবে এবং Local Preference 300 সেট করবে।<br>
+            ফলে IXP থেকে আসা রুট internal network-এ বেশি প্রেফার হবে।</p>
+        
+            <pre>route-map RM-PP-IN permit 10
+         set community 10:40
+         set local-preference 400</pre>
+            <p>Private Peering (PP) থেকে এলে 10:40 কমিউনিটি এবং LP ৪০০ (মানে আরও বেশি গুরুত্ব)।</p>
+        
+            <h2>৫. AR1 (Access Router 1)</h2>
+            <pre>route-map RM-CUST-IN permit 10
+         set community 10:50
+         set local-preference 500</pre>
+            <p><strong>ব্যাখ্যা:</strong><br>
+            কাস্টমার থেকে আসা prefix হলে 10:50 কমিউনিটি এবং LP ৫০০ (মানে সবচেয়ে বেশি গুরুত্ব পাবে, যেনো কাস্টমারের রুট আগে বেছে নেয়)।</p>
+        
+            <h2>৬. AR2 (Access Router 2)</h2>
+            <pre>route-map RM-CUST-IN permit 10
+         set community 10:50
+         set local-preference 500</pre>
+            <p>AR2-এর ক্ষেত্রেও একই নিয়ম, কাস্টমার থেকে এলে 10:50 ও LP ৫০০।</p>
+        
+            <h2>🔑 মোটামুটি সারাংশ:</h2>
+            <table border="1">
+                <tr>
+                    <th>Source</th>
+                    <th>Community</th>
+                    <th>Local Preference (LP)</th>
+                    <th>Priority (Importance)</th>
+                </tr>
+                <tr>
+                    <td>TR1-IN</td>
+                    <td>10:10</td>
+                    <td>100</td>
+                    <td>Low (Transit)</td>
+                </tr>
+                <tr>
+                    <td>TR2-IN</td>
+                    <td>10:20</td>
+                    <td>100</td>
+                    <td>Low (Transit)</td>
+                </tr>
+                <tr>
+                    <td>IXP-IN</td>
+                    <td>10:30</td>
+                    <td>300</td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td>PP-IN (Private)</td>
+                    <td>10:40</td>
+                    <td>400</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td>CUST-IN (Customer)</td>
+                    <td>10:50</td>
+                    <td>500</td>
+                    <td>Highest (Most Priority)</td>
+                </tr>
+                <tr>
+                    <td>OWN-PREFIX</td>
+                    <td>10:60</td>
+                    <td></td>
+                    <td>Own Routes</td>
+                </tr>
+
+                <h1>Router বিশ্লেষণ</h1>
+            
+                <h2>১. ✅ Core Router 1 (CR1) বিশ্লেষণ</h2>
+                <h3>Route-map:</h3>
+                <pre>route-map RM-TO-ALL-EBGP permit 10
+             set community 10:60 10:111</pre>
+                <p><strong>কী করছে?</strong><br>
+                যখন CR1 তার নিজের নেটওয়ার্ক (10.10.0.0/22) BGP দিয়ে বাইরের দিকে পাঠাবে, তখন এই দুইটা community tag দিবে:<br>
+                10:60 → OWN-PREFIX (মানে এটা আমাদের নিজের prefix)<br>
+                10:111 → Uniform Advertisement (মানে এই prefix সব EBGP peer-দের কাছে পাঠাতে হবে।)</p>
+            
+                <h3>Network Advertisement:</h3>
+                <pre>router bgp 10
+             address-family ipv4 unicast
+             network 10.10.0.0 mask 255.255.252.0 route-map RM-TO-ALL-EBGP</pre>
+                <p>অর্থাৎ, 10.10.0.0/22 নেটওয়ার্কটা যখন advertise হবে, তখন route-map অনুযায়ী community tag সহ যাবে।</p>
+            
+                <h2>২. ✅ Border Router 1 (BR1) বিশ্লেষণ</h2>
+                <h3>Route-map:</h3>
+                <pre>route-map RM-TR1-IN permit 10
+             match ip address prefix-list DEFAULT-ROUTE
+             set community 10:500</pre>
+                <p><strong>কাজ:</strong><br>
+                যদি TR1 থেকে default route (0.0.0.0/0) আসে, তবে তাকে community 10:500 (CUST-IN) দিবে।</p>
+            
+                <pre>route-map RM-TR1-IN permit 20
+             set community 10:10</pre>
+                <p>বাকি সব prefix (যা default নয়) কে 10:10 দিবে (TR1-IN)।</p>
+                <p><strong>লক্ষ্য:</strong><br>
+                Default route কে Highest Priority দিয়ে announce করবে, কারণ CUST-IN community থাকে।<br>
+                বাকি ট্রানজিট রুট সাধারণ ট্রানজিট হিসেবে কম গুরুত্বপূর্ণ।</p>
+            
+                <h2>৩. ✅ Border Router 2 (BR2) বিশ্লেষণ</h2>
+                <h3>Route-map:</h3>
+                <pre>route-map RM-TR2-IN permit 10
+             match ip address prefix-list DEFAULT-ROUTE
+             set community 10:500</pre>
+                <p>TR2 থেকে ডিফল্ট রুট এলে 10:500 (CUST-IN)।</p>
+            
+                <pre>route-map RM-TR2-IN permit 20
+             set community 10:20</pre>
+                <p>বাকি রুট 10:20 (TR2-IN) হিসেবে যাবে।</p>
+                <p><strong>লক্ষ্য:</strong><br>
+                TR2 থেকেও ঠিক একইভাবে ট্রিট হবে, যেন ট্রানজিট ও কাস্টমার ট্রাফিক আলাদা করা যায়।</p>
+            
+                <h2>৪. ✅ Peering Router 1 (PR1) বিশ্লেষণ</h2>
+                <h3>IXP থেকে ইনবাউন্ড:</h3>
+                <pre>route-map RM-IXP-IN permit 10
+             set community 10:30
+             set local-preference 300</pre>
+                <p>IXP থেকে আসা রুট:<br>
+                কমিউনিটি: 10:30<br>
+                LP: 300 (মাঝারি গুরুত্ব)</p>
+            
+                <h3>Private Peering (PP) থেকে ইনবাউন্ড:</h3>
+                <pre>route-map RM-PP-IN permit 10
+             set community 10:40
+             set local-preference 400</pre>
+                <p>Private Peering থেকে আসা রুট:<br>
+                কমিউনিটি: 10:40<br>
+                LP: 400 (উচ্চ গুরুত্ব)</p>
+                <p><strong>লক্ষ্য:</strong><br>
+                IXP route → মাঝারি গুরুত্ব (LP 300)<br>
+                Private peer route → বেশি গুরুত্ব (LP 400)</p>
+            
+                <h2>৫. ✅ Access Router 1 (AR1) বিশ্লেষণ</h2>
+                <h3>Route-map:</h3>
+                <pre>route-map RM-CUST-IN permit 10
+             set community 10:50
+             set local-preference 500</pre>
+                <p><strong>কাজ:</strong><br>
+                কাস্টমার রুট:<br>
+                কমিউনিটি: 10:50<br>
+                LP: 500 (সর্বোচ্চ গুরুত্ব)</p>
+                <p><strong>লক্ষ্য:</strong><br>
+                কাস্টমার রুট সবচেয়ে বেশি গুরুত্বপূর্ণ, যেন কাস্টমারের ট্রাফিক সবসময় আমাদের দিকেই আসে।</p>
+            
+                <h2>৬. ✅ Access Router 2 (AR2) বিশ্লেষণ</h2>
+                <h3>Route-map:</h3>
+                <pre>route-map RM-CUST-IN permit 10
+             set community 10:50
+             set local-preference 500</pre>
+                <p><strong>কাজ:</strong><br>
+                AR1-এর মতই AR2-এর ক্ষেত্রেও কাস্টমার রুট:<br>
+                কমিউনিটি: 10:50<br>
+                LP: 500 (সর্বোচ্চ গুরুত্ব)</p>
+            
+                <h2>⭐️ সংক্ষিপ্ত টেবিল (স্মরণ রাখার জন্য):</h2>
+                <table border="1">
+                    <tr>
+                        <th>Router</th>
+                        <th>Source</th>
+                        <th>Community</th>
+                        <th>Local Preference</th>
+                        <th>Priority</th>
+                    </tr>
+                    <tr>
+                        <td>CR1</td>
+                        <td>Own Prefix</td>
+                        <td>10:60</td>
+                        <td></td>
+                        <td>Own Routes</td>
+                    </tr>
+                    <tr>
+                        <td>BR1</td>
+                        <td>TR1-IN</td>
+                        <td>10:10</td>
+                        <td>100</td>
+                        <td>Low (Transit)</td>
+                    </tr>
+                    <tr>
+                        <td>BR1</td>
+                        <td>TR1 Default Route</td>
+                        <td>10:500</td>
+                        <td></td>
+                        <td>High (Customer inbound)</td>
+                    </tr>
+                    <tr>
+                        <td>BR2</td>
+                        <td>TR2-IN</td>
+                        <td>10:20</td>
+                        <td>100</td>
+                        <td>Low (Transit)</td>
+                    </tr>
+                    <tr>
+                        <td>BR2</td>
+                        <td>TR2 Default Route</td>
+                        <td>10:500</td>
+                        <td></td>
+                        <td>High (Customer inbound)</td>
+                    </tr>
+                    <tr>
+                        <td>PR1</td>
+                        <td>IXP-IN</td>
+                        <td>10:30</td>
+                        <td>300</td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td>PR1</td>
+                        <td>PP-IN</td>
+                        <td>10:40</td>
+                        <td>400</td>
+                        <td>High (Private Peer)</td>
+                    </tr>
+                    <tr>
+                        <td>AR1</td>
+                        <td>Customer</td>
+                        <td>10:50</td>
+                        <td>500</td>
+                        <td>Highest (Customer Direct)</td>
+                    </tr>
+                    <tr>
+                        <td>AR2</td>
+                        <td>Customer</td>
+                        <td>10:50</td>
+                        <td>500</td>
+                        <td>Highest (Customer Direct)</td>
+                    </tr>
+                </table>
+
+                    <h1>Traffic Flow এবং Routing Policy</h1>
+                
+                    <h2>✅ ১. Inbound Traffic Flow (আমাদের Autonomous System-এ ঢোকা ট্রাফিক)</h2>
+                    <h3>🎯 লক্ষ্য:</h3>
+                    <ul>
+                        <li>কাস্টমার ট্রাফিক highest priority দিয়ে ঢুকবে।</li>
+                        <li>Private Peering > IXP > Transit রুট হিসেবে inbound আসবে।</li>
+                        <li>আমাদের নিজস্ব Prefix (Own) সর্বত্র announce হবে।</li>
+                    </ul>
+                
+                    <h3>📊 Inbound Priority Order (উচ্চ থেকে নিম্ন):</h3>
+                    <table border="1">
+                        <tr>
+                            <th>Priority</th>
+                            <th>Source</th>
+                            <th>Community</th>
+                            <th>Local Preference</th>
+                        </tr>
+                        <tr>
+                            <td>1️⃣</td>
+                            <td>Customer via AR1/AR2</td>
+                            <td>10:50</td>
+                            <td>500</td>
+                        </tr>
+                        <tr>
+                            <td>2️⃣</td>
+                            <td>Private Peer via PR1</td>
+                            <td>10:40</td>
+                            <td>400</td>
+                        </tr>
+                        <tr>
+                            <td>3️⃣</td>
+                            <td>IXP via PR1</td>
+                            <td>10:30</td>
+                            <td>300</td>
+                        </tr>
+                        <tr>
+                            <td>4️⃣</td>
+                            <td>Transit via TR1/TR2 (BR1/BR2)</td>
+                            <td>10:10/10:20</td>
+                            <td>100</td>
+                        </tr>
+                    </table>
+                
+                    <h3>💡 কীভাবে কাজ করে:</h3>
+                    <ul>
+                        <li>কাস্টমারের জন্য LP 500, তাই যেকোনো রুট যদি কাস্টমার ও অন্য কেউ দেয় — কাস্টমার রুট বেছে নেওয়া হবে।</li>
+                        <li>যদি কাস্টমার না থাকে, তবে Private Peer (LP 400) থেকে নেবে।</li>
+                        <li>Private Peer না থাকলে IXP (LP 300)।</li>
+                        <li>আর শেষে Transit Provider (LP 100)।</li>
+                    </ul>
+                
+                    <h2>✅ ২. Outbound Routing Policy (আমাদের Autonomous System থেকে বাইরের দিকে যাওয়া ট্রাফিক)</h2>
+                    <h3>🎯 লক্ষ্য:</h3>
+                    <ul>
+                        <li>নিজস্ব prefix (Own) সবার কাছে পাঠানো।</li>
+                        <li>বিভিন্ন গন্তব্যে ট্রাফিক পাঠানোর জন্য community-tag দিয়ে preference তৈরি করা।</li>
+                    </ul>
+                
+                    <h3>📊 Community Tag অনুযায়ী ট্রাফিক কন্ট্রোল:</h3>
+                    <table border="1">
+                        <tr>
+                            <th>Destination</th>
+                            <th>Community to Set</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr>
+                            <td>Own Prefix (CR1)</td>
+                            <td>10:60 10:111</td>
+                            <td>সব EBGP peer-এর কাছে পাঠানো হবে।</td>
+                        </tr>
+                        <tr>
+                            <td>Customers (AR1/AR2)</td>
+                            <td>10:50</td>
+                            <td>Inbound ট্রাফিক সর্বোচ্চ গুরুত্ব দিয়ে কাস্টমারের দিকে পাঠানো।</td>
+                        </tr>
+                        <tr>
+                            <td>Private Peer (PR1)</td>
+                            <td>10:40</td>
+                            <td>Peer link এ ট্রাফিক পাঠানোর জন্য মাঝারি গুরুত্বপূর্ণ।</td>
+                        </tr>
+                        <tr>
+                            <td>IXP (PR1)</td>
+                            <td>10:30</td>
+                            <td>ইন্টারনেট exchange point ব্যবহার করে ট্রাফিক।</td>
+                        </tr>
+                        <tr>
+                            <td>Transit Provider (BR1/BR2)</td>
+                            <td>10:10, 10:20</td>
+                            <td>শেষ বিকল্প হিসেবে ট্রানজিট।</td>
+                        </tr>
+                    </table>
+                
+                    <h3>💡 কীভাবে কাজ করে:</h3>
+                    <ul>
+                        <li>নিজের prefix (Own) সব peer-কে advertise করে।</li>
+                        <li>কাস্টমার যদি গন্তব্য থাকে, সেখানেই পাঠায় (LP 500)।</li>
+                        <li>না থাকলে Private peer, তারপর IXP, সবশেষে Transit.</li>
+                    </ul>
+                
+                    <h2>✅ ৩. কিভাবে Community Tag দেখে Traffic Manipulate করা যাবে?</h2>
+                    <h3>🎯 লক্ষ্য:</h3>
+                    <ul>
+                        <li>কাস্টমার ট্রাফিক highest priority.</li>
+                        <li>Transit কম important.</li>
+                        <li>বিভিন্ন peer-এর জন্য আলাদা নীতি (policy)।</li>
+                    </ul>
+                
+                    <h3>📚 উদাহরণ:</h3>
+                    <ol>
+                        <li><strong>কাস্টমার (AR1/AR2):</strong><br>
+                            Community: 10:50, LP: 500 → সবচেয়ে বেশি গুরুত্ব।<br>
+                            এর মানে: কাস্টমার যদি কোন prefix দেয়, সেটা দিয়েই আমরা ইন এবং আউট ট্রাফিক পাঠাবো।</li>
+                        <li><strong>Private Peer (PR1):</strong><br>
+                            Community: 10:40, LP: 400 → কাস্টমার ছাড়া বাকি সবের চেয়ে বেশি গুরুত্বপূর্ণ।<br>
+                            উদাহরণ: যদি কাস্টমার ওই prefix announce না করে, কিন্তু Private Peer করে, তাহলে Private Peer দিয়ে ট্রাফিক যাবে।</li>
+                        <li><strong>IXP (PR1):</strong><br>
+                            Community: 10:30, LP: 300 → মাঝারি গুরুত্ব।<br>
+                            উদাহরণ: যদি কাস্টমার ও Private Peer কেউ না দেয়, তবে IXP দিয়ে ট্রাফিক যাবে।</li>
+                        <li><strong>Transit (BR1/BR2):</strong><br>
+                            Community: 10:10, 10:20, LP: 100 → সবচেয়ে কম গুরুত্বপূর্ণ।<br>
+                            শুধু তখনই ব্যবহার হবে, যখন আর কোনো পথ থাকবে না।</li>
+                    </ol>
+                
+                    <h3>⭐️ উদাহরণসহ চিত্রের মতো ভাবো:</h3>
+                    <pre>
+                     +---------+            +---------+            +----------+
+                     | Transit | --(LP 100)-|          |--(LP 500)-| Customer |
+                     |  (BR1)  |            |   Core   |            |  (AR1)   |
+                     +---------+            |  Router  |            +----------+
+                                           /           \
+                                          /             \
+                                  +------------+    +------------+
+                                  | Private    |    | IXP        |
+                                  | Peer (PR1) |    | (PR1)      |
+                                  +------------+    +------------+
+                                        (LP 400)         (LP 300)
+                    </pre>
+                    <p>ট্রাফিক প্রথমে কাস্টমারের দিকে যাবে।<br>
+                    যদি কাস্টমার না থাকে, Private Peer।<br>
+                    তারপর IXP।<br>
+                    শেষে Transit।</p>
+                
+                    <h2>🚀 সংক্ষেপে:</h2>
+                    <table border="1">
+                        <tr>
+                            <th>ট্রাফিক উৎস (Source)</th>
+                            <th>Community</th>
+                            <th>Local Preference</th>
+                            <th>Priority</th>
+                        </tr>
+                        <tr>
+                            <td>Customer (AR1/AR2)</td>
+                            <td>10:50</td>
+                            <td>500</td>
+                            <td>1 (Highest)</td>
+                        </tr>
+                        <tr>
+                            <td>Private Peer (PR1)</td>
+                            <td>10:40</td>
+                            <td>400</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>IXP (PR1)</td>
+                            <td>10:30</td>
+                            <td>300</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>Transit (BR1/BR2)</td>
+                            <td>10:10/10:20</td>
+                            <td>100</td>
+                            <td>4 (Lowest)</td>
+                        </tr>
+                    </table>
+
+                    <body>
+                        <h1>🌐 Traffic Flow Diagram (Inbound & Outbound Priority Flow)</h1>
+                    
+                        <pre>
+                                                   [ Our AS/Network ]
+                                                            |
+                                              +-------------+-------------+
+                                              |                           |
+                                         (Own Prefix)                [ Core Router (CR1) ]
+                                              |                           |
+                                        Announced to All           +------+------+------+
+                                                                   |      |      |      |
+                                                                [AR1]  [PR1]  [IXP]  [TR1/TR2]
+                                                                 |      |      |      |
+                                                            Customer  Private   IXP   Transit
+                                                                      Peer
+                        </pre>
+                    
+                        <h2>✅ ১. Inbound Traffic Flow (আমাদের দিকে আসা ট্রাফিক)</h2>
+                        <table border="1">
+                            <tr>
+                                <th>Priority</th>
+                                <th>Path</th>
+                                <th>Community Tag</th>
+                                <th>Local Preference</th>
+                                <th>Explanation</th>
+                            </tr>
+                            <tr>
+                                <td>1️⃣</td>
+                                <td>Customer (AR1/AR2)</td>
+                                <td>10:50</td>
+                                <td>500</td>
+                                <td>কাস্টমার ট্রাফিক সর্বোচ্চ অগ্রাধিকার</td>
+                            </tr>
+                            <tr>
+                                <td>2️⃣</td>
+                                <td>Private Peer (PR1)</td>
+                                <td>10:40</td>
+                                <td>400</td>
+                                <td>কাস্টমার না থাকলে পরবর্তী পথ</td>
+                            </tr>
+                            <tr>
+                                <td>3️⃣</td>
+                                <td>IXP (PR1)</td>
+                                <td>10:30</td>
+                                <td>300</td>
+                                <td>কাস্টমার/প্রাইভেট পিয়ার না থাকলে</td>
+                            </tr>
+                            <tr>
+                                <td>4️⃣</td>
+                                <td>Transit (TR1/TR2 via BR1/BR2)</td>
+                                <td>10:10/10:20</td>
+                                <td>100</td>
+                                <td>সবশেষ বিকল্প</td>
+                            </tr>
+                        </table>
+                    
+                        <h2>✅ ২. Outbound Traffic Flow (আমাদের থেকে বাইরে যাওয়ার পথ)</h2>
+                        <table border="1">
+                            <tr>
+                                <th>Prefix Type</th>
+                                <th>Advertised To</th>
+                                <th>Community Tag</th>
+                                <th>Note</th>
+                            </tr>
+                            <tr>
+                                <td>Own Prefix (10.60, 10.111)</td>
+                                <td>All Peers (AR, PR, IXP, TR)</td>
+                                <td>10:60, 10:111</td>
+                                <td>সবাইকে Announce করা হবে</td>
+                            </tr>
+                            <tr>
+                                <td>Customer Prefix</td>
+                                <td>Customers (AR1/AR2)</td>
+                                <td>10:50</td>
+                                <td>কাস্টমারকেই অগ্রাধিকার</td>
+                            </tr>
+                            <tr>
+                                <td>Private Peer Prefix</td>
+                                <td>Private Peer (PR1)</td>
+                                <td>10:40</td>
+                                <td>বিকল্প পথ</td>
+                            </tr>
+                            <tr>
+                                <td>IXP Prefix</td>
+                                <td>IXP (PR1)</td>
+                                <td>10:30</td>
+                                <td>দ্বিতীয় বিকল্প</td>
+                            </tr>
+                            <tr>
+                                <td>Transit Prefix</td>
+                                <td>Transit Providers (BR1/BR2)</td>
+                                <td>10:10, 10:20</td>
+                                <td>শেষ বিকল্প</td>
+                            </tr>
+                        </table>
+                    
+                        <h2>✅ ৩. সহজ ভাষায় Flow:</h2>
+                        <h3>🎯 Inbound (বাইরে থেকে আমাদের নেটওয়ার্কে আসা):</h3>
+                        <ul>
+                            <li>➡️ প্রথমে কাস্টমার দেখতে হবে (Highest Preference) → না পেলে Private Peer → না পেলে IXP → সবশেষে Transit।</li>
+                        </ul>
+                    
+                        <h3>🎯 Outbound (আমাদের থেকে বাইরের দিকে পাঠানো):</h3>
+                        <ul>
+                            <li>➡️ নিজের Prefix সবাইকে দেওয়া → কাস্টমারকে অগ্রাধিকার দিয়ে ট্রাফিক পাঠানো → না পেলে Private Peer → IXP → Transit।</li>
+                        </ul>
+                    
+                        <h3>🎯 সংক্ষেপে Flow Summary:</h3>
+                        <pre>
+                    Inbound: Customer > Private Peer > IXP > Transit
+                    Outbound: Prefer Customer > Private Peer > IXP > Transit
+                        </pre>
+                    
+                        <h2>🔑 চিত্রের মতো মনে রাখো:</h2>
+                        <pre>
+                                    [Customer]
+                                        ↑
+                                    [Private Peer]
+                                        ↑
+                                       [IXP]
+                                        ↑
+                                     [Transit]
+                    Inbound: নিচ থেকে উপরের দিকে চায়।
+                    Outbound: উপরের থেকে নিচে পাঠায়।
+                        </pre>
+
+    <h1>✅ BGP Configuration Format (Policy বানানো)</h1>
+    <p>ধরা যাক, আমরা একটা ISP, আমাদের BGP session গুলো হলো:</p>
+    <ul>
+        <li>Customer AS → High preference (in & out)</li>
+        <li>Private Peer AS → Medium preference</li>
+        <li>IXP AS → Lower preference</li>
+        <li>Transit AS → Lowest preference</li>
+    </ul>
+
+    <h2>Step 1: Inbound Path Selection (Local Preference based)</h2>
+    <p>🔑 Inbound Traffic এর জন্য LOCAL_PREF দিয়েই সাধারণত ঠিক করি।<br>
+    High Local-Pref = বেশি Priority</p>
+
+    <pre>
+# Example for Customer (Highest Priority)
+route-map FROM-CUSTOMER-IN permit 10
+ set local-preference 200
+
+# Example for Private Peer (Medium Priority)
+route-map FROM-PRIVATE-PEER-IN permit 10
+ set local-preference 150
+
+# Example for IXP (Lower Priority)
+route-map FROM-IXP-IN permit 10
+ set local-preference 100
+
+# Example for Transit (Lowest Priority)
+route-map FROM-TRANSIT-IN permit 10
+ set local-preference 50
+    </pre>
+    <p><strong>🔥 Note:</strong><br>
+    এখানে Customer-এর Local-Pref সবচেয়ে বেশি (200), তাই সেটাই বেছে নেবে প্রথমে।<br>
+    Transit-এর Local-Pref সবচেয়ে কম (50), কাজেই এটা fallback হবে।</p>
+
+    <h2>Step 2: Outbound Path Selection (AS-Path Prepend based)</h2>
+    <p>🔑 Outbound Traffic-এর জন্য আমরা AS-Path Prepend দিয়ে control করি।<br>
+    কম AS-PATH = বেশি Priority</p>
+
+    <pre>
+# For Customer (No prepend, Highest Priority)
+route-map TO-CUSTOMER-OUT permit 10
+ # No AS-Path prepend, direct path
+
+# For Private Peer (No prepend, medium-high)
+route-map TO-PRIVATE-PEER-OUT permit 10
+ # No prepend, direct path
+
+# For IXP (Low Priority, Prepend 2 times)
+route-map TO-IXP-OUT permit 10
+ set as-path prepend [OUR-ASN] [OUR-ASN]
+
+# For Transit (Lowest Priority, Prepend 3 times)
+route-map TO-TRANSIT-OUT permit 10
+ set as-path prepend [OUR-ASN] [OUR-ASN] [OUR-ASN]
+    </pre>
+    <p><strong>🔥 Note:</strong><br>
+    যেসব path আমরা কম পছন্দ করি (IXP, Transit), সেগুলোতে বেশি AS-Path Prepend।<br>
+    Customer/Private Peer এ কোনো prepend নাই, সরাসরি দ্রুত পথ।</p>
+
+    <h2>Step 3: Neighbor এ Apply করা</h2>
+    <pre>
+# Customer BGP Neighbor
+router bgp [OUR-ASN]
+ neighbor [Customer-IP] remote-as [Customer-AS]
+ neighbor [Customer-IP] route-map FROM-CUSTOMER-IN in
+ neighbor [Customer-IP] route-map TO-CUSTOMER-OUT out
+
+# Private Peer BGP Neighbor
+ neighbor [Private-Peer-IP] remote-as [Private-Peer-AS]
+ neighbor [Private-Peer-IP] route-map FROM-PRIVATE-PEER-IN in
+ neighbor [Private-Peer-IP] route-map TO-PRIVATE-PEER-OUT out
+
+# IXP BGP Neighbor
+ neighbor [IXP-IP] remote-as [IXP-AS]
+ neighbor [IXP-IP] route-map FROM-IXP-IN in
+ neighbor [IXP-IP] route-map TO-IXP-OUT out
+
+# Transit BGP Neighbor
+ neighbor [Transit-IP] remote-as [Transit-AS]
+ neighbor [Transit-IP] route-map FROM-TRANSIT-IN in
+ neighbor [Transit-IP] route-map TO-TRANSIT-OUT out
+    </pre>
+
+    <h2>✅ বিশ্লেষণ ও ব্যাখ্যা (Step by Step)</h2>
+    <h3>➤ Inbound Traffic:</h3>
+    <p><strong>কেন Local-Pref?</strong><br>
+    যখন বাইরের দুনিয়া থেকে আমাদের IP/Prefix এর জন্য রিকোয়েস্ট আসবে, তখন আমরা চাই কে আগে আমাদের কাছে এনে দেবে।<br>
+    আমরা চাইবো Customer এর মাধ্যমে আসুক (কারণ এটা আমাদের আয়)। তাই Customer কে Local-Pref 200 দিচ্ছি।<br>
+    Private Peer = 150, IXP = 100, Transit = 50।<br>
+    তাহলে যেকোনো পথ যদি Customer দিয়ে আসে, আমরা সেই পথ আগে নেব।</p>
+
+    <h3>➤ Outbound Traffic:</h3>
+    <p><strong>কেন AS-Path Prepend?</strong><br>
+    আমরা যখন অন্যদের IP/Prefix এ যেতে চাই, তখন আমরা চাই আমাদের ট্রাফিক আগে Customer/Peer দিয়ে যাক। কারণ এতে আমাদের আয় বেশি।<br>
+    যদি তা সম্ভব না হয়, তাহলে IXP, আর সব শেষে Transit।<br>
+    তাই IXP, Transit এ বেশি বার আমাদের ASN বসিয়ে দিয়ে (prepend) করে দিচ্ছি। এতে বাইরের ISP গুলো আগে ছোট AS-path গুলো বেছে নেবে।</p>
+
+    <h3>➤ Priority Flow Recap:</h3>
+    <table border="1">
+        <tr>
+            <th>Path Type</th>
+            <th>Inbound Priority (Local-Pref)</th>
+            <th>Outbound Priority (AS-Path Prepend)</th>
+        </tr>
+        <tr>
+            <td>Customer</td>
+            <td>200 (Highest)</td>
+            <td>0 (No prepend)</td>
+        </tr>
+        <tr>
+            <td>Private Peer</td>
+            <td>150</td>
+            <td>0 (No prepend)</td>
+        </tr>
+        <tr>
+            <td>IXP</td>
+            <td>100</td>
+            <td>2 times prepend</td>
+        </tr>
+        <tr>
+            <td>Transit</td>
+            <td>50 (Lowest)</td>
+            <td>3 times prepend</td>
+        </tr>
+    </table>
+
+    <h2>✅ সারাংশ:</h2>
+    <ul>
+        <li>Inbound: কে আগে আমাদের কাছে আনবে তা Local-Pref দিয়ে ঠিক।</li>
+        <li>Outbound: কোন পথে আমরা পাঠাব তা AS-Path Prepend দিয়ে ঠিক।</li>
+        <li>Customer সবকিছুর ওপরে।</li>
+        <li>Transit সবচেয়ে নিচে, শুধুমাত্র fallback option।</li>
+    </ul>
+
+
+
+        <h1>✅ Step 1: Complete BGP Configuration</h1>
+        <p>Configuration for Inbound & Outbound Filtering Using Local Preference and AS-Path Prepend</p>
+    
+        <pre>
+    router bgp [OUR-ASN]
+    
+    # Step 1: Inbound Policy
+    # Customer: Highest Priority
+    route-map FROM-CUSTOMER-IN permit 10
+     set local-preference 200
+    neighbor [Customer-IP] remote-as [Customer-AS]
+    neighbor [Customer-IP] route-map FROM-CUSTOMER-IN in
+    
+    # Private Peer: Medium Priority
+    route-map FROM-PRIVATE-PEER-IN permit 10
+     set local-preference 150
+    neighbor [Private-Peer-IP] remote-as [Private-Peer-AS]
+    neighbor [Private-Peer-IP] route-map FROM-PRIVATE-PEER-IN in
+    
+    # IXP: Lower Priority
+    route-map FROM-IXP-IN permit 10
+     set local-preference 100
+    neighbor [IXP-IP] remote-as [IXP-AS]
+    neighbor [IXP-IP] route-map FROM-IXP-IN in
+    
+    # Transit: Lowest Priority
+    route-map FROM-TRANSIT-IN permit 10
+     set local-preference 50
+    neighbor [Transit-IP] remote-as [Transit-AS]
+    neighbor [Transit-IP] route-map FROM-TRANSIT-IN in
+    
+    
+    # Step 2: Outbound Policy
+    # Customer: Highest Priority, No Prepend
+    route-map TO-CUSTOMER-OUT permit 10
+     # No AS-Path prepend, direct path
+    neighbor [Customer-IP] remote-as [Customer-AS]
+    neighbor [Customer-IP] route-map TO-CUSTOMER-OUT out
+    
+    # Private Peer: Medium Priority, No Prepend
+    route-map TO-PRIVATE-PEER-OUT permit 10
+     # No prepend, direct path
+    neighbor [Private-Peer-IP] remote-as [Private-Peer-AS]
+    neighbor [Private-Peer-IP] route-map TO-PRIVATE-PEER-OUT out
+    
+    # IXP: Lower Priority, Prepend 2 times
+    route-map TO-IXP-OUT permit 10
+     set as-path prepend [OUR-ASN] [OUR-ASN]
+    neighbor [IXP-IP] remote-as [IXP-AS]
+    neighbor [IXP-IP] route-map TO-IXP-OUT out
+    
+    # Transit: Lowest Priority, Prepend 3 times
+    route-map TO-TRANSIT-OUT permit 10
+     set as-path prepend [OUR-ASN] [OUR-ASN] [OUR-ASN]
+    neighbor [Transit-IP] remote-as [Transit-AS]
+    neighbor [Transit-IP] route-map TO-TRANSIT-OUT out
+        </pre>
+    
+        <h1>✅ Step 2: Explanation & Policy Logic</h1>
+    
+        <h2>1. Inbound Traffic Filtering (Local Preference)</h2>
+        <p>Local Preference ব্যবহার করে আমরা নির্ধারণ করি কোন ইনকামিং ট্রাফিক আগে আমাদের কাছে আসবে।</p>
+    
+        <ul>
+            <li><strong>Customer (Local Preference 200):</strong><br>
+            আমরা চাচ্ছি যে Customer দিয়ে আসা ট্রাফিক সবচেয়ে আগে আসে, কারণ এটি আমাদের আয় বেশি করবে।</li>
+            <li><strong>Private Peer (Local Preference 150):</strong><br>
+            Private Peer যেহেতু মধ্যম স্থানে, তাই এর Local Preference 150 রাখা হয়েছে।</li>
+            <li><strong>IXP (Local Preference 100):</strong><br>
+            IXP ট্রাফিক একটু কম প্রাধান্য পাবে (Local Preference 100)।</li>
+            <li><strong>Transit (Local Preference 50):</strong><br>
+            Transit ট্রাফিক সর্বনিম্ন প্রাধান্য পাবে, কারণ এটি fallback option হিসেবে কাজ করবে।</li>
+        </ul>
+    
+        <h2>2. Outbound Traffic Filtering (AS-Path Prepend)</h2>
+        <p>AS-Path Prepend ব্যবহার করে আমরা নির্ধারণ করি কোন রুট বাইরে যাবে এবং কোন পথে যাবে।</p>
+    
+        <ul>
+            <li><strong>Customer (No AS-Path Prepend):</strong><br>
+            Customer-এ আমরা কোনো AS-Path Prepend ব্যবহার করিনি, কারণ এটি আমাদের প্রাধান্য পাবে।</li>
+            <li><strong>Private Peer (No AS-Path Prepend):</strong><br>
+            Private Peer-এও কোনো prepend নেই, কারণ এটিও আমাদের গুরুত্বপূর্ণ পাথ।</li>
+            <li><strong>IXP (Prepend 2 times):</strong><br>
+            IXP-এ আমরা 2 বার AS-PATH prepend করেছি, যাতে বাইরের ISP গুলো কম প্রাধান্য দেয় এবং আমাদের চাহিদা পূরণের জন্য অন্য পাথ গুলো বেছে নেয়।</li>
+            <li><strong>Transit (Prepend 3 times):</strong><br>
+            Transit-এ 3 বার AS-PATH prepend করেছি, যাতে বাইরের ISP গুলো এড়ানোর চেষ্টা করবে এবং এটি শুধুমাত্র fallback হিসেবে ব্যবহৃত হবে।</li>
+        </ul>
+    
+        <h2>3. Priority Recap Table:</h2>
+        <table border="1">
+            <tr>
+                <th>Path Type</th>
+                <th>Inbound Priority (Local-Pref)</th>
+                <th>Outbound Priority (AS-Path Prepend)</th>
+            </tr>
+            <tr>
+                <td>Customer</td>
+                <td>200 (Highest)</td>
+                <td>0 (No prepend)</td>
+            </tr>
+            <tr>
+                <td>Private Peer</td>
+                <td>150</td>
+                <td>0 (No prepend)</td>
+            </tr>
+            <tr>
+                <td>IXP</td>
+                <td>100</td>
+                <td>2 times prepend</td>
+            </tr>
+            <tr>
+                <td>Transit</td>
+                <td>50 (Lowest)</td>
+                <td>3 times prepend</td>
+            </tr>
+        </table>
+    
+        <h2>4. Working Logic Recap:</h2>
+        <ul>
+            <li><strong>Inbound Traffic:</strong><br>
+            Local Preference দিয়ে আমরা ইনকামিং ট্রাফিকের পথ নির্ধারণ করি, Customer-এ সবচেয়ে বেশি, Transit-এ সবচেয়ে কম।</li>
+            <li><strong>Outbound Traffic:</strong><br>
+            AS-Path Prepend দিয়ে আমরা আউটগোইং ট্রাফিকের পথে নিয়ন্ত্রণ রাখি, যেখানে Transit এবং IXP-এর পথে বেশি prepend করা হয় যাতে এগুলো কম ব্যবহার হয়।</li>
+        </ul>
+
+
+            <h1>BGP কনফিগারেশন</h1>
+            <h2>1. Community এবং Local Preference (LP) সেটিংস</h2>
+            <table>
+                <tr>
+                    <th>Community Value</th>
+                    <th>Description</th>
+                    <th>LP (Inbound)</th>
+                </tr>
+                <tr><td>X0:10</td><td>TR1-IN</td><td>100</td></tr>
+                <tr><td>X0:20</td><td>TR2-IN</td><td>100</td></tr>
+                <tr><td>X0:30</td><td>IXP-IN</td><td>300</td></tr>
+                <tr><td>X0:40</td><td>PP-IN</td><td>400</td></tr>
+                <tr><td>X0:50</td><td>CUST-IN</td><td>500</td></tr>
+                <tr><td>X0:60</td><td>OWN-PREFIX</td><td>-</td></tr>
+                <tr><td>X0:111</td><td>Uniform Advertisement</td><td>-</td></tr>
+            </table>
+            
+            <h2>2. eBGP কনফিগারেশন</h2>
+            <h3>Step 1: কনফিগারেশন মোড চালু করা</h3>
+            <pre>conf t</pre>
+            
+            <h3>Step 2: নতুন BGP কমিউনিটি ফরম্যাট চালু করা</h3>
+            <pre>ip bgp-community new-format</pre>
+            
+            <h3>Step 3: Route-map তৈরি করা</h3>
+            <p>(i) সব eBGP রাউটারের জন্য অ্যাডভার্টাইজ করা:</p>
+            <pre>
+        route-map RM-TO-ALL-EBGP permit 10
+        set community 10:60 10:111
+        exit
+            </pre>
+            
+            <p>(ii) TR1-এ অ্যাডভার্টাইজ না করা:</p>
+            <pre>
+        route-map RM-TO-ALL-EXCEPT-TR1 permit 10
+        set community 10:60 10:1000
+        exit
+            </pre>
+            
+            <p>(iii) TR2-এ 2 বার প্রিপেন্ড করা:</p>
+            <pre>
+        route-map RM-TO-TR2-PREPEND-2 permit 10
+        set community 10:60 10:2002
+        exit
+            </pre>
+            
+            <h3>Step 4: BGP কনফিগারেশন</h3>
+            <pre>
+        router bgp 10
+        address-family ipv4 unicast
+        network 10.10.0.0 mask 255.255.252.0 route-map RM-TO-ALL-EBGP
+        exit
+        exit
+        exit
+            </pre>
+            
+            <h3>Step 5: কনফিগারেশন সংরক্ষণ করা</h3>
+            <pre>wr</pre>
+            
+            <h2>উপসংহার</h2>
+            <p>এই কনফিগারেশন Inbound Prefix এর উপর ভিত্তি করে Community Values সেট করে এবং বিভিন্ন রাউটিং সিদ্ধান্ত গ্রহণ করে, যেমন:</p>
+            <ul>
+                <li>TR1/TR2-তে অ্যাডভার্টাইজ বন্ধ করা</li>
+                <li>AS-path prepend করা</li>
+                <li>ডিফল্ট রুট সেট করা</li>
+            </ul>
+            <p>এর ফলে ISP গুলোর ট্রাফিক নিয়ন্ত্রণ করা সহজ হয়, এবং প্রেফারেন্স অনুযায়ী ট্রাফিক রাউটিং সম্ভব হয়।</p>
+
+                <h1>BGP Community and LP Configuration</h1>
+                
+                <h2>1. Community & Local Preference (LP) Settings</h2>
+                <table>
+                    <tr>
+                        <th>Community Value</th>
+                        <th>Description</th>
+                        <th>LP (Inbound)</th>
+                    </tr>
+                    <tr><td>X0:10</td><td>TR1-IN</td><td>100</td></tr>
+                    <tr><td>X0:20</td><td>TR2-IN</td><td>100</td></tr>
+                    <tr><td>X0:30</td><td>IXP-IN</td><td>300</td></tr>
+                    <tr><td>X0:40</td><td>PP-IN</td><td>400</td></tr>
+                    <tr><td>X0:50</td><td>CUST-IN</td><td>500</td></tr>
+                    <tr><td>X0:60</td><td>OWN-PREFIX</td><td>-</td></tr>
+                    <tr><td>X0:111</td><td>Uniform Advertisement</td><td>-</td></tr>
+                </table>
+                
+                <h2>2. eBGP Configuration</h2>
+                
+                <h3>Step 1: Enable Configuration Mode</h3>
+                <code>conf t</code>
+                
+                <h3>Step 2: Enable New BGP Community Format</h3>
+                <code>ip bgp-community new-format</code>
+                
+                <h3>Step 3: Configure Prefix List</h3>
+                <code>ip prefix-list DEFAULT-ROUTE permit 0.0.0.0/0</code>
+                <p>
+                    এখানে **DEFAULT-ROUTE** নামের একটি prefix-list তৈরি করা হয়েছে যা **0.0.0.0/0** কে অনুমতি দেবে। এটি সাধারণত 
+                    ডিফল্ট রুট সেট করার জন্য ব্যবহৃত হয়।
+                </p>
+                
+                <h3>Step 4: Create Route Maps</h3>
+                
+                <h4>Route-map for TR1 (Default Route)</h4>
+                <code>
+            route-map RM-TR1-IN permit 10
+            match ip address prefix-list DEFAULT-ROUTE
+            set community 10:500
+            exit
+                </code>
+                <p>
+                    এই route-map **DEFAULT-ROUTE** মিলে গেলে **10:500** কমিউনিটি সেট করবে, যা **DEFAULT-ROUTE** নির্দেশ করবে।
+                </p>
+                
+                <h4>Route-map for TR1 (Other Routes)</h4>
+                <code>
+            route-map RM-TR1-IN permit 20
+            set community 10:10
+            exit
+                </code>
+                <p>
+                    যদি **DEFAULT-ROUTE** না মেলে, তাহলে **10:10** কমিউনিটি সেট করা হবে, যা TR1-IN নির্দেশ করবে।
+                </p>
+                
+                <h4>Route-map for TR2 (Default Route)</h4>
+                <code>
+            route-map RM-TR2-IN permit 10
+            match ip address prefix-list DEFAULT-ROUTE
+            set community 10:500
+            exit
+                </code>
+                <p>
+                    TR2-তে **DEFAULT-ROUTE** থাকলে সেটার জন্য **10:500** কমিউনিটি ব্যবহার করা হবে।
+                </p>
+                
+                <h4>Route-map for TR2 (Other Routes)</h4>
+                <code>
+            route-map RM-TR2-IN permit 20
+            set community 10:20
+            exit
+                </code>
+                <p>
+                    যদি **DEFAULT-ROUTE** না মেলে, তাহলে **10:20** কমিউনিটি সেট করা হবে, যা TR2-IN নির্দেশ করবে।
+                </p>
+                
+                <h3>Step 5: BGP Router Configuration</h3>
+                <code>
+            router bgp 10
+            address-family ipv4 unicast
+            neighbor 172.16.10.1 route-map RM-TR1-IN in
+            neighbor 172.16.20.1 route-map RM-TR2-IN in
+            exit
+            exit
+            exit
+                </code>
+                <p>
+                    এখানে **BGP AS 10** এর অধীনে **neighbor 172.16.10.1** এবং **neighbor 172.16.20.1** এর ইনবাউন্ড ট্রাফিকের জন্য যথাযথ 
+                    route-map প্রয়োগ করা হয়েছে।
+                </p>
+                
+                <h3>Step 6: Save Configuration</h3>
+                <code>wr</code>
+                
+                <h2>Conclusion</h2>
+                <p>
+                    এই কনফিগারেশন দ্বারা BGP Neighbor-দের ইনবাউন্ড ট্রাফিক নিয়ন্ত্রণ করা সম্ভব হয়। TR1 ও TR2-এর জন্য আলাদা route-map সেট 
+                    করা হয়েছে যাতে **DEFAULT-ROUTE** এবং অন্যান্য রুট আলাদা ভাবে চিহ্নিত করা যায়।
+                </p>
+
+
+                
+                <h2>BGP কনফিগারেশন টেবিল</h2>
+                
+                <table>
+                    <tr>
+                        <th>ধাপ</th>
+                        <th>কমান্ড</th>
+                        <th>ব্যাখ্যা</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><code>conf t</code></td>
+                        <td>রাউটারকে কনফিগারেশন মোডে নিয়ে যায়।</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><code>ip bgp-community new-format</code></td>
+                        <td>BGP কমিউনিটি অ্যাট্রিবিউটকে নতুন ফরম্যাটে প্রদর্শন করে।</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><code>ip prefix-list DEFAULT-ROUTE permit 0.0.0.0/0</code></td>
+                        <td>একটি প্রিফিক্স লিস্ট তৈরি করে, যা ডিফল্ট রুট (0.0.0.0/0) কে পারমিট করে।</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><code>route-map RM-TR1-IN permit 10</code></td>
+                        <td><code>RM-TR1-IN</code> নামে একটি রাউট-ম্যাপ তৈরি করে, যার সিকোয়েন্স নম্বর ১০।</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><code>match ip address prefix-list DEFAULT-ROUTE</code></td>
+                        <td>প্রিফিক্স লিস্ট <code>DEFAULT-ROUTE</code> এর সাথে মিলে যাওয়া আইপি অ্যাড্রেসগুলোকে ম্যাচ করে।</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td><code>set community 10:500</code></td>
+                        <td>ম্যাচ হওয়া রুটগুলোর জন্য কমিউনিটি ভ্যালু <code>10:500</code> সেট করে।</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td><code>exit</code></td>
+                        <td>বর্তমান কনফিগারেশন মোড থেকে বেরিয়ে আসে।</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td><code>route-map RM-TR1-IN permit 20</code></td>
+                        <td>একই রাউট-ম্যাপে আরেকটি পারমিট এন্ট্রি তৈরি করে, যার সিকোয়েন্স নম্বর ২০।</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td><code>set community 10:10</code></td>
+                        <td>সিকোয়েন্স ২০ এর জন্য কমিউনিটি ভ্যালু <code>10:10</code> সেট করে।</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td><code>route-map RM-TR2-IN permit 10</code></td>
+                        <td><code>RM-TR2-IN</code> নামে আরেকটি রাউট-ম্যাপ তৈরি করে, যার সিকোয়েন্স নম্বর ১০।</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td><code>match ip address prefix-list DEFAULT-ROUTE</code></td>
+                        <td>প্রিফিক্স লিস্ট <code>DEFAULT-ROUTE</code> এর সাথে মিলে যাওয়া আইপি অ্যাড্রেসগুলোকে ম্যাচ করে।</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td><code>set community 10:500</code></td>
+                        <td>ম্যাচ হওয়া রুটগুলোর জন্য কমিউনিটি ভ্যালু <code>10:500</code> সেট করে।</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td><code>route-map RM-TR2-IN permit 20</code></td>
+                        <td><code>RM-TR2-IN</code> রাউট-ম্যাপে আরেকটি পারমিট এন্ট্রি তৈরি করে, যার সিকোয়েন্স নম্বর ২০।</td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td><code>set community 10:20</code></td>
+                        <td>সিকোয়েন্স ২০ এর জন্য কমিউনিটি ভ্যালু <code>10:20</code> সেট করে।</td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td><code>router bgp 10</code></td>
+                        <td>BGP প্রসেস কনফিগারেশন মোডে প্রবেশ করে, যেখানে AS নম্বর ১০ সেট করা হয়েছে।</td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td><code>address-family ipv4 unicast</code></td>
+                        <td>IPv4 ইউনিকাস্ট অ্যাড্রেস ফ্যামিলি কনফিগারেশন মোডে প্রবেশ করে।</td>
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td><code>neighbor 172.16.10.1 route-map RM-TR1-IN in</code></td>
+                        <td>BGP নেইবার <code>172.16.10.1</code> এর ইনবাউন্ড ট্রাফিকের জন্য <code>RM-TR1-IN</code> রাউট-ম্যাপ প্রয়োগ করে।</td>
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td><code>neighbor 172.16.20.1 route-map RM-TR2-IN in</code></td>
+                        <td>BGP নেইবার <code>172.16.20.1</code> এর ইনবাউন্ড ট্রাফিকের জন্য <code>RM-TR2-IN</code> রাউট-ম্যাপ প্রয়োগ করে।</td>
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td><code>exit</code></td>
+                        <td>BGP কনফিগারেশন মোড থেকে বেরিয়ে আসে।</td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td><code>exit</code></td>
+                        <td>গ্লোবাল কনফিগারেশন মোড থেকে বেরিয়ে আসে।</td>
+                    </tr>
+                    <tr>
+                        <td>21</td>
+                        <td><code>wr</code></td>
+                        <td>রাউটারের কনফিগারেশন সেভ করে।</td>
+                    </tr>
+                </table>
+
+                    <h1>BGP কনফিগারেশন</h1>
+                    
+                    <h2>১. কমিউনিটি লিস্ট তৈরি করা হয়েছে</h2>
+                    <pre>
+                ip community-list standard ISP2-OUT permit 10:60
+                ip community-list standard ISP2-OUT permit 10:999
+                    </pre>
+                    <p>এখানে <strong>ISP2-OUT</strong> নামক কমিউনিটি লিস্ট তৈরি করা হয়েছে, যেখানে <strong>10:60</strong> এবং <strong>10:999</strong> নাম্বারের BGP কমিউনিটি অনুমোদন করা হয়েছে।</p>
+                    
+                    <pre>
+                ip community-list standard IXP-OUT permit 10:111
+                ip community-list standard IXP-OUT permit 10:222
+                ip community-list standard IXP-OUT permit 10:999
+                ip community-list standard IXP-OUT permit 10:1000
+                ip community-list standard IXP-OUT permit 10:1001
+                ip community-list standard IXP-OUT permit 10:1002
+                ip community-list standard IXP-OUT permit 10:2000
+                ip community-list standard IXP-OUT permit 10:2001
+                ip community-list standard IXP-OUT permit 10:2002
+                    </pre>
+                    <p>এখানে <strong>IXP-OUT</strong> নামক আরেকটি কমিউনিটি লিস্ট তৈরি করা হয়েছে, যেখানে <strong>10:111</strong>, <strong>10:222</strong>, <strong>10:999</strong>, <strong>10:1000</strong>, <strong>10:1001</strong>, <strong>10:1002</strong>, <strong>10:2000</strong>, <strong>10:2001</strong>, <strong>10:2002</strong> অনুমোদিত হয়েছে।</p>
+                    
+                    <h3>কেন করা হয়েছে?</h3>
+                    <p>কমিউনিটি লিস্ট ব্যবহার করে নির্দিষ্ট প্রিফিক্স বা ট্রাফিককে আলাদা ভাবে নিয়ন্ত্রণ করা যায়, যা পরবর্তী ধাপে route-map-এ প্রয়োগ করা হয়েছে।</p>
+                    
+                    <h2>২. Route-map তৈরি করা হয়েছে</h2>
+                    <pre>
+                route-map RM-IXP-OUT permit 10
+                match community IXP-OUT
+                set metric 20
+                exit
+                    </pre>
+                    <p>এখানে <strong>RM-IXP-OUT</strong> নামক একটি route-map তৈরি করা হয়েছে, যা <strong>IXP-OUT</strong> কমিউনিটিতে থাকা রুটগুলোকে ফিল্টার করবে এবং <strong>metric 20</strong> সেট করবে।</p>
+                    
+                    <pre>
+                route-map RM-ISP2-OUT permit 10
+                match community ISP2-OUT
+                set metric 10
+                exit
+                    </pre>
+                    <p>এখানে <strong>RM-ISP2-OUT</strong> নামক route-map তৈরি করা হয়েছে, যা <strong>ISP2-OUT</strong> কমিউনিটিতে থাকা রুটগুলোকে ফিল্টার করবে এবং <strong>metric 10</strong> সেট করবে।</p>
+                    
+                    <h3>কেন করা হয়েছে?</h3>
+                    <p>Route-map ব্যবহার করে আমরা নির্দিষ্ট গন্তব্যের ট্রাফিককে আলাদা অগ্রাধিকার দিতে পারি। এখানে <strong>ISP2-OUT</strong> কমিউনিটিতে থাকা রুটের মেট্রিক <strong>১০</strong> সেট করা হয়েছে, যা <strong>IXP-OUT</strong> কমিউনিটির <strong>২০</strong> এর চেয়ে কম, অর্থাৎ <strong>ISP2-OUT</strong> ট্রাফিক বেশি অগ্রাধিকার পাবে।</p>
+                    
+                    <h2>৩. BGP কনফিগারেশন</h2>
+                    <pre>
+                router bgp 10
+                address-family ipv4 unicast
+                    </pre>
+                    <p>এখানে BGP AS (Autonomous System) <strong>10</strong> সেট করা হয়েছে এবং IPv4 ইউনিকাস্ট এড্রেস ফ্যামিলি সক্রিয় করা হয়েছে।</p>
+                    
+                    <pre>
+                neighbor 192.168.65.254 route-map RM-IXP-OUT out
+                    </pre>
+                    <p>এই লাইনটি <strong>192.168.65.254</strong> এই BGP পিয়ারের জন্য <strong>RM-IXP-OUT</strong> রুট-ম্যাপ প্রয়োগ করবে, অর্থাৎ এই আইপিতে <strong>IXP-OUT</strong> কমিউনিটির রুট পাঠানো হবে।</p>
+                    
+                    <pre>
+                neighbor 10.0.0.2 route-map RM-ISP2-OUT out
+                    </pre>
+                    <p>এই লাইনটি <strong>10.0.0.2</strong> পিয়ারের জন্য <strong>RM-ISP2-OUT</strong> রুট-ম্যাপ প্রয়োগ করবে, অর্থাৎ এই আইপিতে <strong>ISP2-OUT</strong> কমিউনিটির রুট পাঠানো হবে।</p>
+                    
+                    <h3>কেন করা হয়েছে?</h3>
+                    <p>এটি মূলত BGP ট্রাফিক ইঞ্জিনিয়ারিং করার জন্য ব্যবহৃত হয়। এখানে <strong>ISP2-OUT</strong> কমিউনিটির ট্রাফিককে বেশি অগ্রাধিকার দেওয়া হয়েছে, কারণ এর মেট্রিক <strong>১০</strong>, যা <strong>IXP-OUT</strong> কমিউনিটির মেট্রিক <strong>২০</strong> এর চেয়ে কম। অর্থাৎ, যদি একই গন্তব্যে যাওয়ার জন্য দুটি পাথ থাকে, তবে <strong>ISP2-OUT</strong> ট্রাফিক আগে যাবে।</p>
+                    
+                    <h2>৪. কনফিগারেশন সংরক্ষণ</h2>
+                    <pre>
+                exit
+                exit
+                exit
+                wr
+                    </pre>
+                    <p>এই কমান্ডগুলো ব্যবহার করে BGP কনফিগারেশন থেকে বেরিয়ে এসে পরিবর্তনগুলো সংরক্ষণ (write/save) করা হয়েছে।</p>
+                    
+                    <h2>সারসংক্ষেপ</h2>
+                    <ul>
+                        <li>✅ কমিউনিটি লিস্ট তৈরি করা হয়েছে → নির্দিষ্ট রুট গোষ্ঠীকে আলাদা করা হয়েছে</li>
+                        <li>✅ Route-map তৈরি করা হয়েছে → বিভিন্ন কমিউনিটির জন্য ভিন্ন মেট্রিক নির্ধারণ করা হয়েছে</li>
+                        <li>✅ BGP কনফিগারেশন করা হয়েছে → নির্দিষ্ট পিয়ারের সাথে রুট-ম্যাপ প্রয়োগ করা হয়েছে</li>
+                        <li>✅ উদ্দেশ্য → <strong>ISP2-OUT</strong> কমিউনিটির ট্রাফিককে বেশি অগ্রাধিকার দেওয়া হয়েছে, আর <strong>IXP-OUT</strong> কমিউনিটির জন্য ভিন্ন মেট্রিক সেট করা হয়েছে।</li>
+                    </ul>
+                    
+                    <p>এটি মূলত BGP ট্রাফিক ইঞ্জিনিয়ারিং এবং আউটবাউন্ড রুট কন্ট্রোল করার জন্য করা হয়েছে।</p>
+           
+
+
+                        <h1>BGP কনফিগারেশনের বিশ্লেষণ</h1>
+                        <p>এই কনফিগারেশনে BGP (Border Gateway Protocol)-এর মাধ্যমে ট্রাফিক ইঞ্জিনিয়ারিং করা হয়েছে। এখানে বিভিন্ন কমিউনিটি লিস্ট, Route-map, এবং AS-path prepend ব্যবহার করে রুট নিয়ন্ত্রণ করা হয়েছে। নিচে ধাপে ধাপে ব্যাখ্যা করা হলো—</p>
+                    
+                        <h2>১. কমিউনিটি লিস্ট তৈরি করা হয়েছে</h2>
+                        <p>প্রথমে BGP কমিউনিটি লিস্ট তৈরি করা হয়েছে, যা নির্দিষ্ট প্রিফিক্স বা ট্রাফিককে আলাদা করতে সাহায্য করবে।</p>
+                    
+                        <pre>
+                    ip community-list standard UNIFORM-OUT permit 20:111
+                        </pre>
+                        <p><strong>UNIFORM-OUT:</strong> এই কমিউনিটি ২০:১১১ রুটগুলোর জন্য ব্যবহার করা হবে, যা উভয় ট্রানজিট রাউটারে যাবে।</p>
+                    
+                        <pre>
+                    ip community-list standard TR1-PREPEND-1 permit 20:1001
+                    ip community-list standard TR1-PREPEND-2 permit 20:1002
+                        </pre>
+                        <p><strong>TR1-PREPEND-1</strong> এবং <strong>TR1-PREPEND-2:</strong> TR1 (ট্রানজিট ১)-এর ক্ষেত্রে ব্যবহৃত হবে এবং AS-path prepend প্রয়োগ করবে।</p>
+                    
+                        <pre>
+                    ip community-list standard TR2-PREPEND-1 permit 20:2001
+                    ip community-list standard TR2-PREPEND-2 permit 20:2002
+                        </pre>
+                        <p><strong>TR2-PREPEND-1</strong> এবং <strong>TR2-PREPEND-2:</strong> TR2 (ট্রানজিট ২)-এর জন্য ব্যবহৃত হবে এবং AS-path prepend প্রয়োগ করবে।</p>
+                    
+                        <pre>
+                    ip community-list standard TR1-ONLY permit 20:2000
+                    ip community-list standard TR2-ONLY permit 20:1000
+                        </pre>
+                        <p><strong>TR1-ONLY:</strong> শুধুমাত্র TR1-এ যাবে।</p>
+                        <p><strong>TR2-ONLY:</strong> শুধুমাত্র TR2-এ যাবে।</p>
+                    
+                        <h3>কেন করা হয়েছে?</h3>
+                        <p>কমিউনিটি লিস্ট ব্যবহার করে আমরা নির্দিষ্ট ট্রাফিকের জন্য আলাদা নিয়ম প্রয়োগ করতে পারব।</p>
+                    
+                        <h2>২. Route-map তৈরি করা হয়েছে</h2>
+                        <h3>TR1-এর জন্য Route-map (RM-TR1-OUT)</h3>
+                        <pre>
+                    route-map RM-TR1-OUT permit 10
+                    match community UNIFORM-OUT TR2-PREPEND-1 TR2-PREPEND-2 TR1-ONLY
+                    exit
+                        </pre>
+                        <p>এই route-map-টি প্রথম ধাপে <strong>UNIFORM-OUT</strong>, <strong>TR2-PREPEND-1</strong>, <strong>TR2-PREPEND-2</strong>, <strong>TR1-ONLY</strong> ট্রাফিককে অনুমতি দেবে।</p>
+                        <p>এখানে কোনো AS-path prepend নেই, তাই ট্রাফিক স্বাভাবিকভাবে যাবে।</p>
+                    
+                        <pre>
+                    route-map RM-TR1-OUT permit 20
+                    match community TR1-PREPEND-1
+                    set as-path prepend 20
+                    exit
+                        </pre>
+                        <p><strong>TR1-PREPEND-1</strong> কমিউনিটিতে থাকা ট্রাফিকের ক্ষেত্রে ২০ AS নম্বর একবার prepend করা হবে।</p>
+                        <p>এর মানে হলো, রুটটি কিছুটা কম আকর্ষণীয় হয়ে উঠবে।</p>
+                    
+                        <pre>
+                    route-map RM-TR1-OUT permit 30
+                    match community TR1-PREPEND-2
+                    set as-path prepend 20 20
+                    exit
+                        </pre>
+                        <p><strong>TR1-PREPEND-2</strong> কমিউনিটিতে থাকা ট্রাফিকের জন্য ২০ AS নম্বর দুইবার prepend করা হবে।</p>
+                        <p>এর ফলে এই রুটটি আরও কম আকর্ষণীয় হবে।</p>
+                    
+                        <h3>TR2-এর জন্য Route-map (RM-TR2-OUT)</h3>
+                        <pre>
+                    route-map RM-TR2-OUT permit 10
+                    match community UNIFORM-OUT TR1-PREPEND-1 TR1-PREPEND-2 TR2-ONLY
+                    exit
+                        </pre>
+                        <p><strong>UNIFORM-OUT</strong>, <strong>TR1-PREPEND-1</strong>, <strong>TR1-PREPEND-2</strong>, <strong>TR2-ONLY</strong> কমিউনিটির রুটগুলো অনুমোদিত হবে।</p>
+                        <p>এখানে কোনো AS-path prepend নেই, তাই এটি স্বাভাবিকভাবেই ট্রান্সমিট হবে।</p>
+                    
+                        <pre>
+                    route-map RM-TR2-OUT permit 20
+                    match community TR2-PREPEND-1
+                    set as-path prepend 20
+                    exit
+                        </pre>
+                        <p><strong>TR2-PREPEND-1</strong> কমিউনিটির জন্য AS-path prepend ২০ হবে, যা রুটটিকে কম আকর্ষণীয় করবে।</p>
+                    
+                        <pre>
+                    route-map RM-TR2-OUT permit 30
+                    match community TR2-PREPEND-2
+                    set as-path prepend 20 20
+                    exit
+                        </pre>
+                        <p><strong>TR2-PREPEND-2</strong> কমিউনিটির জন্য AS-path prepend ২০ ২০ হবে, যা রুটটিকে আরও কম আকর্ষণীয় করবে।</p>
+                    
+                        <h3>কেন করা হয়েছে?</h3>
+                        <p>Route-map এর মাধ্যমে প্রেফারেন্স সেট করা হয়েছে, যাতে ট্রাফিক নির্দিষ্ট পাথ ধরে প্রবাহিত হয়।</p>
+                    
+                        <h2>৩. BGP কনফিগারেশন</h2>
+                        <pre>
+                    router bgp 20
+                    address-family ipv4 unicast
+                        </pre>
+                        <p>BGP AS ২০ চালু করা হয়েছে এবং IPv4 ইউনিকাস্ট এড্রেস ফ্যামিলি সক্রিয় করা হয়েছে।</p>
+                    
+                        <pre>
+                    neighbor 172.16.10.5 route-map RM-TR1-OUT out
+                        </pre>
+                        <p>172.16.10.5 পিয়ারের জন্য <strong>RM-TR1-OUT</strong> route-map প্রয়োগ করা হয়েছে।</p>
+                        <p>অর্থাৎ, এই প্রতিবেশীর সাথে রুট শেয়ার করার সময়, <strong>RM-TR1-OUT</strong> অনুযায়ী নীতি প্রয়োগ করা হবে।</p>
+                    
+                        <pre>
+                    neighbor 172.16.20.5 route-map RM-TR2-OUT out
+                        </pre>
+                        <p>172.16.20.5 পিয়ারের জন্য <strong>RM-TR2-OUT</strong> route-map প্রয়োগ করা হয়েছে।</p>
+                        <p>অর্থাৎ, এই প্রতিবেশীর সাথে রুট শেয়ার করার সময়, <strong>RM-TR2-OUT</strong> অনুযায়ী নীতি প্রয়োগ করা হবে।</p>
+                    
+                        <h3>কেন করা হয়েছে?</h3>
+                        <p>এটি BGP ট্রাফিক ইঞ্জিনিয়ারিং করার জন্য ব্যবহৃত হয়েছে, যাতে বিভিন্ন রুটের মধ্যে ট্রাফিক প্রবাহ নিয়ন্ত্রিত হয়।</p>
+                    
+                        <h2>৪. কনফিগারেশন সংরক্ষণ</h2>
+                        <pre>
+                    exit
+                    exit
+                    exit
+                    wr
+                        </pre>
+                        <p>পরিবর্তন সংরক্ষণ করা হয়েছে, যাতে রাউটার রিবুট হওয়ার পরেও সেটিংস ঠিক থাকে।</p>
+                    
+                        <h2>🎯 সংক্ষেপে এই কনফিগারেশনের মূল উদ্দেশ্য</h2>
+                        <ul>
+                            <li>✅ কমিউনিটি লিস্ট ব্যবহার করা হয়েছে → বিভিন্ন ধরনের রুট আলাদা করতে</li>
+                            <li>✅ Route-map ব্যবহার করা হয়েছে → ট্রাফিকের অগ্রাধিকার সেট করতে</li>
+                            <li>✅ AS-path prepend করা হয়েছে → কিছু রুটকে কম আকর্ষণীয় করতে</li>
+                            <li>✅ BGP কনফিগার করা হয়েছে → প্রতিবেশী রাউটারের সাথে রুট ভাগ করার জন্য</li>
+                        </ul>
+                    
+                        <h3>সর্বোপরি:</h3>
+                        <ul>
+                            <li>TR1 ও TR2 উভয়ের মধ্যে ট্রাফিক ব্যালেন্স করার জন্য বিভিন্ন প্রিপেন্ডিং নীতি ব্যবহার করা হয়েছে।</li>
+                            <li>TR1-ONLY এবং TR2-ONLY রুটগুলো নির্দিষ্ট ট্রানজিট রাউটারে পাঠানো হবে।</li>
+                            <li>UNIFORM-OUT ট্রাফিক উভয় ট্রানজিট রাউটারে যাবে।</li>
+                        </ul>
+                    
+                        <p>এই কনফিগারেশনটি মূলত আউটবাউন্ড রুট অপ্টিমাইজেশন এবং BGP ট্রাফিক ম্যানিপুলেশন নিশ্চিত করার জন্য তৈরি করা হয়েছে। 🚀</p>
+          
 
 </body>
 </html>

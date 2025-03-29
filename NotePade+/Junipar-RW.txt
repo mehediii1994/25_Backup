@@ -49,9 +49,9 @@ set intface
 
 
 
-set logical-systems FNA-RT interfaces ae15 unit  2708 description  Lalpur_Manik_Matlab_FNA
-set logical-systems FNA-RT interfaces ae15 unit  2708 vlan-id  2708
-set logical-systems FNA-RT interfaces ae15 unit  2708 family inet address 172.16.38.233/30
+set logical-systems FNA-RT interfaces ae16 unit  2708 description  Lalpur_Manik_Matlab_FNA
+set logical-systems FNA-RT interfaces ae16 unit  2708 vlan-id  2708
+set logical-systems FNA-RT interfaces ae16 unit  2708 family inet address 172.16.38.233/30
 
 set logical-systems FNA-RT policy-options policy-statement Lalpur_Manik_Matlab_FNA_IN term 1 from route-filter 103.42.228.194/31 exact
 set logical-systems FNA-RT policy-options policy-statement Lalpur_Manik_Matlab_FNA_IN term 1 then local-preference 900 
@@ -66,12 +66,17 @@ set logical-systems FNA-RT protocols bgp group  Lalpur_Manik_Matlab_FNA neighbor
 set logical-systems FNA-RT firewall family inet filter copp term bgp from source-address  172.16.38.234/32
 
 
-set logical-systems FNA-RT interfaces ae15 unit  2708 family inet policer input policer-2708
-set logical-systems FNA-RT interfaces ae15 unit  2708 family inet policer output policer-2708
 
 set logical-systems FNA-RT firewall policer policer-2708 if-exceeding bandwidth-limit 1210m
 set logical-systems FNA-RT firewall policer policer-2708 if-exceeding burst-size-limit 1m
 set logical-systems FNA-RT firewall policer policer-2708 then discard
+
+
+
+set logical-systems FNA-RT interfaces ae16 unit  2708 family inet policer input policer-2708
+set logical-systems FNA-RT interfaces ae16 unit  2708 family inet policer output policer-2708
+
+
 
 
 
@@ -99,7 +104,7 @@ BGP Up ache kin ==  show bgp summary |match 103.61.240.0/24
 			 
 			 show configuration routing-options static 
 			 
-view bandwidth = run monitor interface ae15.3291
+view bandwidth = run monitor interface ae16.3291
 
 
 run show route advertising-protocol bgp 103.21.41.146 logical-system CDN-RT |match 103.80.78.0/24 
@@ -176,3 +181,246 @@ RP/0/RP0/CPU0:SNC_NHK-GW_NCS_PE01(config-pmap-c)#commit
 
 
 
+====================INT======================
+
+set interfaces ae16 unit 3995 description BAKHRABAD-CABLE-NETWORK_INT
+set interfaces ae16 unit 3995 vlan-id 3995
+set interfaces ae16 unit 3995 family inet address 172.23.7.121/30
+set firewall policer policer-vlan-3995 if-exceeding bandwidth-limit 350m
+set firewall policer policer-vlan-3995 if-exceeding burst-size-limit 1m
+set firewall policer policer-vlan-3995 then discard
+set interfaces ae16 unit 3995 family inet policer input policer-vlan-3995
+set interfaces ae16 unit 3995 family inet policer output policer-vlan-3995
+
+set policy-options policy-statement BAKHRABAD-CABLE-NETWORK_INT-IN term 1 from route-filter 103.137.161.101/32 exact
+set policy-options policy-statement BAKHRABAD-CABLE-NETWORK_INT-IN term 1 then accept
+set policy-options policy-statement BAKHRABAD-CABLE-NETWORK_INT-IN term 5 then reject
+
+
+set protocols bgp group BAKHRABAD-CABLE-NETWORK_INT neighbor 172.23.7.122 description *BAKHRABAD-CABLE-NETWORK_INT*
+set protocols bgp group BAKHRABAD-CABLE-NETWORK_INT neighbor 172.23.7.122 local-address 172.23.7.121
+set protocols bgp group BAKHRABAD-CABLE-NETWORK_INT neighbor 172.23.7.122 import BAKHRABAD-CABLE-NETWORK_INT-IN
+set protocols bgp group BAKHRABAD-CABLE-NETWORK_INT neighbor 172.23.7.122 export iig-clients-out
+set protocols bgp group BAKHRABAD-CABLE-NETWORK_INT neighbor 172.23.7.122 peer-as 64655
+set  firewall family inet filter protect-router-control-plane term bgp from source-address 172.23.7.122/32
+
+
+
+
+===================================GGC================================
+
+
+
+
+set logical-systems GGC-RT interfaces ae16 unit 3996 description *BAKHRABAD-CABLE-NETWORK_GGC*
+set logical-systems GGC-RT interfaces ae16 unit 3996 vlan-id 3996
+set logical-systems GGC-RT interfaces ae16 unit 3996 family inet address 172.16.42.53/30
+set logical-systems GGC-RT firewall policer policer-3996 if-exceeding bandwidth-limit 400m
+set logical-systems GGC-RT firewall policer policer-3996 if-exceeding burst-size-limit 256k
+set logical-systems GGC-RT firewall policer policer-3996 then discard
+set logical-systems GGC-RT interfaces ae16 unit 3996 family inet policer input policer-3996
+set logical-systems GGC-RT interfaces ae16 unit 3996 family inet policer output policer-3996
+
+
+set logical-systems GGC-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_GGC-IN term 1 from route-filter 103.137.161.101/32 exact
+set logical-systems GGC-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_GGC-IN term 1 then local-preference 1000
+set logical-systems GGC-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_GGC-IN term 1 then accept
+set logical-systems GGC-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_GGC-IN term 5 then reject
+
+
+set logical-systems GGC-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_GGC-IN neighbor 172.16.42.54 description *BAKHRABAD-CABLE-NETWORK_GGC*
+set logical-systems GGC-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_GGC-IN neighbor 172.16.42.54 local-address 172.16.42.53
+set logical-systems GGC-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_GGC-IN neighbor 172.16.42.54 import BAKHRABAD-CABLE-NETWORK_GGC-IN
+set logical-systems GGC-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_GGC-IN neighbor 172.16.42.54 export ggc-clients-out
+set logical-systems GGC-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_GGC-IN neighbor 172.16.42.54 peer-as 64655
+set logical-systems GGC-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_GGC-IN neighbor 172.16.42.54 local-as 149765 alias
+
+set logical-systems GGC-RT firewall family inet filter copp term bgp from source-address 172.16.42.54/32
+
+
+
+=====================================================FNA======================================
+
+
+
+set logical-systems FNA-RT interfaces ae16 unit 3997 description *BAKHRABAD-CABLE-NETWORK_FNA*
+set logical-systems FNA-RT interfaces ae16 unit 3997 vlan-id 3997
+set logical-systems FNA-RT interfaces ae16 unit 3997 family inet address 172.16.44.13/30
+set logical-systems FNA-RT firewall policer policer-3997 if-exceeding bandwidth-limit 350m
+set logical-systems FNA-RT firewall policer policer-3997 if-exceeding burst-size-limit 1m
+set logical-systems FNA-RT firewall policer policer-3997 then discard
+set logical-systems FNA-RT interfaces ae16 unit 3997 family inet policer input policer-3997
+set logical-systems FNA-RT interfaces ae16 unit 3997 family inet policer output policer-3997
+
+
+set logical-systems FNA-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_FNA-IN term 1 from route-filter 103.137.161.101/32 exact
+set logical-systems FNA-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_FNA-IN 1 then local-preference 900
+set logical-systems FNA-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_FNA-IN term 1 then accept
+set logical-systems FNA-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_FNA-IN term 5 then reject
+
+
+set logical-systems FNA-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_FNA-IN neighbor 172.16.44.14 description *BAKHRABAD-CABLE-NETWORK_FNA*
+set logical-systems FNA-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_FNA-IN neighbor 172.16.44.14 local-address 172.16.44.5
+set logical-systems FNA-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_FNA-IN neighbor 172.16.44.14 import BAKHRABAD-CABLE-NETWORK_FNA-IN
+set logical-systems FNA-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_FNA-IN neighbor 172.16.44.14 export fna-clients-out 
+set logical-systems FNA-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_FNA-IN neighbor 172.16.44.14 peer-as 64655
+set logical-systems FNA-RT firewall family inet filter protect-router-control-plane term bgp from source-address 172.16.44.14/32
+
+
+
+================================================= BDIX ============================================
+
+
+
+set logical-systems NIX-RT interfaces ae16 unit 3998 description BAKHRABAD-CABLE-NETWORK_BDIX
+set logical-systems NIX-RT interfaces ae16 unit 3998 vlan-id 3998
+set logical-systems NIX-RT interfaces ae16 unit 3998 family inet address 172.16.48.97/30
+
+set logical-systems NIX-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_BDIX-IN term 1 from route-filter 103.137.161.101/32 exact
+set logical-systems NIX-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_BDIX-IN term 1 then local-preference 400  
+set logical-systems NIX-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_BDIX-IN term 1 then accept
+set logical-systems NIX-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_BDIX-IN term 10 then reject
+   
+set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 description BAKHRABAD-CABLE-NETWORK_BDIX
+set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 local-address 172.16.48.97
+set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 import BAKHRABAD-CABLE-NETWORK_BDIX-IN
+set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 export bdix-clients-out
+set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 peer-as 64626
+set logical-systems NIX-RT firewall family inet filter copp term bgp from source-address 172.16.48.98/32
+set logical-systems NIX-RT firewall family inet filter protect-router-control-plane term bgp from source-address 172.16.48.98/32
+
+
+
+===================================================== CDN =========================================
+
+set logical-systems MCDN-RT interfaces ae16 unit 3999 description *BAKHRABAD-CABLE-NETWORK_CDN*
+set logical-systems MCDN-RT interfaces ae16 unit 3999 vlan-id 3999
+set logical-systems MCDN-RT interfaces ae16 unit 3999 family inet address 172.16.46.121/30
+set logical-systems MCDN-RT firewall policer policer-3999 if-exceeding bandwidth-limit 120m
+set logical-systems MCDN-RT firewall policer policer-3999 if-exceeding burst-size-limit 1m
+set logical-systems MCDN-RT firewall policer policer-3999 then discard
+set logical-systems MCDN-RT interfaces ae16 unit 3999 family inet policer input policer-3999
+set logical-systems MCDN-RT interfaces ae16 unit 3999 family inet policer output policer-3999
+
+set logical-systems MCDN-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_CDN-IN term 1 from route-filter 103.137.161.101/32 exact
+set logical-systems MCDN-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_CDN-IN term 1 then local-preference 700
+set logical-systems MCDN-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_CDN-IN term 1 then accept
+set logical-systems MCDN-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK_CDN-IN term 5 then reject
+
+
+set logical-systems MCDN-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_CDN-IN neighbor 172.16.46.122 description *BAKHRABAD-CABLE-NETWORK_CDN*
+set logical-systems MCDN-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_CDN-IN neighbor 172.16.46.122 local-address 172.16.46.121
+set logical-systems MCDN-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_CDN-IN neighbor 172.16.46.122 import BAKHRABAD-CABLE-NETWORK_CDN-IN
+set logical-systems MCDN-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_CDN-IN neighbor 172.16.46.122 export client-cdn-out
+set logical-systems MCDN-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_CDN-IN neighbor 172.16.46.122 peer-as 64655
+set logical-systems MCDN-RT firewall family inet filter copp term bgp from source-address 172.16.46.122/32
+
+
+
+
+
+
+
+
+
+
+===========
+
+set  firewall family inet filter protect-router-control-plane term bgp from source-address 172.23.7.18/32
+
+set logical-systems GGC-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK-GGC-IN term 1 then local-preference 1000
+set logical-systems FNA-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK-FNA-IN term 1 then local-preference 900
+set logical-systems NIX-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK-BDIX-IN term 1 then local-preference 400
+set logical-systems MCDN-RT policy-options policy-statement BAKHRABAD-CABLE-NETWORK-MCDN-IN term 1 then local-preference 800
+
+==============
+
+BGP Client Import Filter Local Preference Setting:
+
+Internet-Primary: Local Preference 200
+Internet-Backup: Local Preference 150
+
+PNI-Primary: Local Preference 300
+PNI-Backup: Local Preference 250
+
+Akamai-Primary: Local Preference 280
+Akamai-Backup: Local Preference 270
+
+NIX-Primary: Local Preference 400
+NIX-Backup: Local Preference 350
+
+BCDN-Primary: Local Preference 800
+BCDN-Backup: Local Preference 750
+
+MCDN-Primary: Local Preference 700
+MCDN-Backup: Local Preference 650
+
+FNA-Primary: Local Preference 900
+FNA-Backup: Local Preference 850
+
+GGC-Primary: Local Preference 1000
+GGC-Backup: Local Preference 950
+
+=========================================
+
+interface HundredGigE0/0/2/3.2459
+ description BAKHRABAD-CABLE-NETWORK_INT
+ ipv4 address 172.23.4.249 255.255.255.252
+ no shutdown
+ encapsulation dot1q 2459
+ ipv4 access-group iig_upload ingress
+exit
+
+prefix-set BAKHRABAD-CABLE-NETWORK-IIG-IN
+  103.137.161.101/32 le 32
+end-set
+
+route-policy BAKHRABAD-CABLE-NETWORK-IIG-IN
+  if destination in BAKHRABAD-CABLE-NETWORK-IIG-IN then
+    pass
+  else
+    drop
+  endif
+end-policy
+
+router bgp 137449
+ neighbor 172.23.4.250
+  remote-as 64655
+  description BAKHRABAD-CABLE-NETWORK-IIG
+  address-family ipv4 unicast
+  route-policy BAKHRABAD-CABLE-NETWORK-IIG-IN in
+  route-policy client_v4_int_default_route_out out
+  soft-reconfiguration inbound always
+  exit
+ exit
+exit
+
+
+policy-map 2459-BAKHRABAD-CABLE-NETWORK-IIG
+ class class-default
+  shape average 80 mbps
+  queue-limit 50 kbytes
+ end-policy-map
+
+interface HundredGigE0/0/2/3.2459
+ service-policy output 2459-BAKHRABAD-CABLE-NETWORK-IIG
+exit
+
+
+
+
+
+✅ ৩. Import Policy (Route Receive হচ্ছে কিনা চেক করুন)
+কমান্ড:
+
+show route receive-protocol bgp 172.16.42.46
+show route logical-system GGC-RT receive-protocol bgp 172.16.42.46
+
+আপনার expected output:
+
+103.137.161.60/31 *[BGP/170] 00:15:30, localpref 1000, from 172.16.42.46
+✅ ৪. Export Policy (Route Advertise হচ্ছে কিনা চেক করুন)
+কমান্ড:
+
+show route advertising-protocol bgp 172.16.42.46
+show route logical-system GGC-RT advertising-protocol bgp 172.16.42.46
