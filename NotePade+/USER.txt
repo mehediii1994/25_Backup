@@ -48,6 +48,13 @@ dude = mehedi / mehedi1230
 
 
 
+172.16.114.2 = LAX_CORE_HW-6  user mehedi, password Mehedi@2025!
+172.16.114.5 = LAX_CORE_HW-32  user mehedi, password Mehedi@2025!
+
+172.16.111.3 = MAIJDEE-CORE-32  user mehedi, password Mehedi@2025!
+172.16.111.102 = MAIJDEE-CORE-6  user mehedi24, password Mehedi@2025!
+
+
 
 https://app.titan.email/mail/
 
@@ -290,6 +297,11 @@ Coronet ptix
 --------------
 IP : 172.31.252.5 ssh:37915
 UN/PW : mehedi/mehedi@2024
+
+HTL-FENI-MX204-RT
+=========
+IP : 172.31.100.43:37159
+UN/PW : mehedi/mehedi@2025
 
 IPAM
 ============

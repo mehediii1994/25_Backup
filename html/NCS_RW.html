@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cisco NCS Router Configuration</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 20px;
+        }
+        pre {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .command { color: #0066cc; font-weight: bold; }
+        .interface { color: #008800; }
+        .ip { color: #d63384; }
+        .description { color: #ff6600; }
+        .config { color: #333366; }
+    </style>
+</head>
+<body>
+    <h1>Cisco NCS Router Interface Configuration</h1>
+
+    <div class="output">
+        <p><span class="command">show interfaces description | include RANDHUNIMURA</span></p>
+        <pre>Sun Apr  6 12:24:07.703 UTC
+<span class="interface">Hu0/0/2/2.1657</span>     up          up          <span class="description">RANDHUNIMURA_RF_INTERNET</span></pre>
+    </div>
+
+    <div class="output">
+        <p><span class="command">show running-config interface Hu0/0/2/2.1657</span></p>
+        <pre>Sun Apr  6 12:24:22.611 UTC
+interface <span class="interface">HundredGigE0/0/2/2.1657</span>
+ description <span class="description">RANDHUNIMURA_RF_INTERNET</span>
+ service-policy output 1657_RANDHUNIMURA_RF_INTERNET
+ ipv4 address <span class="ip">172.23.2.221 255.255.255.252</span>
+ encapsulation dot1q 1657
+ ipv4 access-group iig_upload ingress
+!</pre>
+    </div>
+
+    <div class="output">
+        <p><span class="command">show running-config | include 172.23.2.222</span></p>
+        <pre>Sun Apr  6 12:24:42.459 UTC
+Building configuration...
+  <span class="ip">103.114.96.218/31</span> <span class="ip">172.23.2.222</span> description <span class="description">RANDHUNIMURA_RF_NAT-IP</span>
+  <span class="ip">103.131.100.66/31</span> <span class="ip">172.23.2.222</span> description <span class="description">RANDHUNIMURA_RF_NAT-IP</span></pre>
+    </div>
+
+    <div class="output">
+        <p><span class="command">show running-config policy-map 1657_RANDHUNIMURA_RF_INTERNET</span></p>
+        <pre>Sun Apr  6 12:34:01.924 UTC
+<span class="policy">policy-map 1657_RANDHUNIMURA_RF_INTERNET</span>
+ <span class="class">class class-default</span>
+  shape average 460 mbps 
+  queue-limit 50 kbytes 
+ ! 
+ end-policy-map
+! </pre>
+    </div>
+
+</body>
+</html>

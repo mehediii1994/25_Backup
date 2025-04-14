@@ -33,6 +33,7 @@ color: wheat
   flex: 50%;
   padding: 5px;
 }
+
 .table_group_2_row {
   display: flex;
 }
@@ -96,6 +97,8 @@ color: wheat
             <td>---</td>
           </tr>
       </table>
+
+      
 
    </div>
    <div class="column">
@@ -246,6 +249,8 @@ color: wheat
          <tr>
             <td>PHYHOME_OLT</td>
             <td>192.168.0.18/24</td>
+            <td>phyhome</td>
+            <td>1234</td>
          </tr>
          <tr>
             <td>solitine</td>
@@ -257,6 +262,117 @@ color: wheat
       </div>
 
 </div>
+    
+<table>
+    <caption>Splitting Ratio in EPON</caption>
+    <tr>
+        <th>Two Stages</th>
+        <th>Three Stages</th>
+    </tr>
+    <tr>
+        <td>1:8 ⇔ 1:8</td>
+        <td>1:2 ⇔ 1:2 ⇔ 1:16</td>
+    </tr>
+    <tr>
+        <td>1:4 ⇔ 1:16</td>
+        <td>1:4 ⇔ 1:4 ⇔ 1:4</td>
+    </tr>
+    <tr>
+        <td>1:2 ⇔ 1:32</td>
+        <td>1:4 ⇔ 1:8 ⇔ 1:2</td>
+    </tr>
+</table>
+
+<table>
+    <caption>Splitting Ratio in GPON</caption>
+    <tr>
+        <th>Two Stages</th>
+        <th>Three Stages</th>
+    </tr>
+    <tr>
+        <td>1:4 ⇔ 1:32</td>
+        <td>1:2 ⇔ 1:2 ⇔ 1:32</td>
+    </tr>
+    <tr>
+        <td>1:8 ⇔ 1:16</td>
+        <td>1:4 ⇔ 1:4 ⇔ 1:8</td>
+    </tr>
+    <tr>
+        <td>1:2 ⇔ 1:64</td>
+        <td>1:2 ⇔ 1:8 ⇔ 1:8</td>
+    </tr>
+</table>
+
+<table>
+    <caption>Standard of PON Module EPON or GPON</caption>
+    <tr>
+        <th>EPON</th>
+        <th>GPON</th>
+    </tr>
+    <tr>
+        <td>PX20+ , PX20++ , PX20+++ </td>
+        <td>B+ , C+ , C++ , C+++ </td>
+    </tr>
+</table>
+
+<table>
+    <caption>Optical Power Loss</caption>
+    <tr>
+        <th>Point of Loss</th>
+        <th>Loss</th>
+    </tr>
+    <tr>
+        <td>Insertion Loss</td>
+        <td>-</td>
+    </tr>
+    <tr>
+        <td>Fiber attenuation Loss ( length of Fiber ) </td>
+        <td>0.35 dB /Km</td>
+    </tr>
+    <tr>
+        <td>Connector</td>
+        <td>0.75 dB</td>
+    </tr>
+    <tr>
+        <td>Splicing</td>
+        <td>0.2 dB</td>
+    </tr>
+    <tr>
+        <td>Splitter</td>
+        <td>In the Chart</td>
+    </tr>
+    <tr>
+        <td>Safety margin </td>
+        <td>3.0 dB</td>
+    </tr>
+</table>
+<table>
+    <caption>Splitting Loss</caption>
+    <tr>
+        <th>Splitter</th>
+        <th>Avg Loss</th>
+    </tr>
+    <tr>
+        <td>1:2</td>
+        <td>3.5</td>
+    </tr>
+    <tr>
+        <td>1:4</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>1:8</td>
+        <td>10.5</td>
+    </tr>
+    <tr>
+        <td>1:16</td>
+        <td>14</td>
+    </tr>
+    <tr>
+        <td>1:32</td>
+        <td>17</td>
+    </tr>
+</table>
 
 <h1>CisCos Nexus Switch</h1>
 

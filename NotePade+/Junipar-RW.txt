@@ -285,7 +285,7 @@ set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN n
 set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 local-address 172.16.48.97
 set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 import BAKHRABAD-CABLE-NETWORK_BDIX-IN
 set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 export bdix-clients-out
-set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 peer-as 64626
+set logical-systems NIX-RT protocols bgp group BAKHRABAD-CABLE-NETWORK_BDIX-IN neighbor 172.16.48.98 peer-as 64655
 set logical-systems NIX-RT firewall family inet filter copp term bgp from source-address 172.16.48.98/32
 set logical-systems NIX-RT firewall family inet filter protect-router-control-plane term bgp from source-address 172.16.48.98/32
 
@@ -424,3 +424,11 @@ show route logical-system GGC-RT receive-protocol bgp 172.16.42.46
 
 show route advertising-protocol bgp 172.16.42.46
 show route logical-system GGC-RT advertising-protocol bgp 172.16.42.46
+
+ping 
+======
+run ping 103.161.216.1 logical-system NIX-RT rapid count 2000   
+
+Route 
+=====
+> show route 216.239.34.21

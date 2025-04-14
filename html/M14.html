@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নেটওয়ার্ক ডিভাইস কনফিগারেশন গাইড</title>
+    <style>
+        body {
+            font-family: "Siyam Rupali", Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            direction: ltr;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 25px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #16a085;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            color: #c7254e;
+            background-color: #f9f2f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .note {
+            background-color: #e7f5fe;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+        }
+        .warning {
+            background-color: #fff3cd;
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        ol, ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>প্রাথমিক কনফিগারেশন গাইড: লগইনের পর বেসিক সেটআপ</h1>
+    
+    <h2>ব্যবহারকারী লগইন প্রম্পট ইনফরমেশন কনফিগারেশন</h2>
+    <p>ডিভাইসে ব্যবহারকারীদের জন্য স্বাগতম বার্তা বা সতর্কতা সংক্রান্ত তথ্য সেট করতে:</p>
+    <ol>
+        <li>সিস্টেম ভিউতে প্রবেশ করুন:
+            <pre><code>system-view</code></pre>
+        </li>
+        <li>লগইন প্রচেষ্টার সময় প্রদর্শিত বার্তা সেট করুন:
+            <pre><code>header login information "স্বাগতম বার্তা"</code></pre>
+            <div class="note">অথবা ফাইল থেকে বার্তা লোড করুন: <code>header login file welcome.txt</code></div>
+        </li>
+        <li>সফল লগইনের পর প্রদর্শিত বার্তা সেট করুন:
+            <pre><code>header shell information "লগইন সফল বার্তা"</code></pre>
+        </li>
+        <li>কনফিগারেশন কমিট করুন:
+            <pre><code>commit</code></pre>
+        </li>
+    </ol>
+    
+    <h2>ডিভাইসের টাইম জোন, তারিখ এবং সময় সেটিং</h2>
+    <ol>
+        <li>ডিভাইসের টাইম জোন কনফিগার করুন:
+            <pre><code>clock timezone BST add 06:00:00</code></pre>
+            <div class="note">
+                <strong>নোট:</strong> ডিফল্ট টাইমজোন UTC<br>
+                <code>add</code> - UTC সময়ে টাইম জোন অফসেট যোগ করুন<br>
+                <code>minus</code> - UTC সময় থেকে টাইম জোন অফসেট বিয়োগ করুন
+            </div>
+        </li>
+        <li>বর্তমান তারিখ এবং সময় সেট করুন:
+            <pre><code>clock datetime 14:30:00 2023-05-15</code></pre>
+        </li>
+        <li>কনফিগারেশন কমিট করুন:
+            <pre><code>commit</code></pre>
+        </li>
+    </ol>
+    
+    <h2>ডিভাইসের নাম সেটিং</h2>
+    <ol>
+        <li>সিস্টেম ভিউতে প্রবেশ করুন:
+            <pre><code>system-view</code></pre>
+        </li>
+        <li>ডিভাইসের নাম সেট করুন:
+            <pre><code>sysname Router-1</code></pre>
+            <div class="note">
+                <strong>ডিফল্ট:</strong> HUAWEI<br>
+                ডিফল্ট নামে ফিরে যেতে: <code>undo sysname</code>
+            </div>
+        </li>
+        <li>কনফিগারেশন কমিট করুন:
+            <pre><code>commit</code></pre>
+        </li>
+    </ol>
+    
+    <h2>STelnet এর মাধ্যমে ডিভাইস লগইন কনফিগারেশন</h2>
+    
+    <div class="note">
+        <strong>প্রাথমিক তথ্য:</strong> ডিফল্টভাবে, নতুন ব্যবহারকারীদের প্রথম লগইনে পাসওয়ার্ড পরিবর্তন করতে হবে।
+    </div>
+
+    <h3>ধাপ ১: VTY ইউজার ইন্টারফেস কনফিগারেশন</h3>
+    <pre><code>system-view
+user-interface vty 0 4
+authentication-mode aaa
+protocol inbound ssh
+commit</code></pre>
+
+    <h3>ধাপ ২: লোকাল ইউজার তৈরি</h3>
+    <pre><code>aaa
+local-user admin password cipher Admin@123
+local-user admin service-type ssh
+local-user admin level 3
+commit</code></pre>
+
+    <div class="warning">
+        <strong>মনে রাখবেন:</strong> SSH ইউজার নাম এবং লোকাল ইউজার নাম একই হতে হবে।
+    </div>
+
+    <h3>ধাপ ৩: SSH কনফিগারেশন</h3>
+    <pre><code>ssh user admin
+ssh user admin authentication-type password
+ssh user admin service-type stelnet
+stelnet server enable
+commit</code></pre>
+
+    <h2>কনফিগারেশন যাচাই</h2>
+    <ul>
+        <li>বর্তমান কনফিগারেশন দেখুন:
+            <pre><code>display current-configuration</code></pre>
+        </li>
+        <li>SSH স্ট্যাটাস চেক করুন:
+            <pre><code>display ssh server status</code></pre>
+        </li>
+        <li>ইউজার লিস্ট দেখুন:
+            <pre><code>display ssh user-information</code></pre>
+        </li>
+    </ul>
+
+    <h2>কনসোল অথেন্টিকেশন কনফিগারেশন</h2>
+    <pre><code>system-view
+user-interface console 0
+authentication-mode aaa
+user privilege level 3
+quit
+aaa
+local-user admin1234 password
+local-user admin1234 level 3
+local-user admin1234 service-type terminal
+commit</code></pre>
+
+    <div class="note">
+        <h3>কনফিগারেশন নোটস:</h3>
+        <ol>
+            <li>কনসোল ইন্টারফেসের জন্য AAA অথেন্টিকেশন সেটআপ করা হয়েছে</li>
+            <li>ইউজার প্রিভিলেজ লেভেল 3 (সর্বোচ্চ লেভেল) সেট করা হয়েছে</li>
+            <li>'admin1234' ইউজার তৈরি করা হয়েছে পাসওয়ার্ড অথেন্টিকেশনের জন্য</li>
+            <li>ইউজার টার্মিনাল সার্ভিস এক্সেসের জন্য কনফিগার করা হয়েছে</li>
+        </ol>
+    </div>
+
+    <p><strong>----শেষ----</strong></p>
+
+    <div class="step">
+        <div class="step-title">✅ ধাপ 1: WEAKEA ফিচার ইনস্টল করা</div>
+        <pre>install feature-software WEAKEA</pre>
+        <div class="explanation">
+            <strong>ব্যাখ্যা:</strong><br>
+            WEAKEA মানে Weak Encryption Algorithm Enable. Telnet যেহেতু নিরাপদ নয়, তাই এটা চালু করতে হলে হুয়াওয়ের কিছু বিশেষ ফিচার সফটওয়্যার ইনস্টল করতে হয়। এটা মূলত Telnet চালুর আগে দরকার হয়।
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">✅ ধাপ 2: ইন্টারফেস এবং VLAN IP কনফিগার</div>
+        <pre>vlan batch 10 20
+interface GigabitEthernet0/1/1
+ portswitch
+ port link-type trunk
+ port trunk allow-pass vlan 10
+interface GigabitEthernet0/1/2
+ portswitch
+ port link-type trunk
+ port trunk allow-pass vlan 20
+interface Vlanif10
+ ip address 10.1.1.2 255.255.255.0
+interface Vlanif20
+ ip address 10.1.6.2 255.255.255.0</pre>
+        <div class="explanation">
+            <strong>ব্যাখ্যা:</strong><br>
+            এখানে VLAN 10 ও VLAN 20 তৈরি করা হয়েছে।<br>
+            GE0/1/1 পোর্টে VLAN 10 এবং GE0/1/2 পোর্টে VLAN 20 ট্রাঙ্ক হিসেবে পাস করা হচ্ছে।<br>
+            প্রতিটি VLAN-এর জন্য একটি IP ঠিকানা সেট করা হয়েছে (VLANIF ইন্টারফেসের মাধ্যমে)।
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">✅ ধাপ 3: Telnet চালু করা এবং VTY লাইনের সেটিংস</div>
+        <pre>telnet server enable
+telnet server port 1025
+telnet server-source all-interface
+user-interface vty 0 4
+ authentication-mode aaa
+ protocol inbound telnet
+ user privilege level 3</pre>
+        <div class="explanation">
+            <strong>ব্যাখ্যা:</strong><br>
+            Telnet সার্ভার চালু করা হলো।<br>
+            পোর্ট নম্বর 1025 নির্ধারণ করা হলো (ডিফল্ট 23 না রেখে নিরাপত্তার কারণে)।<br>
+            VTY (virtual terminal lines) 0 থেকে 4 পর্যন্ত লগইনের জন্য AAA অথেনটিকেশন এবং Telnet প্রোটোকল ব্যবহার হবে।
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">✅ ধাপ 4: ACL দিয়ে নির্দিষ্ট আইপি-কে অনুমতি দেওয়া</div>
+        <pre>acl 2000
+ rule permit source 10.137.217.10 0
+user-interface vty 0 4
+ acl 2000 inbound</pre>
+        <div class="explanation">
+            <strong>ব্যাখ্যা:</strong><br>
+            ACL 2000-তে একটি রুল দেওয়া হয়েছে যাতে শুধু 10.137.217.10 আইপি থেকে Telnet লগইন করা যায়।<br>
+            এটা একটি সিকিউরিটি লেয়ার, যাতে অপরিচিত কেউ লগইন করতে না পারে।
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">✅ ধাপ 5: RADIUS Authentication কনফিগার</div>
+        <pre>radius-server template 1
+ radius-server authentication 10.1.6.6 1812 weight 80
+ radius-server shared-key cipher YsHsjx_202206
+
+aaa
+ authentication-scheme auth1
+  authentication-mode radius
+ domain huawei.com
+  authentication-scheme auth1
+  radius-server 1
+domain huawei.com admin</pre>
+        <div class="explanation">
+            <strong>ব্যাখ্যা:</strong><br>
+            RADIUS সার্ভারের IP 10.1.6.6 এবং পোর্ট 1812 কনফিগার করা হয়েছে।<br>
+            একটি শেয়ার্ড কি ব্যবহার করা হয়েছে যেটা সার্ভার এবং ডিভাইস উভয়ে জানে।<br>
+            auth1 নামে AAA authentication scheme তৈরি করে সেটি huawei.com ডোমেইনে অ্যাসাইন করা হয়েছে।<br>
+            অবশেষে, huawei.com ডোমেইনটিকে ডিফল্ট অ্যাডমিন ডোমেইন হিসেবে নির্ধারণ করা হয়েছে।
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">✅ ধাপ 6: RADIUS সার্ভারে ইউজার সেট করা</div>
+        <div class="explanation">
+            <strong>ব্যাখ্যা:</strong><br>
+            এই ধাপে RADIUS সার্ভারে ইউজার admin123@huawei.com এবং পাসওয়ার্ড YsHsjx_202206 আগে থেকেই থাকতে হবে।<br>
+            ইউজার privilege level 3 সেট করা উচিত যেন সে প্রিভিলেজড কমান্ড রান করতে পারে।
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-title">✅ যাচাই (Verification)</div>
+        <pre>telnet 10.1.1.2 1025</pre>
+        <div class="explanation">
+            <strong>ব্যাখ্যা:</strong><br>
+            অ্যাডমিন পিসি থেকে এই কমান্ড দিয়ে Telnet করা হবে ডিভাইসে।<br>
+            ইউজারনেম ও পাসওয়ার্ড দিলে, ডিভাইস RADIUS সার্ভারের সাথে অথেনটিকেশন করে লগইন অনুমতি দেবে।
+        </div>
+    </div>
+
+    <div class="note">
+        <strong>নোট:</strong> নিরাপত্তার জন্য Telnet এর পরিবর্তে SSH ব্যবহার করার পরামর্শ দেওয়া হয়, কারণ Telnet ডেটা এনক্রিপ্ট না করে পাঠায়।
+    </div>
+
+</body>
+</html>
