@@ -3,6 +3,9 @@ for i in range(20):  # ০ থেকে ১৯ পর্যন্ত ২০ ব�
     print("mehedi",i)
 
 """
-
+"""""
 for i in range(2, 8):
     print("mehedi", i)
+"""
+for i in range(1, 64):
+    print("onu-deregister", i)

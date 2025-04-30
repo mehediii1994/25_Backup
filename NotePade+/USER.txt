@@ -335,3 +335,9 @@ DTCM$1234
 DtTCM$1234
 
 skynoc@2000#
+
+Cronet UN/PW
+=============
+Coro@Net/coronet8@8@
+
+port-channel load-balance ethernet source-dest-port

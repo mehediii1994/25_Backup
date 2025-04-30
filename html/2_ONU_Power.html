@@ -34,14 +34,7 @@ color: wheat
   padding: 5px;
 }
 
-.table_group_2_row {
-  display: flex;
-}
 
-.table_group_2_column {
-  flex: 50%;
-  padding: 5px;
-}
     * {
   box-sizing: border-box;
   color: aqua;
@@ -52,7 +45,7 @@ color: wheat
   width: 50%;
   padding: 5px;
   tr:hover {background-color:rgb(133, 89, 89)}
-  border: 5px solid hsl(0, 9%, 48%);
+  border: 5px solid wheat
 
 
 }
@@ -62,318 +55,353 @@ color: wheat
   display: table; 
 }
 
+.div_1 {
+    float: left;
+    background-color:black;
+    width:auto;
+    padding: 5px;
+    tr:hover {background-color:rgb(133, 89, 89)}
+    border: 5px solid wheat
+
+}
+.div2 {
+    float: initial;
+    background-color: brown;
+}
+
+.div3 {
+    float: initial;
+    background-color: brown;
+}
+
+.clear-div-1 {
+    clear: both;
+}
+
 </style>
-
 <div class="row">
-   <div class="column">
-      <p class="x">Error Massage</p>
-      <table>
-         <tr>
-            <th>MASSAGE CODE</th>
-            <th>Description</th>
+    <div class="column">
+       <p class="x">Error Massage</p>
+       <table>
+          <tr>
+             <th>MASSAGE CODE</th>
+             <th>Description</th>
+           </tr>
+           <tr>
+             <td>651</td>
+             <td>VLAN not Match</td>
+           </tr>
+           <tr>
+             <td>691</td>
+             <td>Wrong PPPoE Aggign</td>
+           </tr>
+           <tr>
+             <td>629</td>
+             <td>PPPoE already Connect</td>
+           </tr>
+           <tr>
+             <td>628</td>
+             <td>---</td>
+           </tr>
+           <tr>
+             <td>718</td>
+             <td>---</td>
+           </tr>
+           <tr>
+             <td>720</td>
+             <td>---</td>
+           </tr>
+       </table>
+ 
+       
+ 
+    </div>
+    <div class="column">
+       <p class="x">SFP WaveLengths</p>
+ 
+       <table>
+          <tr>
+             <th>Port Capacity</th>
+             <th>WebeLengths</th>
           </tr>
           <tr>
-            <td>651</td>
-            <td>VLAN not Match</td>
+             <td>1G</td>
+             <td>1310 / 1550</td>
           </tr>
           <tr>
-            <td>691</td>
-            <td>Wrong PPPoE Aggign</td>
+             <td>LACP_MTU</td>
+             <td>1496</td>
           </tr>
           <tr>
-            <td>629</td>
-            <td>PPPoE already Connect</td>
+             <td>10G</td>
+             <td>1270 / 1330</td>
           </tr>
           <tr>
-            <td>628</td>
-            <td>---</td>
+             <td>Duel Core</td>
+             <td>Bouth side 1310</td>
+          </tr>
+       </table>
+    </div>
+    <div class="column">
+       <p class="x">Importhant Note</p>
+       <table>
+          <tr>
+             <th>Subject</th>
+             <th>Description</th>
           </tr>
           <tr>
-            <td>718</td>
-            <td>---</td>
+             <td>BGP</td>
+             <td>TCP port 179</td>
           </tr>
           <tr>
-            <td>720</td>
-            <td>---</td>
+             <td>MTU/MRU</td>
+             <td>1480</td>
           </tr>
-      </table>
-
-      
-
-   </div>
-   <div class="column">
-      <p class="x">SFP WaveLengths</p>
-
-      <table>
-         <tr>
-            <th>Port Capacity</th>
-            <th>WebeLengths</th>
-         </tr>
-         <tr>
-            <td>1G</td>
-            <td>1310 / 1550</td>
-         </tr>
-         <tr>
-            <td>LACP_MTU</td>
-            <td>1496</td>
-         </tr>
-         <tr>
-            <td>10G</td>
-            <td>1270 / 1330</td>
-         </tr>
-         <tr>
-            <td>Duel Core</td>
-            <td>Bouth side 1310</td>
-         </tr>
-      </table>
-   </div>
-   <div class="column">
-      <p class="x">Importhant Note</p>
-      <table>
-         <tr>
-            <th>Subject</th>
-            <th>Description</th>
-         </tr>
-         <tr>
-            <td>BGP</td>
-            <td>TCP port 179</td>
-         </tr>
-         <tr>
-            <td>MTU/MRU</td>
-            <td>1480</td>
-         </tr>
-         <tr>
-            <td>প্রাইভেট ASN:</td>
-            <td>16-বিট ASN রেঞ্জ: 64,512 থেকে 65,535</td>
-            <td>32-বিট ASN রেঞ্জ: 4,200,000,000 থেকে 4,294,967,294</td>
-         </tr>
-         <tr>
-            <td>DNS</td>
-            <td>port 53</td>
-         </tr>
-         <tr>
-            <td>SSH</td>
-            <td> 22</td>
-         </tr>
-         <tr>
-            <td>EBGP</td>
-            <td>AD- 20</td>
-         </tr>
-         <tr>
-            <td>IBGP</td>
-            <td>AD- 200</td>
-         </tr>
-         <td> Junos OS  EBGP and IBGP  .</td>
-         <td>(170) for both  </td>
-         <tr>
-         <td>Telnet</td>
-         <td>23</td>
-         </tr>
-         <tr>
-            <td>VLAN</td>
-            <td>12-bit</td>
-         </tr>
-         <tr>
-            <td>Native VLANs</td>
-            <td>802.1Q standard</td>
-         </tr>
-         <tr>
-            <td>Trunk</td>
-            <td>Trunk Port 802.1Q ট্যাগ ব্যবহার করে VLAN ID নির্দেশ করে</td>
-         </tr>
-         <tr>
-            <td> IEEE 802.3ad</td>
-            <td>standard version of 
-               EtherChannel. </td>
-         </tr>
-         <tr>
-            <td>Bridge ID</td>
-            <td>Piority ( 32768 ) + MAC Address</td>
-         </tr>
-         <tr>
-            <td>speed</td>
-            <td>115200 , 9600 , 19200 , 38400 , 57600 , 2400 ,38000</td>
-         </tr>
-         <tr>
-            <td>Bridge ID</td>
-            <td>Piroity ke 4096 kore barate hoy</td>
-         </tr>
-      </table>
-
-   </div>
-   <div class="column">
-      <p class="x">OLT Defult IP</p>
-      <table>
-         <tr>
-            <th>Bandor Name</th>
-            <th>IP Adderss</th>
-         </tr>
-         <tr>
-            <td>DBC OLT</td>
-            <td>192.168.2.100</td>
-         </tr>
-         <tr>
-            <td>Airmedia OLT</td>
-            <td>192.168.77.254</td>
-         </tr>
-         <tr>
-            <td>VSOL</td>
-            <td>192.168.8.100</td>
-            <td>192.168.8.200</td>
-         </tr>
-         <tr>
-            <td>Avise OLT</td>
-            <td>192.168.100.100/24</td>
-         </tr>
-         <tr>
-            <td>HSGQ</td>
-            <td>192.168.100.1</td>
-         </tr>
-         <tr>
-            <td>CoreLink OLT</td>
-            <td>192.168.1.88/24</td>
-            <td>192.168.0.88/24</td>
-         </tr>
-         <tr>
-            <td>XGTEC OLT</td>
-            <td>192.168.0.10</td>
-         </tr>
-         <tr>
-            <td>AIR MEDIA </td>
-            <td>192.168.77.254</td>
-         </tr>
-         <tr>
-            <td>ATOP OLT</td>
-            <td>192.168.100.1</td>
-         </tr>
-         <tr>
-            <td>PHYHOME_OLT</td>
-            <td>192.168.0.18/24</td>
-            <td>phyhome</td>
-            <td>1234</td>
-         </tr>
-         <tr>
-            <td>solitine</td>
-            <td>192.168.100.100</td>
-            <td>admin</td>
-            <td>admin@786</td>
-         </tr>
-      </table>
-      </div>
-
+          <tr>
+             <td>প্রাইভেট ASN:</td>
+             <td>16-বিট ASN রেঞ্জ: 64,512 থেকে 65,535</td>
+             <td>32-বিট ASN রেঞ্জ: 4,200,000,000 থেকে 4,294,967,294</td>
+          </tr>
+          <tr>
+             <td>DNS</td>
+             <td>port 53</td>
+          </tr>
+          <tr>
+             <td>SSH</td>
+             <td> 22</td>
+          </tr>
+          <tr>
+             <td>EBGP</td>
+             <td>AD- 20</td>
+          </tr>
+          <tr>
+             <td>IBGP</td>
+             <td>AD- 200</td>
+          </tr>
+          <td> Junos OS  EBGP and IBGP  .</td>
+          <td>(170) for both  </td>
+          <tr>
+          <td>Telnet</td>
+          <td>23</td>
+          </tr>
+          <tr>
+             <td>VLAN</td>
+             <td>12-bit</td>
+          </tr>
+          <tr>
+             <td>Native VLANs</td>
+             <td>802.1Q standard</td>
+          </tr>
+          <tr>
+             <td>Trunk</td>
+             <td>Trunk Port 802.1Q ট্যাগ ব্যবহার করে VLAN ID নির্দেশ করে</td>
+          </tr>
+          <tr>
+             <td> IEEE 802.3ad</td>
+             <td>standard version of 
+                EtherChannel. </td>
+          </tr>
+          <tr>
+             <td>Bridge ID</td>
+             <td>Piority ( 32768 ) + MAC Address</td>
+          </tr>
+          <tr>
+             <td>speed</td>
+             <td>115200 , 9600 , 19200 , 38400 , 57600 , 2400 ,38000</td>
+          </tr>
+          <tr>
+             <td>Bridge ID</td>
+             <td>Piroity ke 4096 kore barate hoy</td>
+          </tr>
+       </table>
+ 
+    </div>
+    <div class="column">
+       <p class="x">OLT Defult IP</p>
+       <table>
+          <tr>
+             <th>Bandor Name</th>
+             <th>IP Adderss</th>
+          </tr>
+          <tr>
+             <td>DBC OLT</td>
+             <td>192.168.2.100</td>
+          </tr>
+          <tr>
+             <td>Airmedia OLT</td>
+             <td>192.168.77.254</td>
+          </tr>
+          <tr>
+             <td>VSOL</td>
+             <td>192.168.8.100</td>
+             <td>192.168.8.200</td>
+          </tr>
+          <tr>
+             <td>Avise OLT</td>
+             <td>192.168.100.100/24</td>
+          </tr>
+          <tr>
+             <td>HSGQ</td>
+             <td>192.168.100.1</td>
+          </tr>
+          <tr>
+             <td>CoreLink OLT</td>
+             <td>192.168.1.88/24</td>
+             <td>192.168.0.88/24</td>
+          </tr>
+          <tr>
+             <td>XGTEC OLT</td>
+             <td>192.168.0.10</td>
+          </tr>
+          <tr>
+             <td>AIR MEDIA </td>
+             <td>192.168.77.254</td>
+          </tr>
+          <tr>
+             <td>ATOP OLT</td>
+             <td>192.168.100.1</td>
+          </tr>
+          <tr>
+             <td>PHYHOME_OLT</td>
+             <td>192.168.0.18/24</td>
+             <td>phyhome</td>
+             <td>1234</td>
+          </tr>
+          <tr>
+             <td>solitine</td>
+             <td>192.168.100.100</td>
+             <td>admin</td>
+             <td>admin@786</td>
+          </tr>
+       </table>
+       </div>
+ 
+ </div>
+ <br>
+     
+ <div class="div_1">
+    <table>
+        <caption>Splitting Ratio in EPON</caption>
+        <tr>
+            <th>Two Stages</th>
+            <th>Three Stages</th>
+        </tr>
+        <tr>
+            <td>1:8 ⇔ 1:8</td>
+            <td>1:2 ⇔ 1:2 ⇔ 1:16</td>
+        </tr>
+        <tr>
+            <td>1:4 ⇔ 1:16</td>
+            <td>1:4 ⇔ 1:4 ⇔ 1:4</td>
+        </tr>
+        <tr>
+            <td>1:2 ⇔ 1:32</td>
+            <td>1:4 ⇔ 1:8 ⇔ 1:2</td>
+        </tr>
+    </table>
+ </div>
+ 
+ 
+<div class="div_1">
+    <table>
+        <caption>Splitting Ratio in GPON</caption>
+        <tr>
+            <th>Two Stages</th>
+            <th>Three Stages</th>
+        </tr>
+        <tr>
+            <td>1:4 ⇔ 1:32</td>
+            <td>1:2 ⇔ 1:2 ⇔ 1:32</td>
+        </tr>
+        <tr>
+            <td>1:8 ⇔ 1:16</td>
+            <td>1:4 ⇔ 1:4 ⇔ 1:8</td>
+        </tr>
+        <tr>
+            <td>1:2 ⇔ 1:64</td>
+            <td>1:2 ⇔ 1:8 ⇔ 1:8</td>
+        </tr>
+    </table>
+</div > 
+ <div class="div_1">
+    <table>
+        <caption>Standard of PON Module EPON or GPON</caption>
+        <tr>
+            <th>EPON</th>
+            <th>GPON</th>
+        </tr>
+        <tr>
+            <td>PX20+ , PX20++ , PX20+++ </td>
+            <td>B+ , C+ , C++ , C+++ </td>
+        </tr>
+    </table>
+ </div>
+ <div class="div_1">
+    <table>
+        <caption>Optical Power Loss</caption>
+        <tr>
+            <th>Point of Loss</th>
+            <th>Loss</th>
+        </tr>
+        <tr>
+            <td>Insertion Loss</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>Fiber attenuation Loss ( length of Fiber ) </td>
+            <td>0.35 dB /Km</td>
+        </tr>
+        <tr>
+            <td>Connector</td>
+            <td>0.75 dB</td>
+        </tr>
+        <tr>
+            <td>Splicing</td>
+            <td>0.2 dB</td>
+        </tr>
+        <tr>
+            <td>Splitter</td>
+            <td>In the Chart</td>
+        </tr>
+        <tr>
+            <td>Safety margin </td>
+            <td>3.0 dB</td>
+        </tr>
+    </table>
+ </div>
+ 
+<div class="div_1">
+    <table>
+        <caption>Splitting Loss</caption>
+        <tr>
+            <th>Splitter</th>
+            <th>Avg Loss</th>
+        </tr>
+        <tr>
+            <td>1:2</td>
+            <td>3.5</td>
+        </tr>
+        <tr>
+            <td>1:4</td>
+            <td>7</td>
+        </tr>
+        <tr>
+            <td>1:8</td>
+            <td>10.5</td>
+        </tr>
+        <tr>
+            <td>1:16</td>
+            <td>14</td>
+        </tr>
+        <tr>
+            <td>1:32</td>
+            <td>17</td>
+        </tr>
+    </table>
 </div>
-    
-<table>
-    <caption>Splitting Ratio in EPON</caption>
-    <tr>
-        <th>Two Stages</th>
-        <th>Three Stages</th>
-    </tr>
-    <tr>
-        <td>1:8 ⇔ 1:8</td>
-        <td>1:2 ⇔ 1:2 ⇔ 1:16</td>
-    </tr>
-    <tr>
-        <td>1:4 ⇔ 1:16</td>
-        <td>1:4 ⇔ 1:4 ⇔ 1:4</td>
-    </tr>
-    <tr>
-        <td>1:2 ⇔ 1:32</td>
-        <td>1:4 ⇔ 1:8 ⇔ 1:2</td>
-    </tr>
-</table>
+ 
 
-<table>
-    <caption>Splitting Ratio in GPON</caption>
-    <tr>
-        <th>Two Stages</th>
-        <th>Three Stages</th>
-    </tr>
-    <tr>
-        <td>1:4 ⇔ 1:32</td>
-        <td>1:2 ⇔ 1:2 ⇔ 1:32</td>
-    </tr>
-    <tr>
-        <td>1:8 ⇔ 1:16</td>
-        <td>1:4 ⇔ 1:4 ⇔ 1:8</td>
-    </tr>
-    <tr>
-        <td>1:2 ⇔ 1:64</td>
-        <td>1:2 ⇔ 1:8 ⇔ 1:8</td>
-    </tr>
-</table>
-
-<table>
-    <caption>Standard of PON Module EPON or GPON</caption>
-    <tr>
-        <th>EPON</th>
-        <th>GPON</th>
-    </tr>
-    <tr>
-        <td>PX20+ , PX20++ , PX20+++ </td>
-        <td>B+ , C+ , C++ , C+++ </td>
-    </tr>
-</table>
-
-<table>
-    <caption>Optical Power Loss</caption>
-    <tr>
-        <th>Point of Loss</th>
-        <th>Loss</th>
-    </tr>
-    <tr>
-        <td>Insertion Loss</td>
-        <td>-</td>
-    </tr>
-    <tr>
-        <td>Fiber attenuation Loss ( length of Fiber ) </td>
-        <td>0.35 dB /Km</td>
-    </tr>
-    <tr>
-        <td>Connector</td>
-        <td>0.75 dB</td>
-    </tr>
-    <tr>
-        <td>Splicing</td>
-        <td>0.2 dB</td>
-    </tr>
-    <tr>
-        <td>Splitter</td>
-        <td>In the Chart</td>
-    </tr>
-    <tr>
-        <td>Safety margin </td>
-        <td>3.0 dB</td>
-    </tr>
-</table>
-<table>
-    <caption>Splitting Loss</caption>
-    <tr>
-        <th>Splitter</th>
-        <th>Avg Loss</th>
-    </tr>
-    <tr>
-        <td>1:2</td>
-        <td>3.5</td>
-    </tr>
-    <tr>
-        <td>1:4</td>
-        <td>7</td>
-    </tr>
-    <tr>
-        <td>1:8</td>
-        <td>10.5</td>
-    </tr>
-    <tr>
-        <td>1:16</td>
-        <td>14</td>
-    </tr>
-    <tr>
-        <td>1:32</td>
-        <td>17</td>
-    </tr>
-</table>
-
+<div class="clear-div-1"></div>
 <h1>CisCos Nexus Switch</h1>
 
 <p class="x">Spanning Tree MSTP Configuration for Core-SW</p>
