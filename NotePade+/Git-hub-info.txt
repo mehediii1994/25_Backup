@@ -169,3 +169,40 @@ origin  https://github.com/mehediii1994/26_jan_New_repository.git (fetch)
 origin  https://github.com/mehediii1994/26_jan_New_repository.git (push)
 
 mehedi@DESKTOP-9BOMVCP MINGW64 /d/Git-file/26_Jun_2025_progaming_folder (main)
+
+
+
+
+================================================ Folder copy from Github =============================
+
+
+
+$ git config --global user.name "mehedi-hasan"
+
+
+$ git config --global user.email "hmhd92949@gmail.com"
+
+
+$ git config --list
+
+$ git config user.name
+mehedi-hasan
+
+
+$ git config user.email
+hmhd92949@gmail.com
+
+
+$ git config --global --list
+user.name=mehedi-hasan
+user.email=hmhd92949@gmail.com
+
+
+
+Mehedi_54@Mehedi-54 MINGW64 /d/Git_Hub
+$ git init
+
+$ git branch -M main
+
+
+$ git clone https://github.com/mehediii1994/25_Backup.git
