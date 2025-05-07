@@ -82,6 +82,15 @@ color: wheat
 .z{
     font-size: 20px;
 }
+.div_4{
+    float: left;
+    background-color:black;
+    width:auto;
+    padding: 5px;
+    tr:hover {background-color:#FF0B55}
+    
+}
+
 
 </style>
 <div class="row">
@@ -218,6 +227,12 @@ color: wheat
              <td>Bridge ID</td>
              <td>Piroity ke 4096 kore barate hoy</td>
           </tr>
+          <tr>
+            <td>GGC redirector</td>
+            <td><a href="http://redirector.c.googlevideo.com/report_mapping"target="_blank">Google_redirector</a></td>
+
+          </tr>
+
        </table>
  
     </div>
@@ -1516,10 +1531,13 @@ interface GigaEthernet0/15
 
       
 </ol>
+
+<div class="clear-div-1"></div>
+
 <div class="table_group_2_row">
-   <div class="table_group_2_column">
+   <div class="div_4">
       <p class="x">1G (Gigabit Ethernet) SFP-এর TX ও RX Power Range</p>  
-      <table>
+      <table >
          <thead>
              <tr>
                  <th>SFP মডিউল টাইপ</th>
@@ -1553,40 +1571,44 @@ interface GigaEthernet0/15
    </div>
 
    <div class="table_group_2_column">
-      <p class="x">10G SFP+ TX ও RX Power Range</p> 
-      <table>
-         <thead>
-             <tr>
-                 <th>SFP+ মডিউল টাইপ</th>
-                 <th>TX Power Range (dBm)</th>
-                 <th>RX Power Range (dBm)</th>
-             </tr>
-         </thead>
-         <tbody>
-             <tr>
-                 <td>10GBASE-SR (850nm Multimode, MM, 300m)</td>
-                 <td>-7.3 dBm to -1 dBm</td>
-                 <td>-10.3 dBm to 0 dBm</td>
-             </tr>
-             <tr>
-                 <td>10GBASE-LR (1310nm Singlemode, SM, 10km)</td>
-                 <td>-8.2 dBm to 0.5 dBm</td>
-                 <td>-14.4 dBm to 0.5 dBm</td>
-             </tr>
-             <tr>
-                 <td>10GBASE-ER (1550nm SM, 40km)</td>
-                 <td>-4.7 dBm to 4 dBm</td>
-                 <td>-17 dBm to -1 dBm</td>
-             </tr>
-             <tr>
-                 <td>10GBASE-ZR (1550nm SM, 80km)</td>
-                 <td>0 dBm to 5 dBm</td>
-                 <td>-24 dBm to -3 dBm</td>
-             </tr>
-         </tbody>
-     </table>
-   </div>
+      <p class="x">10G SFP+ TX ও RX Power Range</p>
+      <div class="div_4">
+        <table>
+            <thead>
+                <tr>
+                    <th>SFP+ মডিউল টাইপ</th>
+                    <th>TX Power Range (dBm)</th>
+                    <th>RX Power Range (dBm)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>10GBASE-SR (850nm Multimode, MM, 300m)</td>
+                    <td>-7.3 dBm to -1 dBm</td>
+                    <td>-10.3 dBm to 0 dBm</td>
+                </tr>
+                <tr>
+                    <td>10GBASE-LR (1310nm Singlemode, SM, 10km)</td>
+                    <td>-8.2 dBm to 0.5 dBm</td>
+                    <td>-14.4 dBm to 0.5 dBm</td>
+                </tr>
+                <tr>
+                    <td>10GBASE-ER (1550nm SM, 40km)</td>
+                    <td>-4.7 dBm to 4 dBm</td>
+                    <td>-17 dBm to -1 dBm</td>
+                </tr>
+                <tr>
+                    <td>10GBASE-ZR (1550nm SM, 80km)</td>
+                    <td>0 dBm to 5 dBm</td>
+                    <td>-24 dBm to -3 dBm</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+      </div>
+      
 </div>
+<div class="clear-div-1"></div>
 
 <h2>1G SFP (Gigabit Ethernet) Power Range:</h2>
 <table>
