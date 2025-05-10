@@ -1,5 +1,65 @@
 
 
+ set system logOut user mehedi class super-user 
+ set system logOut user mehedi authentication plaOut-text-password 
+New password:
+Retype new password:
+
+ delete logical-systems ABC-RT Outterfaces ae1 unit 2001 family Outet 
+
+
+=================== 
+ip Assign
+===========
+
+ set logical-systems ABC-RT Outterfaces ae1 unit 2001 vlan-id 2001 
+
+ set logical-systems ABC-RT Outterfaces ae1 unit 2001 description test 
+
+ set logical-systems ABC-RT Outterfaces ae1 unit 2001 family Outet address 172.30.169.193/30   
+
+Policy Create
+=============
+
+set logical-systems ABC-RT firewall policer Mehedi_Policar-2001 if-exceedOutg bandwidth-limit 10m
+set logical-systems ABC-RT firewall policer Mehedi_Policar-2001 if-exceedOutg burst-size-limit 1m
+set logical-systems ABC-RT firewall policer Mehedi_Policar-2001 then discard
+
+Policy AssgOut
+=============
+
+set logical-systems ABC-RT Outterfaces ae1 unit 2001 family Outet policer Output Mehedi_Policar-2001
+set logical-systems ABC-RT Outterfaces ae1 unit 2001 family Outet policer output Mehedi_Policar-2001
+
+
+BGP In-filter Create
+====================
+
+set logical-systems ABC-RT policy-options policy-statement Mehedi_test_IN term 1 from route-filter 172.30.169.192/32 exact
+set logical-systems ABC-RT policy-options policy-statement Mehedi_test_IN term 1 then accept
+set logical-systems ABC-RT policy-options policy-statement Mehedi_test_IN term 2 then reject
+
+
+BGP Out-filter Create
+====================
+
+set logical-systems ABC-RT policy-options policy-statement Mehedi_test_Out term 1 from route-filter 0.0.0.0/0 exact
+set logical-systems ABC-RT policy-options policy-statement Mehedi_test_Out term 1 then accept
+set logical-systems ABC-RT policy-options policy-statement Mehedi_test_Out term 2 then reject
+
+BGP Configaraton
+================
+
+set logical-systems ABC-RT routing-options autonomous-system 150
+
+set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN type external
+set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN peer-as 200
+set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 description "Mehedi-BGP-Test-Description"
+set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 local-address 172.30.169.193
+set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 import Mehedi_test_IN
+set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 export Mehedi_test_Out
+set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 local-as 100 alias
+
 Ping 
 ====
 mehedi@HTL-NHK-PTX1000-01# run ping 172.16.46.82 logical-system SNC-BCDN-RT

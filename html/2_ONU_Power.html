@@ -3100,9 +3100,106 @@ set interfaces ge-0/0/5 ether-options 802.3ad ae3
                                                 <p>✅ **যদি এই টেস্টগুলো সব ঠিকমতো কাজ করে, তাহলে আপনার কনফিগারেশন পুরোপুরি ঠিক আছে!** 🎯</p>
                                                 <p>⚠ **যদি কোনো সমস্যা পান, তাহলে আমাকে বলুন—আমি debug করতে সাহায্য করবো!** 🚀</p>
                                             </div>
-                                        
+                                            <div class="clear-div-1"></div>
+                                            
+<div >
+    <table class="table-10">
 
-                                                                                                          
+        <caption>Step-by-Step Juniper Router Configuration (Junos OS)</caption>
+        <tr>
+            <th>Name of Configaration</th>
+            <th>Configaration</th>
+        </tr>
+        <tr>
+            <th rowspan="2" >User Create </th>
+            <td>set system login user mehedi class super-user</td>
+            
+        </tr>
+        <tr>
+            <td>set system login user mehedi authentication plain-text-password</td>
+
+        </tr>
+        <tr>
+            <th rowspan="3">IP Assign</th>
+            <td>set logical-systems ABC-RT interfaces ae1 unit 2001 vlan-id 2001</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT interfaces ae1 unit 2001 description test</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT interfaces ae1 unit 2001 family Outet address 172.30.169.193/30</td>
+        </tr>
+        <tr>
+            <th rowspan="3">Policy / policer create</th>
+            <td>set logical-systems ABC-RT firewall policer Mehedi_Policar-2001 if-exceeding bandwidth-limit 10m</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT firewall policer Mehedi_Policar-2001 if-exceeding burst-size-limit 1m</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT firewall policer Mehedi_Policar-2001 then discard</td>
+        </tr>
+        <tr>
+            <th rowspan="2">policer Assgin</th>
+            <td>set logical-systems ABC-RT Outterfaces ae1 unit 2001 family Outet policer Output Mehedi_Policar-2001</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT Outterfaces ae1 unit 2001 family Outet policer output Mehedi_Policar-2001</td>
+        </tr>
+        <tr>
+            <th rowspan="3">BGP route In-filter / policy-options policy-statement Create</th>
+            <td>set logical-systems ABC-RT policy-options policy-statement Mehedi_test_IN term 1 from route-filter 172.30.169.192/32 exact</td>        
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT policy-options policy-statement Mehedi_test_IN term 1 then accept</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT policy-options policy-statement Mehedi_test_IN term 2 then reject</td>
+        </tr>
+
+        <tr>
+            <th rowspan="3">BGP route Out-filter / policy-options policy-statement Create</th>
+            <td>set logical-systems ABC-RT policy-options policy-statement Mehedi_test_Out term 1 from route-filter 0.0.0.0/0 exact</td>        
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT policy-options policy-statement Mehedi_test_Out term 1 then accept</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT policy-options policy-statement Mehedi_test_Out term 2 then reject</td>
+        </tr>
+        <tr>
+            <th>Local AS set</th>
+            <td>set logical-systems ABC-RT routing-options autonomous-system 150</td>
+        </tr>
+        <tr>
+            <th rowspan="7">BGP Configaration</th>
+            <td> set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN type external</td>
+
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN peer-as 200</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 description "Mehedi-BGP-Test-Description"</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 local-address 172.30.169.193</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 import Mehedi_test_IN</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 export Mehedi_test_Out</td>
+        </tr>
+        <tr>
+            <td>set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 local-as 100 alias</td>
+        </tr>
+
+
+    </table>
+</div>
+
+                                                                                                       
 
 
 

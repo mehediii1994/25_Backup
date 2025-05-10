@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MikroTik IKEv2 Config Generator</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--success);
+        }
+        
+        .btn-secondary:hover {
+            background: #3aa8d8;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        #output {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border: 2px dashed #e9ecef;
+            border-radius: var(--border-radius);
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            line-height: 1.5;
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .output-title {
+            font-weight: 500;
+            color: var(--secondary);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .content {
+                padding: 1.5rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MikroTik IKEv2 Configuration Generator</h1>
+            <p>Generate VPN configuration scripts with one click</p>
+        </header>
+        
+        <div class="content">
+            <div class="form-group">
+                <label for="secret">VPN Secret (Password)</label>
+                <input type="password" id="secret" placeholder="Enter your secret password">
+            </div>
+            
+            <div class="form-group">
+                <label for="dns">DNS Servers (comma separated)</label>
+                <input type="text" id="dns" value="103.109.56.100,8.8.8.8">
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn" onclick="generateConfig()">Generate Configuration</button>
+                <button class="btn btn-secondary" onclick="copyToClipboard()">Copy to Clipboard</button>
+            </div>
+            
+            <div class="output-header">
+                <h3 class="output-title">Generated Configuration:</h3>
+            </div>
+            <div id="output">// Your configuration will appear here after generation</div>
+        </div>
+    </div>
+
+    <script>
+        function generateConfig() {
+            const secret = document.getElementById('secret').value;
+            const dnsServers = document.getElementById('dns').value;
+            
+            if (!secret) {
+                alert('Please enter the VPN secret/password');
+                return;
+            }
+            
+            const config = `# MikroTik IKEv2 Configuration
+# Generated at: ${new Date().toLocaleString()}
+
+# Pool Mode Configuration
+/ip ipsec mode-config
+add address-pool=VPN address-prefix-length=32 name=IKEv2_MODE split-dns=${dnsServers}
+
+# Security Proposals
+/ip ipsec proposal
+add auth-algorithms=sha256,sha1 name=IKEV2_Proposal
+
+# Profile Configuration
+/ip ipsec profile
+add enc-algorithm=aes-256,3des hash-algorithm=sha256 name=IKEV2_Profile
+
+# Policy Configuration
+/ip ipsec policy group
+add name=IKEV2_Group
+
+/ip ipsec policy
+add group=IKEV2_Group proposal=IKEV2_Proposal template=yes
+
+# Peer Configuration
+/ip ipsec peer
+add exchange-mode=ike2 name=IKEV2_Peer passive=yes profile=IKEV2_Profile
+
+# Identity Configuration
+/ip ipsec identity
+add generate-policy=port-strict mode-config=IKEv2_MODE peer=IKEV2_Peer \\
+    policy-template-group=IKEV2_Group secret=${secret}
+
+# Additional Configuration Notes:
+# 1. Create IP pool: /ip pool add name=VPN ranges=192.168.100.100-192.168.100.200
+# 2. Configure firewall rules for IKEv2 traffic
+# 3. Set up NAT if required for VPN clients
+# 4. Adjust timeout settings as needed: /ip ipsec profile set IKEV2_Profile dpd-interval=2m dpd-maximum-failures=5`;
+            
+            document.getElementById('output').textContent = config;
+        }
+        
+        function copyToClipboard() {
+            const output = document.getElementById('output');
+            const range = document.createRange();
+            range.selectNode(output);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            try {
+                const successful = document.execCommand('copy');
+                const msg = successful ? 'Configuration copied!' : 'Unable to copy';
+                alert(msg);
+            } catch (err) {
+                alert('Error copying text: ' + err);
+            }
+            
+            window.getSelection().removeAllRanges();
+        }
+    </script>
+</body>
+</html>
