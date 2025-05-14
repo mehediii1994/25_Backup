@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juniper Config Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: linear-gradient(to right, #e0f7fa, #e1bee7);
+        }
+        .container {
+            background-color: #ffffffcc;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 850px;
+            margin: auto;
+            backdrop-filter: blur(5px);
+        }
+        h2 {
+            text-align: center;
+            color: #4a148c;
+            margin-bottom: 25px;
+        }
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+        input, textarea, select {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 12px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            transition: 0.3s;
+        }
+        input:focus {
+            border-color: #7e57c2;
+            box-shadow: 0 0 5px #9575cd;
+        }
+        button {
+            background-color: #7b1fa2;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4a0072;
+        }
+        pre {
+            background-color: #f3e5f5;
+            padding: 20px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            color: #4a148c;
+            font-family: Consolas, monospace;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🎛️ Juniper BGP Config Generator</h2>
+        <form id="configForm">
+            <label>Logical System Name:</label>
+            <input type="text" id="lsys" value="BCD-RT" required>
+
+            <label>Interface Name:</label>
+            <input type="text" id="interface" value="ae1">
+
+            <label>Unit Number:</label>
+            <input type="number" id="unit" value="3001">
+
+            <label>VLAN ID:</label>
+            <input type="number" id="vlan" value="3001">
+
+            <label>IP Address/CIDR:</label>
+            <input type="text" id="ip" value="192.168.20.1/30">
+
+            <label>Peer IP:</label>
+            <input type="text" id="peerIp" value="192.168.20.2">
+
+            <label>Public IP (for policy statement):</label>
+            <input type="text" id="publicIp" value="192.168.30.2">
+
+            <label>Local Preference:</label>
+            <input type="number" id="localPref" value="1000">
+
+            <label>Policer Name:</label>
+            <input type="text" id="policerName" value="Mehedi-Policar-For-Test-3001">
+
+            <label>Policer Bandwidth Limit (e.g., 120m):</label>
+            <input type="text" id="bwLimit" value="120m">
+
+            <label>Burst Size (e.g., 1m):</label>
+            <input type="text" id="burstLimit" value="1m">
+
+            <label>Import Policy Name:</label>
+            <input type="text" id="importPolicy" value="Mehedi-in">
+
+            <label>Export Policy Name:</label>
+            <input type="text" id="exportPolicy" value="Mehedi-Out">
+
+            <label>BGP Group Name:</label>
+            <input type="text" id="bgpGroup" value="Mehedi-bgp-Group-IN">
+
+            <label>Peer AS:</label>
+            <input type="number" id="peerAs" value="200">
+
+            <label>Local AS:</label>
+            <input type="number" id="localAs" value="100">
+
+            <button type="button" onclick="generateConfig()">✨ Generate Config</button>
+        </form>
+
+        <h3>Generated Juniper Config:</h3>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        function generateConfig() {
+            const lsys = document.getElementById('lsys').value;
+            const iface = document.getElementById('interface').value;
+            const unit = document.getElementById('unit').value;
+            const vlan = document.getElementById('vlan').value;
+            const ip = document.getElementById('ip').value;
+            const peerIp = document.getElementById('peerIp').value;
+            const publicIp = document.getElementById('publicIp').value;
+            const localPref = document.getElementById('localPref').value;
+            const policerName = document.getElementById('policerName').value;
+            const bwLimit = document.getElementById('bwLimit').value;
+            const burstLimit = document.getElementById('burstLimit').value;
+            const importPolicy = document.getElementById('importPolicy').value;
+            const exportPolicy = document.getElementById('exportPolicy').value;
+            const bgpGroup = document.getElementById('bgpGroup').value;
+            const peerAs = document.getElementById('peerAs').value;
+            const localAs = document.getElementById('localAs').value;
+
+            let config = ``;
+
+            config += `set logical-systems ${lsys} interfaces ${iface} unit ${unit} vlan-id ${vlan}\n`;
+            config += `set logical-systems ${lsys} interfaces ${iface} unit ${unit} description Mehedi-test-Link\n`;
+            config += `set logical-systems ${lsys} interfaces ${iface} unit ${unit} family inet address ${ip}\n\n`;
+
+            config += `set logical-systems ${lsys} firewall policer ${policerName} if-exceeding bandwidth-limit ${bwLimit}\n`;
+            config += `set logical-systems ${lsys} firewall policer ${policerName} if-exceeding burst-size-limit ${burstLimit}\n`;
+            config += `set logical-systems ${lsys} firewall policer ${policerName} then discard\n\n`;
+
+            config += `set logical-systems ${lsys} interfaces ${iface} unit ${unit} family inet policer input ${policerName}\n`;
+            config += `set logical-systems ${lsys} interfaces ${iface} unit ${unit} family inet policer output ${policerName}\n\n`;
+
+            config += `set logical-systems ${lsys} routing-options autonomous-system ${localAs}\n\n`;
+
+            config += `set logical-systems ${lsys} policy-options policy-statement ${importPolicy} term 1 from route-filter ${publicIp} exact\n`;
+            config += `set logical-systems ${lsys} policy-options policy-statement ${importPolicy} term 1 then accept\n`;
+            config += `set logical-systems ${lsys} policy-options policy-statement ${importPolicy} term 1 then then local-preference ${localPref}\n`;
+            config += `set logical-systems ${lsys} policy-options policy-statement ${importPolicy} term 2 then reject\n\n`;
+
+            config += `set logical-systems ${lsys} policy-options policy-statement ${exportPolicy} term 1 from route-filter 0.0.0.0/0 exact\n`;
+            config += `set logical-systems ${lsys} policy-options policy-statement ${exportPolicy} term 1 then accept\n`;
+            config += `set logical-systems ${lsys} policy-options policy-statement ${exportPolicy} term 2 then reject\n\n`;
+
+            config += `set logical-systems ${lsys} protocols bgp group ${bgpGroup} type external\n`;
+            config += `set logical-systems ${lsys} protocols bgp group ${bgpGroup} peer-as ${peerAs}\n`;
+            config += `set logical-systems ${lsys} protocols bgp group ${bgpGroup} neighbor ${peerIp} local-address ${ip.split('/')[0]}\n`;
+            config += `set logical-systems ${lsys} protocols bgp group ${bgpGroup} neighbor ${peerIp} description *Mehedi-test*\n`;
+            config += `set logical-systems ${lsys} protocols bgp group ${bgpGroup} neighbor ${peerIp} import ${importPolicy}\n`;
+            config += `set logical-systems ${lsys} protocols bgp group ${bgpGroup} neighbor ${peerIp} export ${exportPolicy}\n`;
+            config += `set logical-systems ${lsys} protocols bgp group ${bgpGroup} neighbor ${peerIp} local-as ${localAs}`;
+
+            document.getElementById('output').innerText = config;
+        }
+    </script>
+</body>
+</html>
