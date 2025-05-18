@@ -1,5 +1,10 @@
+delete logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN  
+delete logical-systems ABC-RT policy-options policy-statement Mehedi_test_Out
+ delete logical-systems BCD-RT
+ 
 
 
+<<<<<<< HEAD
  set system logOut user mehedi class super-user 
  set system logOut user mehedi authentication plaOut-text-password 
 New password:
@@ -59,6 +64,20 @@ set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.
 set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 import Mehedi_test_IN
 set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 export Mehedi_test_Out
 set logical-systems ABC-RT protocols bgp group Mehedi-BGP-Group-IN neighbor 172.30.169.194 local-as 100 alias
+=======
+
+User Create 
+===========
+
+suzan@Homna_Broadband_MX-80# set system login user mehedi class super-user 
+suzan@Homna_Broadband_MX-80# set system login user mehedi authentication plain-text-password 
+New password:
+Retype new password:
+
+======================
+
+Client ke jodi public ip dite chai tokhon = set policy-options policy-statement Arif_Minto_INT-IN term 1 from route-filter 	43.246.202.225/32 exact
+>>>>>>> 95b489b (from office PC)
 
 Ping 
 ====
@@ -108,10 +127,19 @@ vlan interfaces ip assign
 set intface	
 
 
-
-set logical-systems FNA-RT interfaces ae16 unit  2708 description  Lalpur_Manik_Matlab_FNA
 set logical-systems FNA-RT interfaces ae16 unit  2708 vlan-id  2708
+set logical-systems FNA-RT interfaces ae16 unit  2708 description  Lalpur_Manik_Matlab_FNA
 set logical-systems FNA-RT interfaces ae16 unit  2708 family inet address 172.16.38.233/30
+
+
+set logical-systems FNA-RT firewall policer policer-2708 if-exceeding bandwidth-limit 1210m
+set logical-systems FNA-RT firewall policer policer-2708 if-exceeding burst-size-limit 1m
+set logical-systems FNA-RT firewall policer policer-2708 then discard
+
+
+
+set logical-systems FNA-RT interfaces ae16 unit  2708 family inet policer input policer-2708
+set logical-systems FNA-RT interfaces ae16 unit  2708 family inet policer output policer-2708
 
 set logical-systems FNA-RT policy-options policy-statement Lalpur_Manik_Matlab_FNA_IN term 1 from route-filter 103.42.228.194/31 exact
 set logical-systems FNA-RT policy-options policy-statement Lalpur_Manik_Matlab_FNA_IN term 1 then local-preference 900 
@@ -127,14 +155,7 @@ set logical-systems FNA-RT firewall family inet filter copp term bgp from source
 
 
 
-set logical-systems FNA-RT firewall policer policer-2708 if-exceeding bandwidth-limit 1210m
-set logical-systems FNA-RT firewall policer policer-2708 if-exceeding burst-size-limit 1m
-set logical-systems FNA-RT firewall policer policer-2708 then discard
 
-
-
-set logical-systems FNA-RT interfaces ae16 unit  2708 family inet policer input policer-2708
-set logical-systems FNA-RT interfaces ae16 unit  2708 family inet policer output policer-2708
 
 
 
@@ -275,9 +296,11 @@ set  firewall family inet filter protect-router-control-plane term bgp from sour
 set logical-systems GGC-RT interfaces ae16 unit 3996 description *BAKHRABAD-CABLE-NETWORK_GGC*
 set logical-systems GGC-RT interfaces ae16 unit 3996 vlan-id 3996
 set logical-systems GGC-RT interfaces ae16 unit 3996 family inet address 172.16.42.53/30
+
 set logical-systems GGC-RT firewall policer policer-3996 if-exceeding bandwidth-limit 400m
 set logical-systems GGC-RT firewall policer policer-3996 if-exceeding burst-size-limit 256k
 set logical-systems GGC-RT firewall policer policer-3996 then discard
+
 set logical-systems GGC-RT interfaces ae16 unit 3996 family inet policer input policer-3996
 set logical-systems GGC-RT interfaces ae16 unit 3996 family inet policer output policer-3996
 

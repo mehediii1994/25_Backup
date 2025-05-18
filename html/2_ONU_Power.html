@@ -543,7 +543,8 @@ interface GigaEthernet0/15
          <li>Destination file name[Switch.bin]?</li>
       </ul>
       
-      <p class="x">BDCOM Switch SSH Configuration Log</p>
+      
+      <p class="x">BDCOM Switch SSH Configuration </p>
     <div class="log-output">
         Switch_config# ip sshd enable<br>
         Switch_config# ip sshd version 2<br>
@@ -568,6 +569,27 @@ interface GigaEthernet0/15
             <li>time-zone tz 6 0</li>
             <li>ntp server 182.16.156.5</li>
          </ul>
+         <p class="x">Enable & configuration of SNMP community service</p>
+         <pre class="y">
+            Switch_config# snmp-server community 0 bdcom-test rw 
+            snmp-server host 172.16.0.100 version v2c bdcom-test authentication configure snmp 
+         </pre>
+         <p class="x">Loop detection and protection for Up-link Ports</p>
+         <pre class="y">
+            Switch_config# loopback-detection 
+            ! 
+            no error-disable-recovery 
+            !  
+            int range gig 0/1-8 
+            loopback-detection enable 
+            loopback-detection control shutdown
+         </pre>
+         <p class="x">Logging buffer size configuration</p>
+         <pre>
+
+            Switch_config# logging on 
+            logging buffered 409400 
+         </pre>
          <p class="x">To configure the loopback on all ONU-</p>
          <li class="y">
             <ul>Switch#config</ul>

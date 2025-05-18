@@ -176,3 +176,5 @@ AS138640	103.131.100.0/23	Asiatel Network Limited
 PLay-STor
 =========
 202.173.122.57
+
+Bisan IP :  154.85.74.0/24

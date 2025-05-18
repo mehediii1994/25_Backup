@@ -341,3 +341,27 @@ Cronet UN/PW
 Coro@Net/coronet8@8@
 
 port-channel load-balance ethernet source-dest-port
+
+
+homna Jonipar RW
+==================
+172.23.7.102
+mehedi
+mehedi1230
+
+Earth : support@earth.net.bd
+
+FGL IIG : tech.fgl@fiberathome.net
+
+BDIX : noc@bdix.net
+
+BTCL : noc@btcl.gov.bd
+
+Kloud : noc@kloud.com.bd
+
+BSCCL : support.iig@bsccl.com
+
+Stardust : nmc.mime@cg-bd.com
+
+SCL IIG : noc.iig@summitcommunications.net/ gateway.iig@summitcommunications.net
+SCL NTTN : noc.nttn@summitcommunications.net
