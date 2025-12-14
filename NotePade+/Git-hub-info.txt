@@ -206,3 +206,12 @@ $ git branch -M main
 
 
 $ git clone https://github.com/mehediii1994/25_Backup.git
+
+
+
+
+Mehedi@DESKTOP-SMQIKIM MINGW64 ~
+$ cd /E
+
+
+
