@@ -365,3 +365,81 @@ Stardust : nmc.mime@cg-bd.com
 
 SCL IIG : noc.iig@summitcommunications.net/ gateway.iig@summitcommunications.net
 SCL NTTN : noc.nttn@summitcommunications.net
+
+
+
+skynoc@2000#
+
+
+
+FH Portal Access:
+
+https://cportal.fiberathome.net/cportal/index.php
+
+Hellotech
+user: Hellotec_op
+pass: abc123
+
+Asiatel
+user: asiatel_network_limited_op
+pass: abc123
+
+SkyNet
+user: Skynet_Chowmuhani_op
+pass: abc123
+
+
+Earth : support@earth.net.bd
+
+FGL IIG : tech.fgl@fiberathome.net
+
+BDIX : noc@bdix.net
+
+BTCL : noc@btcl.gov.bd
+
+Kloud : noc@kloud.com.bd
+
+BSCCL : support.iig@bsccl.com
+
+Stardust : nmc.mime@cg-bd.com
+
+SCL IIG : noc.iig@summitcommunications.net/ gateway.iig@summitcommunications.net
+SCL NTTN : noc.nttn@summitcommunications.net
+
+
+noc.support@asiatel.com.bd
+Support@123
+
+Asia Tel Common Support mail for NOC
+
+
+
+
+43.246.201.252:2025 = FARIDGONJ_POP_RANA_ACCESS
+43.246.201.253:2009 = Faridgonj-Bazar-POP
+43.246.201.254:8090 = Lucky_access
+103.42.202.217:2026 = FARIDGONJ-RANA-CACHE-SERVER
+103.42.202.206:2026 = FARIDGONJ-RANA-CACHE-SERVER
+103.42.202.217:2021 = FARIDGONJ_POP_RANA-CORE
+
+
+12345678Aa
+
+============================
+
+Mehedi@2024#
+
+
+Sky@Net / skynet8@8@
+Asia@Tel / asiatel8@8@
+Hello@Tech / hellotech8@8@
+Coro@Net / coronet8@8@
+
+user/set Sky@Net address=103.109.56.220/30,103.109.56.244/30,103.109.56.25/32,103.61.240.10/31,43.246.200.6/31,10.15.15.0/24
+
+user/set Asia@Tel address=103.109.56.220/30,103.109.56.244/30,103.109.56.25/32,103.61.240.10/31,43.246.200.6/31,10.15.15.0/24
+
+user/set Hello@Tech address=103.109.56.220/30,103.109.56.244/30,103.109.56.25/32,103.61.240.10/31,43.246.200.6/31,10.15.15.0/24
+
+user/set Coro@Net address=103.109.56.220/30,103.109.56.244/30,103.109.56.25/32,103.61.240.10/31,43.246.200.6/31,10.15.15.0/24
+
